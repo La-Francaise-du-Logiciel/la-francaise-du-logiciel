@@ -1,13 +1,15 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { CAPITALS, EUROPE_DOTS, FRANCE_COUNT, GRID_H, GRID_W } from '@/components/europe-dots'
 
 /**
- * L'Hexagone as a particle network. Dots build in radially from the center
- * when scrolled into view (like Stripe's globe assembling itself), then
- * pulses of data travel arcs between nodes — and never leave the hexagon.
- * The whole drawing drifts a few pixels against the cursor. Canvas 2D,
- * paused offscreen, fully static under reduced motion.
+ * Europe as a particle map, rasterized from real Natural Earth geography.
+ * The continent assembles dot by dot radiating out from Paris when scrolled
+ * into view; France is picked out in blue; pulses of data travel arcs
+ * between European capitals — and never leave the map. Once assembled, the
+ * static dots are cached on an offscreen layer so each frame stays cheap.
+ * Paused offscreen, fully static under reduced motion.
  */
 
 const NEUTRAL = '60, 68, 92'
@@ -17,10 +19,10 @@ const RED = '209, 60, 42'
 interface Dot {
   x: number
   y: number
-  /** Normalized distance from center, used to stagger the build-in. */
+  /** Normalized distance from Paris, used to stagger the build-in. */
   d: number
-  r: number
-  a: number
+  color: string
+  size: number
 }
 
 interface Arc {
@@ -30,7 +32,7 @@ interface Arc {
 }
 
 const GROW = 0.7
-const TRAVEL = 1.1
+const TRAVEL = 1.2
 const FADE = 0.7
 const LIFE = GROW + TRAVEL + FADE
 
@@ -39,7 +41,7 @@ const smoothstep = (v: number) => {
   return c * c * (3 - 2 * c)
 }
 
-export function HexNetwork() {
+export function EuropeNetwork() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
@@ -52,9 +54,11 @@ export function HexNetwork() {
 
     let width = 0
     let height = 0
+    let dpr = 1
     let dots: Dot[] = []
     let nodes: { x: number; y: number }[] = []
     let arcs: Arc[] = []
+    let layer: HTMLCanvasElement | null = null
     let reveal = reduceMotion ? 1 : 0
     let spawnIn = 0.4
     let time = 0
@@ -63,63 +67,52 @@ export function HexNetwork() {
     const pointer = { x: 0.5, y: 0.5 }
 
     const build = () => {
-      const R = Math.min(width * 0.4, height * 0.46)
-      const cx = width / 2
-      const cy = height / 2
-      /* Pointy-top hexagon, slightly squashed — l'Hexagone. */
-      const verts = Array.from({ length: 6 }, (_, i) => {
-        const ang = (Math.PI / 180) * (-90 + i * 60)
-        return { x: cx + R * Math.cos(ang), y: cy + R * Math.sin(ang) * 0.94 }
-      })
-      const inHex = (x: number, y: number) => {
-        let inside = false
-        for (let i = 0, j = 5; i < 6; j = i++) {
-          const { x: xi, y: yi } = verts[i]
-          const { x: xj, y: yj } = verts[j]
-          if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside
-        }
-        return inside
-      }
+      const scale = Math.min(width / GRID_W, height / GRID_H) * 0.98
+      const offX = (width - GRID_W * scale) / 2
+      const offY = (height - GRID_H * scale) / 2
+
+      nodes = CAPITALS.map((c) => ({ x: offX + c.x * scale, y: offY + c.y * scale }))
+      const paris = nodes[0]
 
       dots = []
-      const s = 15
-      for (let row = 0, y = cy - R; y <= cy + R; y += s * 0.87, row++) {
-        for (let x = cx - R + (row % 2) * (s / 2); x <= cx + R; x += s) {
-          if (!inHex(x, y)) continue
-          dots.push({
-            x,
-            y,
-            d: Math.hypot(x - cx, y - cy) / R,
-            r: 1 + Math.random() * 0.6,
-            a: 0.12 + Math.random() * 0.12,
-          })
-        }
+      let maxD = 1
+      for (let i = 0; i < EUROPE_DOTS.length; i += 2) {
+        const gx = EUROPE_DOTS[i]
+        const gy = EUROPE_DOTS[i + 1]
+        const x = offX + gx * scale
+        const y = offY + gy * scale
+        /* The viewport cuts Scandinavia and the eastern edge mid-land:
+           fade dots approaching those borders so the crop reads softly. */
+        const edge = Math.min(1, gy / 36, (GRID_W - gx) / 36)
+        if (edge <= 0.02) continue
+        const isFrance = i < FRANCE_COUNT * 2
+        const a = (isFrance ? 0.55 : 0.34) * edge * (0.82 + Math.random() * 0.18)
+        const d = Math.hypot(x - paris.x, y - paris.y)
+        if (d > maxD) maxD = d
+        dots.push({
+          x,
+          y,
+          d,
+          color: `rgba(${isFrance ? BLUE : NEUTRAL}, ${a.toFixed(3)})`,
+          size: isFrance ? 2.3 : 2.1,
+        })
       }
-      /* Denser dots along the edges so the outline reads crisply. */
-      for (let i = 0; i < 6; i++) {
-        const a = verts[i]
-        const b = verts[(i + 1) % 6]
-        const steps = Math.round(Math.hypot(b.x - a.x, b.y - a.y) / 7)
-        for (let k = 0; k <= steps; k++) {
-          const x = a.x + ((b.x - a.x) * k) / steps
-          const y = a.y + ((b.y - a.y) * k) / steps
-          dots.push({ x, y, d: 1, r: 1.2, a: 0.32 })
-        }
-      }
-
-      const inward = (v: { x: number; y: number }, f: number) => ({
-        x: cx + (v.x - cx) * f,
-        y: cy + (v.y - cy) * f,
-      })
-      nodes = [
-        { x: cx + R * 0.02, y: cy - R * 0.18 },
-        ...verts.map((v) => inward(v, 0.84)),
-        { x: cx - R * 0.46, y: cy + R * 0.08 },
-        { x: cx + R * 0.38, y: cy + R * 0.34 },
-        { x: cx + R * 0.12, y: cy + R * 0.62 },
-        { x: cx - R * 0.22, y: cy - R * 0.52 },
-      ]
+      for (const dot of dots) dot.d /= maxD
       arcs = []
+      layer = null
+    }
+
+    const buildLayer = () => {
+      layer = document.createElement('canvas')
+      layer.width = width * dpr
+      layer.height = height * dpr
+      const lctx = layer.getContext('2d')
+      if (!lctx) return
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      for (const dot of dots) {
+        lctx.fillStyle = dot.color
+        lctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
+      }
     }
 
     const resize = () => {
@@ -127,7 +120,7 @@ export function HexNetwork() {
       if (!parent) return
       width = parent.clientWidth
       height = parent.clientHeight
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
       canvas.width = width * dpr
       canvas.height = height * dpr
       canvas.style.width = `${width}px`
@@ -138,8 +131,8 @@ export function HexNetwork() {
     }
 
     const spawnArc = () => {
-      /* The central node (Paris) anchors most journeys. */
-      const i = Math.random() < 0.55 ? 0 : 1 + Math.floor(Math.random() * (nodes.length - 1))
+      /* Paris anchors most journeys. */
+      const i = Math.random() < 0.6 ? 0 : 1 + Math.floor(Math.random() * (nodes.length - 1))
       let j = i
       while (j === i) j = Math.floor(Math.random() * nodes.length)
       const from = nodes[i]
@@ -147,7 +140,7 @@ export function HexNetwork() {
       const dx = to.x - from.x
       const dy = to.y - from.y
       const len = Math.hypot(dx, dy) || 1
-      const k = len * (0.18 + Math.random() * 0.12) * (Math.random() < 0.5 ? 1 : -1)
+      const k = len * (0.16 + Math.random() * 0.1) * (Math.random() < 0.5 ? 1 : -1)
       const cpx = (from.x + to.x) / 2 + (-dy / len) * k
       const cpy = (from.y + to.y) / 2 + (dx / len) * k
       const pts = Array.from({ length: 48 }, (_, n) => {
@@ -158,41 +151,56 @@ export function HexNetwork() {
           y: u * u * from.y + 2 * u * t * cpy + t * t * to.y,
         }
       })
-      arcs.push({ pts, t: 0, color: Math.random() < 0.18 ? RED : BLUE })
+      arcs.push({ pts, t: 0, color: Math.random() < 0.15 ? RED : BLUE })
     }
 
     const draw = (dt: number) => {
       time += dt
-      ox += ((pointer.x - 0.5) * 14 - ox) * 0.04
-      oy += ((pointer.y - 0.5) * 10 - oy) * 0.04
-      if (reveal < 1) reveal = Math.min(1, reveal + dt / 1.6)
+      ox += ((pointer.x - 0.5) * 12 - ox) * 0.04
+      oy += ((pointer.y - 0.5) * 8 - oy) * 0.04
+      if (reveal < 1) reveal = Math.min(1, reveal + dt / 2)
 
       ctx.clearRect(0, 0, width, height)
       ctx.save()
       ctx.translate(ox, oy)
 
-      for (const dot of dots) {
-        const appear = smoothstep((reveal * 1.15 - dot.d) / 0.15)
-        if (appear <= 0.01) continue
-        ctx.fillStyle = `rgba(${NEUTRAL}, ${dot.a * appear})`
-        ctx.beginPath()
-        ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2)
-        ctx.fill()
+      if (reveal >= 1) {
+        if (!layer) buildLayer()
+        if (layer) ctx.drawImage(layer, 0, 0, width, height)
+      } else {
+        for (const dot of dots) {
+          const appear = smoothstep((reveal * 1.15 - dot.d) / 0.12)
+          if (appear <= 0.02) continue
+          ctx.globalAlpha = appear
+          ctx.fillStyle = dot.color
+          ctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
+        }
+        ctx.globalAlpha = 1
       }
 
+      /* Capitals breathe; Paris carries a slow vermilion sonar ring. */
       nodes.forEach((n, i) => {
         const breathe = reduceMotion ? 0 : Math.sin(time * 1.6 + i * 1.7) * 0.4
-        ctx.fillStyle = `rgba(${BLUE}, ${0.55 * reveal})`
+        ctx.fillStyle = i === 0 ? `rgba(${RED}, ${0.9 * reveal})` : `rgba(${BLUE}, ${0.7 * reveal})`
         ctx.beginPath()
-        ctx.arc(n.x, n.y, 2 + breathe, 0, Math.PI * 2)
+        ctx.arc(n.x, n.y, (i === 0 ? 2.6 : 1.9) + breathe, 0, Math.PI * 2)
         ctx.fill()
       })
+      if (!reduceMotion && reveal > 0.3) {
+        const p = (time % 3) / 3
+        const paris = nodes[0]
+        ctx.strokeStyle = `rgba(${RED}, ${(1 - p) * 0.35 * reveal})`
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.arc(paris.x, paris.y, 4 + p * 26, 0, Math.PI * 2)
+        ctx.stroke()
+      }
 
       if (!reduceMotion) {
         spawnIn -= dt
-        if (reveal > 0.6 && spawnIn <= 0 && arcs.length < 4) {
+        if (reveal > 0.55 && spawnIn <= 0 && arcs.length < 5) {
           spawnArc()
-          spawnIn = 0.5 + Math.random() * 0.9
+          spawnIn = 0.4 + Math.random() * 0.8
         }
 
         for (const arc of arcs) {
@@ -200,7 +208,7 @@ export function HexNetwork() {
           const grow = Math.min(1, arc.t / GROW)
           const fade = arc.t > GROW + TRAVEL ? 1 - (arc.t - GROW - TRAVEL) / FADE : 1
           const upto = Math.max(2, Math.floor(arc.pts.length * (1 - Math.pow(1 - grow, 3))))
-          ctx.strokeStyle = `rgba(${arc.color}, ${0.3 * fade})`
+          ctx.strokeStyle = `rgba(${arc.color}, ${0.32 * fade})`
           ctx.lineWidth = 1
           ctx.beginPath()
           ctx.moveTo(arc.pts[0].x, arc.pts[0].y)
@@ -211,16 +219,16 @@ export function HexNetwork() {
             const p = (arc.t - GROW) / TRAVEL
             const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2
             const pt = arc.pts[Math.min(47, Math.floor(eased * 47))]
-            const glow = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 9)
+            const glow = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 8)
             glow.addColorStop(0, `rgba(${arc.color}, 0.5)`)
             glow.addColorStop(1, `rgba(${arc.color}, 0)`)
             ctx.fillStyle = glow
             ctx.beginPath()
-            ctx.arc(pt.x, pt.y, 9, 0, Math.PI * 2)
+            ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2)
             ctx.fill()
             ctx.fillStyle = `rgba(${arc.color}, 0.95)`
             ctx.beginPath()
-            ctx.arc(pt.x, pt.y, 1.8, 0, Math.PI * 2)
+            ctx.arc(pt.x, pt.y, 1.7, 0, Math.PI * 2)
             ctx.fill()
           }
         }

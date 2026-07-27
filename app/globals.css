@@ -313,6 +313,88 @@
     transform: translateY(0);
   }
 
+  /* ---- Hero stack diagram: plates draw in, float, pulses travel ----------- */
+  .iso-plate {
+    fill-opacity: 0;
+    stroke-dasharray: 640;
+    stroke-dashoffset: 640;
+  }
+  .reveal-on .iso-plate {
+    animation: iso-draw 1.1s var(--ease-out-quart) var(--iso-delay, 0ms) forwards;
+  }
+  @keyframes iso-draw {
+    to {
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
+    }
+  }
+  .iso-detail {
+    opacity: 0;
+  }
+  .reveal-on .iso-detail {
+    animation: iso-fade 0.8s var(--ease-out-quart) calc(var(--iso-delay, 0ms) + 500ms) forwards;
+  }
+  @keyframes iso-fade {
+    to {
+      opacity: 1;
+    }
+  }
+  .reveal-on .iso-float {
+    animation: iso-float 5.5s ease-in-out var(--iso-float-delay, 0ms) infinite alternate;
+  }
+  @keyframes iso-float {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-4px);
+    }
+  }
+  .iso-pulse {
+    opacity: 0;
+  }
+  .reveal-on .iso-pulse-up {
+    animation: iso-pulse-up 3.6s linear var(--iso-delay, 0ms) infinite;
+  }
+  .reveal-on .iso-pulse-down {
+    animation: iso-pulse-down 3.6s linear var(--iso-delay, 0ms) infinite;
+  }
+  .reveal-on .iso-pulse-axis {
+    animation: iso-pulse-down 4.8s linear var(--iso-delay, 0ms) infinite;
+  }
+  @keyframes iso-pulse-up {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.9;
+    }
+    88% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateY(-164px);
+      opacity: 0;
+    }
+  }
+  @keyframes iso-pulse-down {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.9;
+    }
+    88% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateY(164px);
+      opacity: 0;
+    }
+  }
+
   /* ---- Manifesto: word-staggered reveal, key phrases ignite --------------- */
   .mw {
     display: inline-block;
@@ -363,6 +445,23 @@
     .harrow-tip,
     .underline-slide::after {
       transition: none;
+    }
+    .iso-plate,
+    .reveal-on .iso-plate {
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
+      animation: none;
+    }
+    .iso-detail,
+    .reveal-on .iso-detail {
+      opacity: 1;
+      animation: none;
+    }
+    .reveal-on .iso-float {
+      animation: none;
+    }
+    .iso-pulse {
+      display: none;
     }
     .bloom {
       transform: none;

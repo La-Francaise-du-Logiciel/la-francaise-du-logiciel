@@ -1,9 +1,10 @@
-import Image from 'next/image'
 import type { ReactNode } from 'react'
 import { AnimatedBackground } from '@/components/animated-background'
 import { CountUp } from '@/components/count-up'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
+import { Reveal } from '@/components/reveal'
+import { StackDiagram } from '@/components/stack-diagram'
 
 export function Hero() {
   return (
@@ -67,21 +68,16 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Wireframe centerpiece + ticker */}
+      {/* Stack diagram centerpiece: the two métiers, drawn as a blueprint */}
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="relative overflow-hidden rounded-xl border border-border bg-card/40">
           <div className="grid gap-0 md:grid-cols-[1.15fr_1fr]">
-            <div className="relative min-h-[280px] overflow-hidden border-b border-border md:border-b-0 md:border-r">
-              <Image
-                src="/images/wireframe-structure.png"
-                alt="Structure modulaire abstraite représentant une infrastructure numérique"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 55vw"
-                priority
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_70%,var(--card)_100%)]" />
-            </div>
+            <Reveal
+              variant="group"
+              className="flex min-h-[280px] items-center justify-center border-b border-border p-6 sm:p-8 md:border-b-0 md:border-r"
+            >
+              <StackDiagram className="h-auto w-full max-w-[560px]" />
+            </Reveal>
 
             <div className="flex flex-col justify-center gap-6 p-8 sm:p-10">
               <div className="grid grid-cols-3 gap-6">
