@@ -362,6 +362,18 @@
   .reveal-on .iso-pulse-axis {
     animation: iso-pulse-down 4.8s linear var(--iso-delay, 0ms) infinite;
   }
+  .reveal-on .iso-pulse-axis-up {
+    animation: iso-pulse-up 4.8s linear var(--iso-delay, 0ms) infinite;
+  }
+  /* Dotted orbit around the core: dashes march slowly along the ellipse */
+  .reveal-on .iso-orbit {
+    animation: iso-orbit-march 10s linear infinite;
+  }
+  @keyframes iso-orbit-march {
+    to {
+      stroke-dashoffset: -105;
+    }
+  }
   @keyframes iso-pulse-up {
     0% {
       transform: translateY(0);
@@ -457,7 +469,8 @@
       opacity: 1;
       animation: none;
     }
-    .reveal-on .iso-float {
+    .reveal-on .iso-float,
+    .reveal-on .iso-orbit {
       animation: none;
     }
     .iso-pulse {

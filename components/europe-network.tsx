@@ -67,13 +67,21 @@ export function EuropeNetwork() {
     const pointer = { x: 0.5, y: 0.5 }
 
     const build = () => {
-      const scale = Math.min(width / GRID_W, height / GRID_H) * 0.98
-      const offX = (width - GRID_W * scale) / 2
-      const offY = (height - GRID_H * scale) / 2
+      /* Bleed to the full canvas width; when the map is taller than the
+         canvas, center the crop on the band just north of Paris. The CSS
+         masks on the container fade the cropped edges out smoothly. */
+      const scale = width / GRID_W
+      const mapH = GRID_H * scale
+      const offX = 0
+      const offY =
+        mapH <= height
+          ? (height - mapH) / 2
+          : Math.min(0, Math.max(height - mapH, height / 2 - 455 * scale))
 
       nodes = CAPITALS.map((c) => ({ x: offX + c.x * scale, y: offY + c.y * scale }))
       const paris = nodes[0]
 
+      const baseSize = scale > 0.85 ? 2.1 : 1.5
       dots = []
       let maxD = 1
       for (let i = 0; i < EUROPE_DOTS.length; i += 2) {
@@ -81,9 +89,10 @@ export function EuropeNetwork() {
         const gy = EUROPE_DOTS[i + 1]
         const x = offX + gx * scale
         const y = offY + gy * scale
-        /* The viewport cuts Scandinavia and the eastern edge mid-land:
+        if (y < -24 || y > height + 24) continue
+        /* The viewport cuts arctic Norway and western Russia mid-land:
            fade dots approaching those borders so the crop reads softly. */
-        const edge = Math.min(1, gy / 36, (GRID_W - gx) / 36)
+        const edge = Math.min(1, gy / 44, (GRID_W - gx) / 44, gx / 30)
         if (edge <= 0.02) continue
         const isFrance = i < FRANCE_COUNT * 2
         const a = (isFrance ? 0.55 : 0.34) * edge * (0.82 + Math.random() * 0.18)
@@ -94,7 +103,7 @@ export function EuropeNetwork() {
           y,
           d,
           color: `rgba(${isFrance ? BLUE : NEUTRAL}, ${a.toFixed(3)})`,
-          size: isFrance ? 2.3 : 2.1,
+          size: isFrance ? baseSize + 0.2 : baseSize,
         })
       }
       for (const dot of dots) dot.d /= maxD

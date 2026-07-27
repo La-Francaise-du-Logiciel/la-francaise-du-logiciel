@@ -11,11 +11,13 @@ import { readFileSync, writeFileSync } from 'node:fs'
 
 const SRC = process.argv[2] ?? '/tmp/ne50m.geojson'
 
-/* Viewport over Europe (degrees). Equirectangular, x compressed by cos(48.5°). */
-const LON_MIN = -10.8
-const LON_MAX = 31.0
-const LAT_MIN = 35.0
-const LAT_MAX = 62.0
+/* Viewport over Europe (degrees). Equirectangular, x compressed by cos(48.5°).
+   Wide enough that the map can bleed to the screen edges: Iceland to the
+   west, arctic Norway to the north, western Russia fading out to the east. */
+const LON_MIN = -24.0
+const LON_MAX = 34.0
+const LAT_MIN = 34.0
+const LAT_MAX = 66.0
 const KLON = Math.cos((48.5 * Math.PI) / 180)
 
 const W_DEG = (LON_MAX - LON_MIN) * KLON
@@ -23,7 +25,7 @@ const GRID_W = 1000
 const GRID_H = Math.round(((LAT_MAX - LAT_MIN) / W_DEG) * GRID_W)
 
 /* Hex-packed grid spacing in grid units — lower is denser. */
-const SPACING = 7.2
+const SPACING = 5.2
 
 const CAPITALS = [
   { name: 'Paris', lon: 2.35, lat: 48.86 },

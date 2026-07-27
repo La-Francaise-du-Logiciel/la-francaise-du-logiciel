@@ -26,11 +26,14 @@ export function SiteFooter() {
               Conseil logiciel et souveraineté numérique. Conçu et hébergé en France, au service de
               l&apos;indépendance européenne.
             </p>
-            <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              <span className="inline-block h-3 w-1.5 rounded-[1px] bg-[var(--blue)]" />
-              <span className="inline-block h-3 w-1.5 rounded-[1px] bg-foreground/80" />
-              <span className="inline-block h-3 w-1.5 rounded-[1px] bg-[var(--red)]" />
-              <span className="ml-1">Made in France</span>
+            <div className="flex flex-col gap-2.5">
+              <span className="font-serif text-lg italic leading-none text-foreground">
+                Fait en France
+              </span>
+              <span
+                aria-hidden="true"
+                className="h-px w-24 bg-[linear-gradient(90deg,var(--blue),oklch(0.75_0.02_264)_50%,var(--red))]"
+              />
             </div>
           </div>
 

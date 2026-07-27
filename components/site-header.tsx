@@ -49,14 +49,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            <span className="flex items-center gap-[2px]" aria-hidden="true">
-              <span className="inline-block h-2.5 w-[3px] rounded-[1px] bg-[var(--blue)]" />
-              <span className="inline-block h-2.5 w-[3px] rounded-[1px] bg-foreground/80" />
-              <span className="inline-block h-2.5 w-[3px] rounded-[1px] bg-[var(--red)]" />
-            </span>
-            FR
-          </span>
           <a
             href="#contact"
             className="arrow-hover inline-flex items-center gap-1.5 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"

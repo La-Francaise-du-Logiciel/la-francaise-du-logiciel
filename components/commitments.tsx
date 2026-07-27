@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 import { CountUp } from '@/components/count-up'
 import { EuropeNetwork } from '@/components/europe-network'
-import { PointerField } from '@/components/pointer-field'
 import { Reveal } from '@/components/reveal'
 
 const STATS: { to: number; from?: number; suffix?: string; label: string }[] = [
@@ -30,13 +29,7 @@ const STATS: { to: number; from?: number; suffix?: string; label: string }[] = [
 export function Commitments() {
   return (
     <section id="engagements" className="relative overflow-hidden border-t border-border">
-      {/* The tricolore glowing softly beneath the continent */}
-      <PointerField className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="bloom bloom-blue -bottom-72 left-[10%] h-[38rem] w-[38rem]" />
-        <div className="bloom bloom-red -bottom-80 right-[6%] h-[40rem] w-[40rem] [--bloom-shift:-16px]" />
-      </PointerField>
-
-      <div className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
+      <div className="relative mx-auto max-w-6xl px-5 pt-24 sm:px-8 sm:pt-32">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <Reveal>
@@ -71,11 +64,17 @@ export function Commitments() {
             </div>
           ))}
         </Reveal>
+      </div>
 
-        <div className="relative mt-14 h-[360px] sm:h-[520px]">
+      {/* Full-bleed continent, fading softly into the paper on every side */}
+      <div className="relative mt-10 h-[400px] w-full [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_82%,transparent)] sm:h-[680px]">
+        <div className="h-full w-full [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
           <EuropeNetwork />
         </div>
-        <Reveal delay={120} className="mt-8 text-center">
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-5 pb-16 sm:px-8">
+        <Reveal delay={120} className="text-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
             La donnée circule — elle ne quitte jamais l&apos;Europe
           </p>

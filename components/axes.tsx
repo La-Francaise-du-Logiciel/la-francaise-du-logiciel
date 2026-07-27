@@ -36,9 +36,7 @@ export function Axes() {
       <div className="grid gap-6 lg:grid-cols-2">
         <AxisCard
           id="conseil"
-          index="01"
           accent="var(--blue)"
-          kicker="Conseil"
           title="Le logiciel qui travaille pour vous"
           body="Nous accompagnons les entreprises pour concevoir des logiciels (sites, SaaS, automatisation IA) qui font gagner du temps et créent une valeur mesurable. Au sens large, tout ce qui transforme une contrainte en avantage."
           image="/images/consulting.png"
@@ -48,9 +46,7 @@ export function Axes() {
         />
         <AxisCard
           id="souverainete"
-          index="02"
           accent="var(--red)"
-          kicker="Souveraineté"
           title="L'infrastructure qui vous rend libre"
           body="Nous bâtissons des produits et des infrastructures au service de la souveraineté numérique française et européenne, pour ne dépendre d'aucune puissance étrangère, qu'elle soit américaine, chinoise ou autre."
           image="/images/sovereignty.png"
@@ -65,9 +61,7 @@ export function Axes() {
 
 interface AxisCardProps {
   id: string
-  index: string
   accent: string
-  kicker: string
   title: string
   body: string
   image: string
@@ -76,22 +70,11 @@ interface AxisCardProps {
   delay: number
 }
 
-function AxisCard({
-  id,
-  index,
-  accent,
-  kicker,
-  title,
-  body,
-  image,
-  imageAlt,
-  items,
-  delay,
-}: AxisCardProps) {
+function AxisCard({ id, accent, title, body, image, imageAlt, items, delay }: AxisCardProps) {
   return (
     <Reveal delay={delay} className="h-full">
       <GlowCard accent={accent} className="group h-full">
-        <article className="flex h-full flex-col">
+        <article id={id} className="flex h-full scroll-mt-24 flex-col">
           <div className="relative h-52 shrink-0 overflow-hidden sm:h-60">
             <Image
               src={image || '/placeholder.svg'}
@@ -101,17 +84,6 @@ function AxisCard({
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
-            <div className="absolute left-5 top-5 flex items-center gap-3">
-              <span
-                className="font-mono text-xs uppercase tracking-[0.24em]"
-                style={{ color: accent }}
-              >
-                {kicker}
-              </span>
-            </div>
-            <span className="absolute right-5 top-4 font-serif text-5xl text-foreground/25">
-              {index}
-            </span>
           </div>
 
           <div className="flex flex-1 flex-col p-7 sm:p-8">
@@ -144,7 +116,7 @@ function AxisCard({
 
             <a
               href="#contact"
-              className="group/link arrow-hover mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
+              className="group/link arrow-hover mt-auto inline-flex items-center gap-1.5 pt-8 text-sm font-medium text-foreground"
             >
               <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">
                 {id === 'conseil' ? 'Parler de votre projet' : 'Rejoindre le mouvement'}
