@@ -76,7 +76,7 @@ export function Commitments() {
       <div className="relative mx-auto max-w-6xl px-5 pb-16 sm:px-8">
         <Reveal delay={120} className="text-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
-            La donnée circule — elle ne quitte jamais l&apos;Europe
+            Vos données vivent ici — et nulle part ailleurs
           </p>
         </Reveal>
       </div>

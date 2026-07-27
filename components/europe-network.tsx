@@ -6,35 +6,36 @@ import { CAPITALS, EUROPE_DOTS, FRANCE_COUNT, GRID_H, GRID_W } from '@/component
 /**
  * Europe as a particle map, rasterized from real Natural Earth geography.
  * The continent assembles dot by dot radiating out from Paris when scrolled
- * into view; France is picked out in blue; pulses of data travel arcs
- * between European capitals — and never leave the map. Once assembled, the
- * static dots are cached on an offscreen layer so each frame stays cheap.
- * Paused offscreen, fully static under reduced motion.
+ * into view, with France picked out in blue. At rest it is perfectly still;
+ * under the cursor the dots behave like a magnetic field — they push away,
+ * brighten and swell, and settle back as the pointer moves on.
+ *
+ * Once assembled, the resting map is cached on an offscreen layer. Each
+ * frame blits that layer, punches a hole around the cursor, and redraws
+ * only the few hundred dots inside it, so interaction stays cheap no
+ * matter how dense the map is. Paused offscreen, static under reduced
+ * motion.
  */
 
 const NEUTRAL = '60, 68, 92'
 const BLUE = '37, 66, 178'
 const RED = '209, 60, 42'
 
+/** Pointer influence radius, and how far a dot at the center is pushed. */
+const RADIUS = 96
+const PUSH = 17
+const CELL = 110
+
 interface Dot {
   x: number
   y: number
   /** Normalized distance from Paris, used to stagger the build-in. */
   d: number
-  color: string
+  a: number
+  isFrance: boolean
   size: number
-}
-
-interface Arc {
-  pts: { x: number; y: number }[]
-  t: number
   color: string
 }
-
-const GROW = 0.7
-const TRAVEL = 1.2
-const FADE = 0.7
-const LIFE = GROW + TRAVEL + FADE
 
 const smoothstep = (v: number) => {
   const c = Math.min(1, Math.max(0, v))
@@ -57,14 +58,19 @@ export function EuropeNetwork() {
     let dpr = 1
     let dots: Dot[] = []
     let nodes: { x: number; y: number }[] = []
-    let arcs: Arc[] = []
     let layer: HTMLCanvasElement | null = null
+    /** Dot indices bucketed by cell, so the cursor only tests nearby dots. */
+    let buckets = new Map<number, number[]>()
+    let cols = 0
     let reveal = reduceMotion ? 1 : 0
-    let spawnIn = 0.4
     let time = 0
-    let ox = 0
-    let oy = 0
-    const pointer = { x: 0.5, y: 0.5 }
+
+    /* Raw pointer, the eased pointer the field actually follows, and how
+       strongly the field is engaged (fades out when the cursor leaves). */
+    const raw = { x: 0, y: 0, inside: false }
+    let px = -9999
+    let py = -9999
+    let influence = 0
 
     const build = () => {
       /* Bleed to the full canvas width; when the map is taller than the
@@ -102,12 +108,22 @@ export function EuropeNetwork() {
           x,
           y,
           d,
-          color: `rgba(${isFrance ? BLUE : NEUTRAL}, ${a.toFixed(3)})`,
+          a,
+          isFrance,
           size: isFrance ? baseSize + 0.2 : baseSize,
+          color: `rgba(${isFrance ? BLUE : NEUTRAL}, ${a.toFixed(3)})`,
         })
       }
-      for (const dot of dots) dot.d /= maxD
-      arcs = []
+
+      cols = Math.ceil(width / CELL) + 1
+      buckets = new Map()
+      dots.forEach((dot, i) => {
+        dot.d /= maxD
+        const key = Math.floor(dot.x / CELL) + Math.floor(dot.y / CELL) * cols
+        const bucket = buckets.get(key)
+        if (bucket) bucket.push(i)
+        else buckets.set(key, [i])
+      })
       layer = null
     }
 
@@ -139,44 +155,55 @@ export function EuropeNetwork() {
       if (reduceMotion) draw(0)
     }
 
-    const spawnArc = () => {
-      /* Paris anchors most journeys. */
-      const i = Math.random() < 0.6 ? 0 : 1 + Math.floor(Math.random() * (nodes.length - 1))
-      let j = i
-      while (j === i) j = Math.floor(Math.random() * nodes.length)
-      const from = nodes[i]
-      const to = nodes[j]
-      const dx = to.x - from.x
-      const dy = to.y - from.y
-      const len = Math.hypot(dx, dy) || 1
-      const k = len * (0.16 + Math.random() * 0.1) * (Math.random() < 0.5 ? 1 : -1)
-      const cpx = (from.x + to.x) / 2 + (-dy / len) * k
-      const cpy = (from.y + to.y) / 2 + (dx / len) * k
-      const pts = Array.from({ length: 48 }, (_, n) => {
-        const t = n / 47
-        const u = 1 - t
-        return {
-          x: u * u * from.x + 2 * u * t * cpx + t * t * to.x,
-          y: u * u * from.y + 2 * u * t * cpy + t * t * to.y,
-        }
-      })
-      arcs.push({ pts, t: 0, color: Math.random() < 0.15 ? RED : BLUE })
+    /** Displacement + emphasis for a point inside the cursor's field. */
+    const field = (x: number, y: number) => {
+      const dx = x - px
+      const dy = y - py
+      const dist = Math.hypot(dx, dy)
+      if (dist > RADIUS) return null
+      const f = smoothstep(1 - dist / RADIUS) * influence
+      if (f <= 0.002) return null
+      const push = f * f * PUSH
+      const inv = dist < 0.001 ? 0 : 1 / dist
+      return { ox: dx * inv * push, oy: dy * inv * push, f }
+    }
+
+    const drawDot = (dot: Dot) => {
+      const f = field(dot.x, dot.y)
+      if (!f) {
+        ctx.fillStyle = dot.color
+        ctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
+        return
+      }
+      /* Energized: brighter, a touch larger, and pulled toward French blue. */
+      const size = dot.size * (1 + f.f * 0.75)
+      const a = Math.min(0.95, dot.a + f.f * 0.5)
+      const tint = dot.isFrance ? BLUE : f.f > 0.35 ? BLUE : NEUTRAL
+      ctx.fillStyle = `rgba(${tint}, ${a})`
+      ctx.fillRect(dot.x + f.ox - size / 2, dot.y + f.oy - size / 2, size, size)
     }
 
     const draw = (dt: number) => {
       time += dt
-      ox += ((pointer.x - 0.5) * 12 - ox) * 0.04
-      oy += ((pointer.y - 0.5) * 8 - oy) * 0.04
+
+      /* The field lags the cursor slightly, which gives it a springy feel. */
+      if (raw.inside) {
+        if (px < -9000) {
+          px = raw.x
+          py = raw.y
+        }
+        px += (raw.x - px) * 0.16
+        py += (raw.y - py) * 0.16
+        influence += (1 - influence) * 0.12
+      } else {
+        influence += (0 - influence) * 0.08
+      }
+
       if (reveal < 1) reveal = Math.min(1, reveal + dt / 2)
 
       ctx.clearRect(0, 0, width, height)
-      ctx.save()
-      ctx.translate(ox, oy)
 
-      if (reveal >= 1) {
-        if (!layer) buildLayer()
-        if (layer) ctx.drawImage(layer, 0, 0, width, height)
-      } else {
+      if (reveal < 1) {
         for (const dot of dots) {
           const appear = smoothstep((reveal * 1.15 - dot.d) / 0.12)
           if (appear <= 0.02) continue
@@ -185,78 +212,70 @@ export function EuropeNetwork() {
           ctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
         }
         ctx.globalAlpha = 1
-      }
+      } else {
+        if (!layer) buildLayer()
+        if (layer) ctx.drawImage(layer, 0, 0, width, height)
 
-      /* Capitals breathe; Paris carries a slow vermilion sonar ring. */
-      nodes.forEach((n, i) => {
-        const breathe = reduceMotion ? 0 : Math.sin(time * 1.6 + i * 1.7) * 0.4
-        ctx.fillStyle = i === 0 ? `rgba(${RED}, ${0.9 * reveal})` : `rgba(${BLUE}, ${0.7 * reveal})`
-        ctx.beginPath()
-        ctx.arc(n.x, n.y, (i === 0 ? 2.6 : 1.9) + breathe, 0, Math.PI * 2)
-        ctx.fill()
-      })
-      if (!reduceMotion && reveal > 0.3) {
-        const p = (time % 3) / 3
-        const paris = nodes[0]
-        ctx.strokeStyle = `rgba(${RED}, ${(1 - p) * 0.35 * reveal})`
-        ctx.lineWidth = 1
-        ctx.beginPath()
-        ctx.arc(paris.x, paris.y, 4 + p * 26, 0, Math.PI * 2)
-        ctx.stroke()
-      }
-
-      if (!reduceMotion) {
-        spawnIn -= dt
-        if (reveal > 0.55 && spawnIn <= 0 && arcs.length < 5) {
-          spawnArc()
-          spawnIn = 0.4 + Math.random() * 0.8
-        }
-
-        for (const arc of arcs) {
-          arc.t += dt
-          const grow = Math.min(1, arc.t / GROW)
-          const fade = arc.t > GROW + TRAVEL ? 1 - (arc.t - GROW - TRAVEL) / FADE : 1
-          const upto = Math.max(2, Math.floor(arc.pts.length * (1 - Math.pow(1 - grow, 3))))
-          ctx.strokeStyle = `rgba(${arc.color}, ${0.32 * fade})`
-          ctx.lineWidth = 1
+        if (influence > 0.004) {
+          /* Punch a hole around the cursor and redraw just those dots. */
+          const hole = RADIUS + PUSH + 6
+          ctx.save()
+          ctx.globalCompositeOperation = 'destination-out'
           ctx.beginPath()
-          ctx.moveTo(arc.pts[0].x, arc.pts[0].y)
-          for (let n = 1; n < upto; n++) ctx.lineTo(arc.pts[n].x, arc.pts[n].y)
-          ctx.stroke()
+          ctx.arc(px, py, hole, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
 
-          if (arc.t > GROW && arc.t <= GROW + TRAVEL) {
-            const p = (arc.t - GROW) / TRAVEL
-            const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2
-            const pt = arc.pts[Math.min(47, Math.floor(eased * 47))]
-            const glow = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 8)
-            glow.addColorStop(0, `rgba(${arc.color}, 0.5)`)
-            glow.addColorStop(1, `rgba(${arc.color}, 0)`)
-            ctx.fillStyle = glow
-            ctx.beginPath()
-            ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2)
-            ctx.fill()
-            ctx.fillStyle = `rgba(${arc.color}, 0.95)`
-            ctx.beginPath()
-            ctx.arc(pt.x, pt.y, 1.7, 0, Math.PI * 2)
-            ctx.fill()
+          const c0 = Math.floor((px - hole) / CELL)
+          const c1 = Math.floor((px + hole) / CELL)
+          const r0 = Math.floor((py - hole) / CELL)
+          const r1 = Math.floor((py + hole) / CELL)
+          const holeSq = hole * hole
+          for (let r = r0; r <= r1; r++) {
+            for (let c = c0; c <= c1; c++) {
+              const bucket = buckets.get(c + r * cols)
+              if (!bucket) continue
+              for (const i of bucket) {
+                const dot = dots[i]
+                const dx = dot.x - px
+                const dy = dot.y - py
+                if (dx * dx + dy * dy <= holeSq) drawDot(dot)
+              }
+            }
           }
         }
-        arcs = arcs.filter((a) => a.t < LIFE)
       }
 
-      ctx.restore()
+      /* Capitals ride the same field; Paris is the vermilion anchor. */
+      nodes.forEach((n, i) => {
+        const breathe = reduceMotion ? 0 : Math.sin(time * 1.6 + i * 1.7) * 0.35
+        const f = field(n.x, n.y)
+        const x = n.x + (f?.ox ?? 0)
+        const y = n.y + (f?.oy ?? 0)
+        const boost = (f?.f ?? 0) * 1.4
+        ctx.fillStyle = i === 0 ? `rgba(${RED}, ${0.9 * reveal})` : `rgba(${BLUE}, ${0.7 * reveal})`
+        ctx.beginPath()
+        ctx.arc(x, y, (i === 0 ? 2.6 : 1.9) + breathe + boost, 0, Math.PI * 2)
+        ctx.fill()
+      })
     }
 
     resize()
     window.addEventListener('resize', resize)
 
-    const section = canvas.closest('section')
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
-      pointer.x = (e.clientX - rect.left) / rect.width
-      pointer.y = (e.clientY - rect.top) / rect.height
+      raw.x = e.clientX - rect.left
+      raw.y = e.clientY - rect.top
+      raw.inside = true
     }
-    if (!reduceMotion) section?.addEventListener('mousemove', onMove)
+    const onLeave = () => {
+      raw.inside = false
+    }
+    if (!reduceMotion) {
+      canvas.addEventListener('mousemove', onMove)
+      canvas.addEventListener('mouseleave', onLeave)
+    }
 
     let raf = 0
     let last = 0
@@ -283,7 +302,8 @@ export function EuropeNetwork() {
 
     return () => {
       window.removeEventListener('resize', resize)
-      section?.removeEventListener('mousemove', onMove)
+      canvas.removeEventListener('mousemove', onMove)
+      canvas.removeEventListener('mouseleave', onLeave)
       observer.disconnect()
       cancelAnimationFrame(raf)
     }

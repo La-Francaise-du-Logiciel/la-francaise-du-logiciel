@@ -74,9 +74,9 @@ export function Hero() {
           <div className="grid gap-0 md:grid-cols-[1.15fr_1fr]">
             <Reveal
               variant="group"
-              className="flex min-h-[280px] items-center justify-center border-b border-border p-6 sm:p-8 md:border-b-0 md:border-r"
+              className="flex min-h-[320px] items-center justify-center border-b border-border p-6 sm:p-8 md:border-b-0 md:border-r"
             >
-              <StackDiagram className="h-auto w-full max-w-[560px]" />
+              <StackDiagram />
             </Reveal>
 
             <div className="flex flex-col justify-center gap-6 p-8 sm:p-10">
