@@ -7,6 +7,8 @@ interface CountUpProps {
   from?: number
   /** Total animation time in ms. */
   duration?: number
+  /** Fraction digits, rendered with a French decimal comma. */
+  decimals?: number
   suffix?: string
   className?: string
 }
@@ -15,7 +17,7 @@ interface CountUpProps {
  * Renders the final value on the server, then counts from `from` to `to`
  * with an ease-out when scrolled into view. Static under reduced motion.
  */
-export function CountUp({ to, from = 0, duration = 1400, suffix = '', className }: CountUpProps) {
+export function CountUp({ to, from = 0, duration = 1400, decimals = 0, suffix = '', className }: CountUpProps) {
   const ref = useRef<HTMLSpanElement | null>(null)
   const [value, setValue] = useState(to)
 
@@ -33,7 +35,7 @@ export function CountUp({ to, from = 0, duration = 1400, suffix = '', className 
         const tick = (now: number) => {
           const p = Math.min((now - start) / duration, 1)
           const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p)
-          setValue(Math.round(from + (to - from) * eased))
+          setValue(from + (to - from) * eased)
           if (p < 1) raf = requestAnimationFrame(tick)
         }
         setValue(from)
@@ -48,9 +50,11 @@ export function CountUp({ to, from = 0, duration = 1400, suffix = '', className 
     }
   }, [from, to, duration])
 
+  const display = decimals > 0 ? value.toFixed(decimals).replace('.', ',') : String(Math.round(value))
+
   return (
     <span ref={ref} className={className}>
-      {value}
+      {display}
       {suffix}
     </span>
   )
