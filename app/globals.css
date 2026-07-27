@@ -1,0 +1,375 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-blue: var(--blue);
+  --color-red: var(--red);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  color-scheme: light;
+
+  /* Warm French paper */
+  --background: oklch(0.98 0.006 85);
+  --foreground: oklch(0.21 0.03 264);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.03 264);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.03 264);
+
+  /* French blue */
+  --primary: oklch(0.48 0.19 262);
+  --primary-foreground: oklch(0.99 0.005 260);
+
+  --secondary: oklch(0.96 0.008 85);
+  --secondary-foreground: oklch(0.21 0.03 264);
+
+  --muted: oklch(0.96 0.008 85);
+  --muted-foreground: oklch(0.48 0.025 264);
+
+  /* French vermilion red */
+  --accent: oklch(0.55 0.22 27);
+  --accent-foreground: oklch(0.99 0.005 60);
+
+  --destructive: oklch(0.55 0.22 27);
+
+  --border: oklch(0.21 0.03 264 / 12%);
+  --input: oklch(0.21 0.03 264 / 16%);
+  --ring: oklch(0.48 0.19 262);
+
+  /* Brand aliases */
+  --blue: oklch(0.48 0.19 262);
+  --red: oklch(0.55 0.22 27);
+
+  --radius: 0.4rem;
+
+  /* Motion system: two eases for the whole site */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* The tricolore as light: soft gradient blooms */
+  --glow-blue: oklch(0.48 0.19 262 / 0.12);
+  --glow-red: oklch(0.55 0.22 27 / 0.1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  /* ---- Scroll reveals -------------------------------------------------- */
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  .reveal-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo);
+  }
+
+  /* Headings rise out of a clip mask */
+  .mask-init {
+    opacity: 0.001;
+    clip-path: inset(0 -5% 100% -5%);
+    transform: translateY(0.4em);
+  }
+  .mask-in {
+    opacity: 1;
+    clip-path: inset(-20% -5% -20% -5%);
+    transform: translateY(0);
+    transition:
+      clip-path 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo),
+      opacity 0.3s linear;
+  }
+
+  /* Hero headline word reveal */
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4em);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-rise {
+    animation: rise-in 0.9s var(--ease-out-expo) both;
+  }
+
+  /* ---- Cursor-chasing border glow (Stripe bento technique) ------------- */
+  /* A radial gradient chases the pointer behind a 1px ring; the lagged
+     1s ease-out-expo transition is what makes it drift rather than track. */
+  .glow-card {
+    position: relative;
+    padding: 1px;
+    border-radius: var(--radius-xl);
+    --hover: 0;
+  }
+  .glow-card:hover {
+    --hover: 1;
+  }
+  .glow-card__ring,
+  .glow-card__light {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .glow-card__ring {
+    background: var(--border);
+  }
+  .glow-card__content {
+    position: relative;
+    height: 100%;
+    border-radius: calc(var(--radius-xl) - 1px);
+    background: var(--card);
+    overflow: hidden;
+  }
+  .glow-card__gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24rem;
+    height: 24rem;
+    margin: -12rem 0 0 -12rem;
+    border-radius: 50%;
+    background: radial-gradient(circle closest-side, var(--glow-accent, var(--primary)), transparent 65%);
+    opacity: 0;
+    transform: translate3d(var(--gx, 0px), var(--gy, 0px), 0);
+    transition:
+      transform 1s var(--ease-out-expo),
+      opacity 0.35s linear;
+    will-change: transform;
+  }
+  .glow-card:hover .glow-card__gradient,
+  .glow-card:focus-within .glow-card__gradient {
+    opacity: 1;
+  }
+  .glow-card:hover .glow-card__gradient--soft,
+  .glow-card:focus-within .glow-card__gradient--soft {
+    opacity: 0.06;
+  }
+
+  /* ---- Tricolor blooms: consume --mx/--my set by PointerField ---------- */
+  .bloom {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate3d(
+      calc((var(--mx, 0.5) - 0.5) * var(--bloom-shift, 24px)),
+      calc((var(--my, 0.5) - 0.5) * var(--bloom-shift, 24px)),
+      0
+    );
+    transition: transform 1.2s var(--ease-out-expo);
+    will-change: transform;
+  }
+  .bloom-blue {
+    background: radial-gradient(circle closest-side, var(--glow-blue), transparent 72%);
+  }
+  .bloom-red {
+    background: radial-gradient(circle closest-side, var(--glow-red), transparent 72%);
+  }
+
+  /* ---- Hover arrow: line fades in, chevron slides right ----------------- */
+  .arrow-hover:hover,
+  .arrow-hover:focus-visible {
+    --hover: 1;
+  }
+  .harrow-line {
+    opacity: var(--hover, 0);
+    transition: opacity 0.3s var(--ease-out-quart);
+  }
+  .harrow-tip {
+    transform: translateX(calc(var(--hover, 0) * 2.5px));
+    transition: transform 0.3s var(--ease-out-quart);
+  }
+
+  /* ---- Nav underline slide ---------------------------------------------- */
+  .underline-slide {
+    position: relative;
+  }
+  .underline-slide::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -4px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-out-quart);
+  }
+  .underline-slide:hover::after,
+  .underline-slide:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* ---- Primary button sheen sweep ---------------------------------------- */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .sheen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.16) 50%, transparent 58%);
+    transform: translateX(-101%);
+    transition: transform 0.8s var(--ease-out-expo);
+    pointer-events: none;
+  }
+  .sheen:hover::after {
+    transform: translateX(101%);
+  }
+
+  /* ---- Approach: the method draws itself left to right ------------------- */
+  .step-line {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition:
+      transform 0.5s var(--ease-out-quart) var(--step-delay, 0ms),
+      background-color 0.3s var(--ease-out-quart);
+  }
+  .reveal-on .step-line {
+    transform: scaleX(1);
+  }
+  .step:hover .step-line {
+    background-color: color-mix(in oklab, var(--blue) 45%, var(--border));
+  }
+  .step-num {
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-quart) var(--step-delay, 0ms);
+  }
+  .reveal-on .step-num {
+    opacity: 1;
+  }
+  .step-body {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.6s var(--ease-out-quart) calc(var(--step-delay, 0ms) + 150ms),
+      transform 0.6s var(--ease-out-quart) calc(var(--step-delay, 0ms) + 150ms);
+  }
+  .reveal-on .step-body {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- Axis card capability chips, lighting up in sequence ---------------- */
+  .chip {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.5s var(--ease-out-quart) var(--chip-delay, 0ms),
+      transform 0.5s var(--ease-out-quart) var(--chip-delay, 0ms);
+  }
+  .reveal-in .chip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- Manifesto: word-staggered reveal, key phrases ignite --------------- */
+  .mw {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.35em);
+    transition:
+      opacity 0.5s var(--ease-out-quart) var(--wd, 0ms),
+      transform 0.5s var(--ease-out-quart) var(--wd, 0ms);
+  }
+  .reveal-on .mw {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .ignite {
+    transition: color 0.9s var(--ease-out-quart) var(--ignite-d, 1.1s);
+  }
+  .reveal-on .ignite {
+    color: var(--ignite-color);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rise {
+      animation: none;
+    }
+    .reveal-init,
+    .mask-init,
+    .chip,
+    .step-num,
+    .step-body,
+    .mw {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .mask-init {
+      clip-path: none;
+    }
+    .step-line {
+      transform: none;
+      transition: none;
+    }
+    .ignite {
+      color: var(--ignite-color);
+      transition: none;
+    }
+    .glow-card__gradient,
+    .harrow-line,
+    .harrow-tip,
+    .underline-slide::after {
+      transition: none;
+    }
+    .bloom {
+      transform: none;
+      transition: none;
+    }
+    .sheen::after {
+      display: none;
+    }
+  }
+}
