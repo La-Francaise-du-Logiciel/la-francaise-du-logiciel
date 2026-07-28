@@ -7,9 +7,9 @@ import { CAPITALS, EUROPE_DOTS, FRANCE_COUNT, GRID_H, GRID_W } from '@/component
  * Europe as a particle map, rasterized from real Natural Earth geography.
  * The continent assembles dot by dot radiating out from Paris when scrolled
  * into view, with France picked out in blue. At rest it is perfectly still;
- * under the cursor the dots behave like a magnetic field — they push away
- * and swell, and across France they take on the tricolore, banded left to
- * right, so the flag surfaces wherever you touch it.
+ * under the cursor the dots lift toward you like a soft swell raised in
+ * the surface, and across France they take on the tricolore, banded left
+ * to right, so the flag surfaces wherever you touch it.
  *
  * Once assembled, the resting map is cached on an offscreen layer. Each
  * frame blits that layer, punches a hole around the cursor, and redraws
@@ -23,9 +23,9 @@ const BLUE: RGB = [37, 66, 178]
 const WHITE: RGB = [255, 255, 255]
 const RED: RGB = [209, 60, 42]
 
-/** Pointer influence radius, and how far a dot at the center is pushed. */
+/** Pointer influence radius, and how far a dot at the center is raised. */
 const RADIUS = 124
-const PUSH = 27
+const LIFT = 30
 const CELL = 160
 
 type RGB = [number, number, number]
@@ -158,7 +158,9 @@ export function EuropeNetwork() {
       lctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       for (const dot of dots) {
         lctx.fillStyle = dot.color
-        lctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
+        lctx.beginPath()
+        lctx.arc(dot.x, dot.y, dot.size / 2, 0, Math.PI * 2)
+        lctx.fill()
       }
     }
 
@@ -177,28 +179,36 @@ export function EuropeNetwork() {
       if (reduceMotion) draw(0)
     }
 
-    /** Displacement + emphasis for a point inside the cursor's field. */
+    const circle = (x: number, y: number, size: number) => {
+      ctx.beginPath()
+      ctx.arc(x, y, size / 2, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    /** How far a point is raised, and how strongly, inside the field. */
     const field = (x: number, y: number) => {
-      const dx = x - px
-      const dy = y - py
-      const dist = Math.hypot(dx, dy)
+      const dist = Math.hypot(x - px, y - py)
       if (dist > RADIUS) return null
       const f = smoothstep(1 - dist / RADIUS) * influence
       if (f <= 0.002) return null
-      const push = f * f * PUSH
-      const inv = dist < 0.001 ? 0 : 1 / dist
-      return { ox: dx * inv * push, oy: dy * inv * push, f }
+      return { lift: f * f * LIFT, f }
     }
 
     const drawDot = (dot: Dot) => {
       const f = field(dot.x, dot.y)
       if (!f) {
         ctx.fillStyle = dot.color
-        ctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
+        circle(dot.x, dot.y, dot.size)
         return
       }
-      const size = dot.size * (1 + f.f * 1.5)
+      /* Raised dots read as nearer: bigger, brighter, and casting a hint
+         of a shadow back down onto the resting surface. */
+      const size = dot.size * (1 + f.f * 1.35)
       const a = Math.min(1, dot.a + f.f * 0.85)
+      if (f.f > 0.12) {
+        ctx.fillStyle = `rgba(${NEUTRAL}, ${(f.f * 0.14).toFixed(3)})`
+        circle(dot.x, dot.y + f.lift * 0.12, dot.size * 0.9)
+      }
       if (dot.flag) {
         /* France takes the tricolore, fading up from its resting blue. */
         const [r, g, b] = mix(BLUE, dot.flag, Math.min(1, f.f * 1.3))
@@ -206,7 +216,7 @@ export function EuropeNetwork() {
       } else {
         ctx.fillStyle = `rgba(${NEUTRAL}, ${a})`
       }
-      ctx.fillRect(dot.x + f.ox - size / 2, dot.y + f.oy - size / 2, size, size)
+      circle(dot.x, dot.y - f.lift, size)
     }
 
     const draw = (dt: number) => {
@@ -233,7 +243,7 @@ export function EuropeNetwork() {
           if (appear <= 0.02) continue
           ctx.globalAlpha = appear
           ctx.fillStyle = dot.color
-          ctx.fillRect(dot.x - dot.size / 2, dot.y - dot.size / 2, dot.size, dot.size)
+          circle(dot.x, dot.y, dot.size)
         }
         ctx.globalAlpha = 1
         return
@@ -243,8 +253,10 @@ export function EuropeNetwork() {
       if (layer) ctx.drawImage(layer, 0, 0, width, height)
 
       if (influence > 0.004) {
-        /* Punch a hole around the cursor and redraw just those dots. */
-        const hole = RADIUS + PUSH + 8
+        /* Clear the affected disc and redraw those dots in their raised
+           positions; it extends past the radius by the lift so nothing
+           doubles up with dots still resting on the cached layer. */
+        const hole = RADIUS + LIFT + 8
         ctx.save()
         ctx.globalCompositeOperation = 'destination-out'
         ctx.beginPath()

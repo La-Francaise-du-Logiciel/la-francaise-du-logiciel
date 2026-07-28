@@ -4,7 +4,7 @@ import { CountUp } from '@/components/count-up'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
 import { Reveal } from '@/components/reveal'
-import { StackDiagram } from '@/components/stack-diagram'
+import { HeroFlow } from '@/components/hero-flow'
 import { getMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
@@ -61,15 +61,22 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Stack diagram centerpiece: the two métiers, drawn as a blueprint */}
+      {/* Centerpiece: the two axes converging into one trajectory */}
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="relative overflow-hidden rounded-xl border border-border bg-card/40">
           <div className="grid gap-0 md:grid-cols-[1.15fr_1fr]">
             <Reveal
               variant="group"
-              className="flex min-h-[320px] items-center justify-center border-b border-border p-6 sm:p-8 md:border-b-0 md:border-r"
+              className="min-h-[320px] border-b border-border md:border-b-0 md:border-r"
             >
-              <StackDiagram />
+              {/* The whole cell is the hover surface, so the dots respond
+                  as the cursor approaches rather than only over the art */}
+              <div
+                data-flow-surface
+                className="flex h-full w-full items-center justify-center p-6 sm:p-8"
+              >
+                <HeroFlow />
+              </div>
             </Reveal>
 
             <div className="flex flex-col justify-center gap-6 p-8 sm:p-10">

@@ -54,13 +54,9 @@ export const fr = {
     note: 'Nous construisons des outils qui créent de la valeur, sur des fondations que vous maîtrisez de bout en bout, du code à l’hébergement.',
   },
 
-  stack: {
-    label: 'Schéma : interfaces et cœur métier reposant sur une infrastructure souveraine',
-    plates: {
-      interfaces: 'Interfaces & produits',
-      core: 'Cœur métier',
-      infrastructure: 'Infrastructure souveraine',
-    },
+  heroFlow: {
+    label:
+      'Schéma : deux axes, conseil et souveraineté, convergeant vers une même trajectoire',
   },
 
   axes: {
