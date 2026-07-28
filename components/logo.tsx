@@ -29,7 +29,7 @@ export function Wordmark({ className }: { className?: string }) {
       <LogoMark />
       <span className="flex flex-col leading-none">
         <span className="font-serif text-[17px] tracking-tight text-foreground">{wordmark.top}</span>
-        <span className="text-[11px] leading-none text-muted-foreground">
+        <span className="text-[10px] leading-none text-muted-foreground">
           {wordmark.bottom}
         </span>
       </span>

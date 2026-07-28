@@ -17,7 +17,7 @@ export function Axes() {
     <section id="axes" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
       <div className="mb-14 max-w-2xl">
         <Reveal>
-          <p className="mb-4 text-sm text-muted-foreground">
+          <p className="mb-4 text-xs text-muted-foreground">
             {t.kicker}
           </p>
         </Reveal>

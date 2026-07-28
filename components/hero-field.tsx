@@ -3,11 +3,12 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * A dense field of small dots filling the panel, animated by two wave
- * sources interfering — one blue, one vermilion, drifting slowly. Each
- * dot's size, brightness and colour come from the combined amplitude at
- * its position, so crests sweep continuously through the grid and the two
- * fields blend where they meet: the two axes, one surface.
+ * The two métiers, read left to right. Two wave sources — conseil in blue
+ * above, souveraineté in vermilion below — interfere across the left of
+ * the panel, and their energy travels rightward and settles into an even,
+ * steady lattice against the edge the stats card sits on: turbulence in,
+ * structure out. The field deliberately does not fade on that edge, so it
+ * runs into the card rather than stopping short of it.
  *
  * Canvas 2D, paused when offscreen, still under reduced motion. The dots
  * also lift toward the cursor, matching the Europe map.
@@ -52,7 +53,7 @@ export function HeroField() {
 
     let width = 0
     let height = 0
-    let cells: { x: number; y: number; edge: number; delay: number }[] = []
+    let cells: { x: number; y: number; edge: number; order: number; delay: number }[] = []
     let time = reduceMotion ? 1.9 : 0
     let reveal = reduceMotion ? 1 : 0
 
@@ -73,11 +74,11 @@ export function HeroField() {
         for (let c = 0; c <= cols; c++) {
           const x = offX + c * GAP
           const y = offY + r * GAP
-          /* Fade toward the panel's edges so the field has no hard border. */
-          const edge =
-            smoothstep(Math.min(x, width - x) / 46) * smoothstep(Math.min(y, height - y) / 40)
+          /* Fades on three sides; the right edge stays strong so the
+             field carries into the card instead of stopping short. */
+          const edge = smoothstep(x / 54) * smoothstep(Math.min(y, height - y) / 40)
           if (edge <= 0.01) continue
-          cells.push({ x, y, edge, delay: (x + y * 0.35) / diag })
+          cells.push({ x, y, edge, order: smoothstep((x / width - 0.4) / 0.42), delay: (x + y * 0.35) / diag })
         }
       }
     }
@@ -131,7 +132,11 @@ export function HeroField() {
         const w1 = Math.sin(k * d1 - omega * time) * f1
         const w2 = Math.sin(k * d2 - omega * time + 1.1) * f2
         /* Crests read bright, troughs fade back into the paper. */
-        const amp = Math.pow(smoothstep((w1 + w2) * 0.95 + 0.46), 1.35)
+        const turbulent = Math.pow(smoothstep((w1 + w2) * 0.95 + 0.46), 1.35)
+        /* Toward the card the interference resolves into an even lattice
+           that only breathes, so the right of the panel reads as settled. */
+        const settled = 0.46 + 0.12 * Math.sin(cell.x * 0.02 - time * 0.9)
+        const amp = turbulent + (settled - turbulent) * cell.order
 
         const lift = influence > 0.004 ? field(cell.x, cell.y) : null
         const boost = lift?.f ?? 0
@@ -155,7 +160,9 @@ export function HeroField() {
                 NEUTRAL[1] + (BLUE[1] - NEUTRAL[1]) * ((tone - 0.5) * 2),
                 NEUTRAL[2] + (BLUE[2] - NEUTRAL[2]) * ((tone - 0.5) * 2),
               ]
-        const mixIn = Math.min(1, amp * 0.85 + boost * 0.5)
+        /* The settled zone belongs to neither axis, so its colour drains
+           back to neutral as the two fields resolve into one. */
+        const mixIn = Math.min(1, amp * 0.85 + boost * 0.5) * (1 - cell.order * 0.75)
         const r = NEUTRAL[0] + (hue[0] - NEUTRAL[0]) * mixIn
         const g = NEUTRAL[1] + (hue[1] - NEUTRAL[1]) * mixIn
         const b = NEUTRAL[2] + (hue[2] - NEUTRAL[2]) * mixIn

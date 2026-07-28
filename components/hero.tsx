@@ -20,8 +20,8 @@ export function Hero() {
         <div className="bloom bloom-red -right-48 top-8 h-[40rem] w-[40rem] [--bloom-shift:-18px]" />
       </PointerField>
 
-      <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-24 sm:px-8 sm:pt-32">
-        <h1 className="max-w-4xl text-balance font-serif text-5xl leading-[0.98] tracking-tight sm:text-7xl lg:text-[5.5rem]">
+      <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-20 sm:px-8 sm:pt-20">
+        <h1 className="max-w-4xl text-balance font-serif text-4xl leading-[1.0] tracking-tight sm:text-6xl lg:text-[3.9rem]">
           {t.headline.map((line, i) => (
             <span
               key={line.text}
@@ -34,14 +34,14 @@ export function Hero() {
         </h1>
 
         <p
-          className="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground animate-rise"
+          className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground animate-rise"
           style={{ animationDelay: '0.6s' }}
         >
           {t.intro}
         </p>
 
         <div
-          className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center animate-rise"
+          className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center animate-rise"
           style={{ animationDelay: '0.72s' }}
         >
           <a
@@ -67,7 +67,7 @@ export function Hero() {
             {/* The field fills the whole cell and is its own hover surface */}
             <div
               data-flow-surface
-              className="relative min-h-[380px] border-b border-border md:border-b-0 md:border-r"
+              className="relative min-h-[280px] border-b border-border md:border-b-0 md:border-r"
             >
               <HeroField />
             </div>

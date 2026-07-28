@@ -12,7 +12,7 @@ export function Manifesto() {
   return (
     <section id="manifeste" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
       <Reveal className="mb-12">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           {t.kicker}
         </p>
       </Reveal>
