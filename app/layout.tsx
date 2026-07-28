@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
+import { defaultLocale, getMessages } from '@/lib/i18n'
 import './globals.css'
 
 const geist = Geist({
@@ -24,9 +25,8 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'La Française du Logiciel · Conseil et souveraineté numérique',
-  description:
-    "La Française du Logiciel conçoit des logiciels métier qui font gagner du temps aux entreprises, et bâtit l'infrastructure de la souveraineté numérique française et européenne.",
+  title: getMessages().metadata.title,
+  description: getMessages().metadata.description,
   generator: 'v0.app',
 }
 
@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="fr"
+      lang={defaultLocale}
       className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} bg-background`}
     >
       <body className="font-sans antialiased">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { getIntlTag } from '@/lib/i18n'
 
 interface CountUpProps {
   to: number
@@ -50,7 +51,11 @@ export function CountUp({ to, from = 0, duration = 1400, decimals = 0, suffix = 
     }
   }, [from, to, duration])
 
-  const display = decimals > 0 ? value.toFixed(decimals).replace('.', ',') : String(Math.round(value))
+  /* Locale-aware: decimal separator and grouping follow the active locale. */
+  const display = new Intl.NumberFormat(getIntlTag(), {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  }).format(value)
 
   return (
     <span ref={ref} className={className}>

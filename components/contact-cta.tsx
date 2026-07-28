@@ -2,8 +2,11 @@ import { Mail } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
 import { Reveal } from '@/components/reveal'
+import { getMessages } from '@/lib/i18n'
 
 export function ContactCta() {
+  const t = getMessages().contact
+
   return (
     <section id="contact" className="relative overflow-hidden border-t border-border bg-card/30">
       {/* A soft tricolor light rising from below, drifting with the cursor */}
@@ -17,30 +20,29 @@ export function ContactCta() {
           <div className="max-w-2xl">
             <Reveal>
               <p className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
-                Travaillons ensemble
+                {t.kicker}
               </p>
             </Reveal>
             <Reveal variant="mask-rise" delay={90}>
               <h2 className="text-balance font-serif text-4xl leading-[1.05] tracking-tight sm:text-6xl">
-                Un projet à construire, une souveraineté à défendre.
+                {t.title}
               </h2>
             </Reveal>
             <Reveal delay={200}>
               <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
-                Parlons de votre logiciel métier, de votre infrastructure, ou des deux. Premier
-                échange sans engagement.
+                {t.intro}
               </p>
             </Reveal>
           </div>
 
           <Reveal delay={260} className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[18rem]">
             <a
-              href="mailto:contact@lafrancaisedulogiciel.fr"
+              href={`mailto:${t.email}`}
               className="arrow-hover sheen inline-flex items-center justify-between gap-4 rounded-md bg-foreground px-6 py-4 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
             >
               <span className="inline-flex items-center gap-2.5">
                 <Mail className="h-4 w-4" />
-                Nous écrire
+                {t.write}
               </span>
               <HoverArrow />
             </a>
@@ -48,11 +50,11 @@ export function ContactCta() {
               href="#top"
               className="arrow-hover inline-flex items-center justify-between gap-4 rounded-md border border-border px-6 py-4 text-sm font-medium text-foreground transition-colors duration-300 ease-out hover:border-foreground/40 hover:bg-card"
             >
-              Prendre rendez-vous
+              {t.book}
               <HoverArrow />
             </a>
             <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              Réponse sous 48h ouvrées
+              {t.responseTime}
             </p>
           </Reveal>
         </div>

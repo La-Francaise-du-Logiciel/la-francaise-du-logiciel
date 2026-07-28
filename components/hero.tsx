@@ -5,8 +5,12 @@ import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
 import { Reveal } from '@/components/reveal'
 import { StackDiagram } from '@/components/stack-diagram'
+import { getMessages } from '@/lib/i18n'
+import { cn } from '@/lib/utils'
 
 export function Hero() {
+  const t = getMessages().hero
+
   return (
     <section id="top" className="relative isolate overflow-hidden pt-16">
       <AnimatedBackground />
@@ -19,33 +23,22 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-24 sm:px-8 sm:pt-32">
         <h1 className="max-w-4xl text-balance font-serif text-5xl leading-[0.98] tracking-tight sm:text-7xl lg:text-[5.5rem]">
-          <span className="block animate-rise" style={{ animationDelay: '0.05s' }}>
-            Le logiciel qui vous
-          </span>
-          <span className="block animate-rise" style={{ animationDelay: '0.18s' }}>
-            fait gagner du temps,
-          </span>
-          <span
-            className="block animate-rise italic text-[var(--blue)]"
-            style={{ animationDelay: '0.31s' }}
-          >
-            l&apos;infrastructure qui vous
-          </span>
-          <span
-            className="block animate-rise italic text-[var(--blue)]"
-            style={{ animationDelay: '0.44s' }}
-          >
-            rend indépendant.
-          </span>
+          {t.headline.map((line, i) => (
+            <span
+              key={line.text}
+              className={cn('block animate-rise', 'accent' in line && 'italic text-[var(--blue)]')}
+              style={{ animationDelay: `${0.05 + i * 0.13}s` }}
+            >
+              {line.text}
+            </span>
+          ))}
         </h1>
 
         <p
           className="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground animate-rise"
           style={{ animationDelay: '0.6s' }}
         >
-          La Française du Logiciel conçoit des logiciels métier sur mesure et bâtit
-          l&apos;infrastructure de la souveraineté numérique française et européenne. Deux métiers,
-          une même conviction&nbsp;: la technologie doit servir ceux qui l&apos;emploient.
+          {t.intro}
         </p>
 
         <div
@@ -56,14 +49,14 @@ export function Hero() {
             href="#contact"
             className="arrow-hover sheen inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
-            Démarrer un projet
+            {t.ctaPrimary}
             <HoverArrow />
           </a>
           <a
             href="#conseil"
             className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors duration-300 ease-out hover:border-foreground/40 hover:bg-card"
           >
-            Découvrir nos deux axes
+            {t.ctaSecondary}
           </a>
         </div>
       </div>
@@ -81,21 +74,18 @@ export function Hero() {
 
             <div className="flex flex-col justify-center gap-6 p-8 sm:p-10">
               <div className="grid grid-cols-3 gap-6">
-                <Stat label="axes complémentaires">
+                <Stat label={t.stats[0].label}>
                   <CountUp to={2} />
                 </Stat>
-                <Stat label="données en Europe">
+                <Stat label={t.stats[1].label}>
                   <CountUp to={100} suffix="%" />
                 </Stat>
                 {/* Dependency counting down to zero: that is the point */}
-                <Stat label="dépendance imposée">
+                <Stat label={t.stats[2].label}>
                   <CountUp to={0} from={100} />
                 </Stat>
               </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Nous construisons des outils qui créent de la valeur, sur des fondations que vous
-                maîtrisez de bout en bout, du code à l&apos;hébergement.
-              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">{t.note}</p>
             </div>
           </div>
         </div>

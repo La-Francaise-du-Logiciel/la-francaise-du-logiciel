@@ -1,30 +1,10 @@
 import type { CSSProperties } from 'react'
 import { Reveal } from '@/components/reveal'
-
-const STEPS = [
-  {
-    num: '01',
-    title: 'Comprendre',
-    desc: "Nous partons de votre métier, pas d'une solution toute faite. Cadrage précis des enjeux, des flux et de la valeur attendue.",
-  },
-  {
-    num: '02',
-    title: 'Concevoir',
-    desc: 'Architecture claire, choix technologiques durables et ouverts. Chaque brique est pensée pour rester la vôtre.',
-  },
-  {
-    num: '03',
-    title: 'Construire',
-    desc: 'Développement itératif, livraisons régulières et lisibles. Vous voyez le produit prendre forme, sans effet tunnel.',
-  },
-  {
-    num: '04',
-    title: 'Maîtriser',
-    desc: "Déploiement sur une infrastructure souveraine, documentation et transfert. L'autonomie plutôt que la dépendance.",
-  },
-]
+import { getMessages } from '@/lib/i18n'
 
 export function Approach() {
+  const t = getMessages().approach
+
   return (
     <section id="approche" className="relative border-y border-border bg-card/30">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
@@ -32,20 +12,17 @@ export function Approach() {
           <div className="max-w-2xl">
             <Reveal>
               <p className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
-                Notre approche
+                {t.kicker}
               </p>
             </Reveal>
             <Reveal variant="mask-rise" delay={90}>
               <h2 className="text-balance font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
-                Une méthode d&apos;ingénieur, une exigence d&apos;artisan.
+                {t.title}
               </h2>
             </Reveal>
           </div>
           <Reveal delay={200}>
-            <p className="max-w-sm text-pretty leading-relaxed text-muted-foreground">
-              La même rigueur, que l&apos;on construise votre logiciel métier ou une brique
-              d&apos;infrastructure d&apos;intérêt collectif.
-            </p>
+            <p className="max-w-sm text-pretty leading-relaxed text-muted-foreground">{t.intro}</p>
           </Reveal>
         </div>
 
@@ -55,7 +32,7 @@ export function Approach() {
           variant="group"
           className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4"
         >
-          {STEPS.map((step, i) => (
+          {t.steps.map((step, i) => (
             <li
               key={step.num}
               className="step flex min-h-[15rem] flex-col justify-between bg-background p-7 transition-colors duration-300 ease-out hover:bg-card"

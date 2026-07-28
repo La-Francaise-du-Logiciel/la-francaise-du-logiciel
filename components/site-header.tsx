@@ -4,16 +4,11 @@ import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
 import { Wordmark } from '@/components/logo'
+import { getMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
-const NAV = [
-  { label: 'Conseil', href: '#conseil' },
-  { label: 'Souveraineté', href: '#souverainete' },
-  { label: 'Notre approche', href: '#approche' },
-  { label: 'Manifeste', href: '#manifeste' },
-]
-
 export function SiteHeader() {
+  const t = getMessages()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -32,14 +27,14 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <a href="#top" className="shrink-0" aria-label="Accueil, La Française du Logiciel">
+        <a href="#top" className="shrink-0" aria-label={t.brand.homeLabel}>
           <Wordmark />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Navigation principale">
-          {NAV.map((item) => (
+        <nav className="hidden items-center gap-8 md:flex" aria-label={t.nav.primaryLabel}>
+          {t.nav.items.map((item) => (
             <a
-              key={item.href}
+              key={item.key}
               href={item.href}
               className="underline-slide text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
             >
@@ -53,7 +48,7 @@ export function SiteHeader() {
             href="#contact"
             className="arrow-hover inline-flex items-center gap-1.5 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
-            Nous parler
+            {t.nav.cta}
             <HoverArrow />
           </a>
         </div>
@@ -62,7 +57,7 @@ export function SiteHeader() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground md:hidden"
-          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={open}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -71,10 +66,10 @@ export function SiteHeader() {
 
       {open && (
         <div className="border-t border-border bg-background/95 backdrop-blur-md md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col px-5 py-4 sm:px-8" aria-label="Navigation mobile">
-            {NAV.map((item) => (
+          <nav className="mx-auto flex max-w-6xl flex-col px-5 py-4 sm:px-8" aria-label={t.nav.mobileLabel}>
+            {t.nav.items.map((item) => (
               <a
-                key={item.href}
+                key={item.key}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="border-b border-border/60 py-3 text-base text-foreground last:border-0"
@@ -87,7 +82,7 @@ export function SiteHeader() {
               onClick={() => setOpen(false)}
               className="arrow-hover mt-4 inline-flex items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background"
             >
-              Nous parler
+              {t.nav.cta}
               <HoverArrow />
             </a>
           </nav>

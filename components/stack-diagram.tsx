@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, type CSSProperties } from 'react'
+import { getMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 /**
@@ -16,32 +17,33 @@ import { cn } from '@/lib/utils'
 
 const PLATES = [
   {
+    key: 'interfaces',
     z: 96,
     accent: 'var(--blue)',
     fill: 'oklch(0.48 0.19 262 / 7%)',
-    label: 'Interfaces & produits',
     labelTop: '11%',
     delay: 360,
   },
   {
+    key: 'core',
     z: 0,
     accent: 'oklch(0.21 0.03 264 / 55%)',
     fill: 'oklch(0.21 0.03 264 / 5%)',
-    label: 'Cœur métier',
     labelTop: '46%',
     delay: 180,
   },
   {
+    key: 'infrastructure',
     z: -96,
     accent: 'var(--red)',
     fill: 'oklch(0.55 0.22 27 / 7%)',
-    label: 'Infrastructure souveraine',
     labelTop: '81%',
     delay: 0,
   },
-]
+] as const
 
 export function StackDiagram({ className }: { className?: string }) {
+  const t = getMessages().stack
   const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export function StackDiagram({ className }: { className?: string }) {
   }, [])
 
   return (
-    <div ref={ref} className={cn('stack-scene', className)} aria-hidden="true">
+    <div ref={ref} className={cn('stack-scene', className)} role="img" aria-label={t.label}>
       <div className="stack-3d">
         <div className="stack-shadow" />
         {PLATES.map((plate) => (
@@ -106,12 +108,12 @@ export function StackDiagram({ className }: { className?: string }) {
       <div className="stack-labels">
         {PLATES.map((plate) => (
           <span
-            key={plate.label}
+            key={plate.key}
             className="stack-label"
             style={{ top: plate.labelTop, '--plate-delay': `${plate.delay + 500}ms` } as CSSProperties}
           >
             <span className="stack-label__tick" style={{ background: plate.accent }} />
-            {plate.label}
+            {t.plates[plate.key]}
           </span>
         ))}
       </div>
