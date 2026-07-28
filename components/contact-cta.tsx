@@ -9,10 +9,17 @@ export function ContactCta() {
 
   return (
     <section id="contact" className="relative overflow-hidden border-t border-border bg-card/30">
-      {/* A soft tricolor light rising from below, drifting with the cursor */}
+      {/* A soft tricolor light rising from below, drifting with the cursor.
+          The two are deliberately mismatched: the blue one is tall, low and
+          well to the left, the red one wide, higher and short of the edge,
+          and they change shape on different clocks so they never mirror. */}
       <PointerField className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="bloom bloom-blue -bottom-64 left-[4%] h-[34rem] w-[34rem]" />
-        <div className="bloom bloom-red -bottom-72 right-[2%] h-[38rem] w-[38rem] [--bloom-shift:-18px]" />
+        <div className="bloom -bottom-[22rem] left-[-8%] h-[46rem] w-[34rem]">
+          <div className="bloom__shape bloom-blue [--bloom-morph-duration:24s]" />
+        </div>
+        <div className="bloom -bottom-56 right-[12%] h-[30rem] w-[44rem] [--bloom-shift:-16px]">
+          <div className="bloom__shape bloom-red [--bloom-morph-delay:-9s] [--bloom-morph-duration:33s]" />
+        </div>
       </PointerField>
 
       <div className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">

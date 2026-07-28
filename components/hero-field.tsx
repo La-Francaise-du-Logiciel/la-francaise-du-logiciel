@@ -68,6 +68,9 @@ export function HeroField() {
       const offX = (width - cols * GAP) / 2
       const offY = (height - rows * GAP) / 2
       const diag = Math.hypot(width, height) || 1
+      /* A long dissolve into the paper, so the section below does not
+         start against a hard edge of dots. */
+      const bottomFade = Math.max(44, Math.min(190, height * 0.32))
 
       for (let r = 0; r <= rows; r++) {
         for (let c = 0; c <= cols; c++) {
@@ -75,7 +78,7 @@ export function HeroField() {
           const y = offY + r * GAP
           /* Out at the very edges; the top fade is deep enough to help
              clear the header, and the right runs off the page. */
-          const edge = smoothstep(x / 30) * smoothstep(y / 90) * smoothstep((height - y) / 44)
+          const edge = smoothstep(x / 30) * smoothstep(y / 90) * smoothstep((height - y) / bottomFade)
           if (edge <= 0.01) continue
           /* Barely there behind the headline, full strength past it. */
           const presence = 0.13 + 0.87 * smoothstep((x / width - 0.46) / 0.26)
