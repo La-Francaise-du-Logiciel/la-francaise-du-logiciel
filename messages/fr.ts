@@ -59,7 +59,7 @@ export const fr = {
       items: [
         {
           title: 'Sites et applications web',
-          desc: 'Vitrine, espace client, back-office. Rapides à charger, simples à faire évoluer.',
+          desc: 'Espace client, back-office, outil interne. Rapides à charger, simples à faire évoluer.',
         },
         {
           title: 'Logiciels métier',
@@ -79,14 +79,14 @@ export const fr = {
       items: [
         {
           title: 'Fournisseurs européens',
-          desc: 'Scaleway, Plausible et quelques autres, choisis pour que rien ne sorte de l’Union.',
+          desc: 'Hébergement, mesure d’audience, envoi d’e-mails : uniquement des prestataires soumis au droit européen.',
         },
         {
           title: 'Plateforme de déploiement',
           desc: 'Une alternative européenne à Vercel. En construction.',
         },
         {
-          title: 'Forge logicielle',
+          title: 'Hébergement de code',
           desc: 'Une alternative à GitHub. Prévue ensuite.',
         },
       ],
@@ -166,7 +166,7 @@ export const fr = {
       'Dites-nous ce que vous voulez construire, ou ce qui vous coince aujourd’hui. Le premier échange ne vous engage à rien.',
     email: 'contact@lafrancaisedulogiciel.fr',
     write: 'Nous écrire',
-    responseTime: 'Réponse sous 48 heures ouvrées',
+    responseTime: 'Réponse sous 24 heures ouvrées',
   },
 
   footer: {

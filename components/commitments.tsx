@@ -8,7 +8,7 @@ import { getMessages } from '@/lib/i18n'
    we control, not measurements we cannot yet back up. */
 const VALUES = [
   { to: 1 },
-  { to: 48 },
+  { to: 24 },
   { to: 100, suffix: ' %' },
   { to: 0, from: 100 },
 ]

@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Instrument_Serif } from 'next/font/google'
 import { defaultLocale, getMessages } from '@/lib/i18n'
@@ -21,7 +20,6 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: getMessages().metadata.title,
   description: getMessages().metadata.description,
-  generator: 'v0.app',
 }
 
 export const viewport: Viewport = {
@@ -41,7 +39,6 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )
