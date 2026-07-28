@@ -1,18 +1,12 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
+import { Geist, Instrument_Serif } from 'next/font/google'
 import { defaultLocale, getMessages } from '@/lib/i18n'
 import './globals.css'
 
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-geist',
-  display: 'swap',
-})
-
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-geist-mono',
   display: 'swap',
 })
 
@@ -43,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang={defaultLocale}
-      className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} bg-background`}
+      className={`${geist.variable} ${instrumentSerif.variable} bg-background`}
     >
       <body className="font-sans antialiased">
         {children}

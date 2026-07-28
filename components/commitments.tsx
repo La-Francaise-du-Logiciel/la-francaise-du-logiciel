@@ -21,7 +21,7 @@ export function Commitments() {
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
+              <p className="mb-4 text-sm text-muted-foreground">
                 {t.kicker}
               </p>
             </Reveal>
@@ -65,7 +65,7 @@ export function Commitments() {
 
       <div className="relative mx-auto max-w-6xl px-5 pb-16 sm:px-8">
         <Reveal delay={120} className="text-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
+          <p className="font-serif text-xl italic text-muted-foreground">
             {t.caption}
           </p>
         </Reveal>

@@ -24,7 +24,7 @@ export function SiteFooter() {
 
           {t.columns.map((col) => (
             <div key={col.key} className="flex flex-col gap-4">
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.24em] text-foreground">
+              <h3 className="text-sm font-medium text-foreground">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-2.5">

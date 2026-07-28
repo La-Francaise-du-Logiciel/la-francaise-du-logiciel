@@ -3,8 +3,7 @@ import { AnimatedBackground } from '@/components/animated-background'
 import { CountUp } from '@/components/count-up'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
-import { Reveal } from '@/components/reveal'
-import { HeroFlow } from '@/components/hero-flow'
+import { HeroField } from '@/components/hero-field'
 import { getMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
@@ -61,23 +60,17 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Centerpiece: the two axes converging into one trajectory */}
+      {/* Centerpiece: the interference field of the two axes */}
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="relative overflow-hidden rounded-xl border border-border bg-card/40">
           <div className="grid gap-0 md:grid-cols-[1.15fr_1fr]">
-            <Reveal
-              variant="group"
-              className="min-h-[320px] border-b border-border md:border-b-0 md:border-r"
+            {/* The field fills the whole cell and is its own hover surface */}
+            <div
+              data-flow-surface
+              className="relative min-h-[380px] border-b border-border md:border-b-0 md:border-r"
             >
-              {/* The whole cell is the hover surface, so the dots respond
-                  as the cursor approaches rather than only over the art */}
-              <div
-                data-flow-surface
-                className="flex h-full w-full items-center justify-center p-6 sm:p-8"
-              >
-                <HeroFlow />
-              </div>
-            </Reveal>
+              <HeroField />
+            </div>
 
             <div className="flex flex-col justify-center gap-6 p-8 sm:p-10">
               <div className="grid grid-cols-3 gap-6">

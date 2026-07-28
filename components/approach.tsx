@@ -11,7 +11,7 @@ export function Approach() {
         <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
+              <p className="mb-4 text-sm text-muted-foreground">
                 {t.kicker}
               </p>
             </Reveal>
@@ -39,7 +39,7 @@ export function Approach() {
               style={{ '--step-delay': `${i * 180}ms` } as CSSProperties}
             >
               <div className="flex items-center gap-3">
-                <span className="step-num font-mono text-sm text-[var(--blue)]">{step.num}</span>
+                <span className="step-num font-serif text-lg leading-none text-[var(--blue)]">{step.num}</span>
                 <span className="step-line h-px flex-1 bg-border" />
               </div>
               <div className="step-body">

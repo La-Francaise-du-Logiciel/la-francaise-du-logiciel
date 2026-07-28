@@ -19,7 +19,7 @@ export function ContactCta() {
         <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
+              <p className="mb-4 text-sm text-muted-foreground">
                 {t.kicker}
               </p>
             </Reveal>
@@ -53,7 +53,7 @@ export function ContactCta() {
               {t.book}
               <HoverArrow />
             </a>
-            <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="mt-2 text-xs text-muted-foreground">
               {t.responseTime}
             </p>
           </Reveal>

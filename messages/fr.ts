@@ -54,11 +54,6 @@ export const fr = {
     note: 'Nous construisons des outils qui créent de la valeur, sur des fondations que vous maîtrisez de bout en bout, du code à l’hébergement.',
   },
 
-  heroFlow: {
-    label:
-      'Schéma : deux axes, conseil et souveraineté, convergeant vers une même trajectoire',
-  },
-
   axes: {
     kicker: 'Deux axes / une trajectoire',
     title: 'Nous créons de la valeur, et nous la protégeons.',
