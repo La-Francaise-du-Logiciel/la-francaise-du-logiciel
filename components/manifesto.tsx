@@ -11,12 +11,6 @@ export function Manifesto() {
 
   return (
     <section id="manifeste" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
-      <Reveal className="mb-12">
-        <p className="text-xs text-muted-foreground">
-          {t.kicker}
-        </p>
-      </Reveal>
-
       <Reveal variant="group">
         <blockquote className="max-w-4xl">
           <p className="text-balance font-serif text-3xl leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl">

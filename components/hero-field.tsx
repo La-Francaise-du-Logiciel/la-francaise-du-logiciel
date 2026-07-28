@@ -3,12 +3,10 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * The two métiers, read left to right. Two wave sources — conseil in blue
- * above, souveraineté in vermilion below — interfere across the left of
- * the panel, and their energy travels rightward and settles into an even,
- * steady lattice against the edge the stats card sits on: turbulence in,
- * structure out. The field deliberately does not fade on that edge, so it
- * runs into the card rather than stopping short of it.
+ * The two métiers as one surface. Two wave sources, conseil in blue above
+ * and souveraineté in vermilion below, interfere continuously across the
+ * panel; where they meet the colour resolves to neutral. It fades out
+ * against the headline on its left and runs off the right of the page.
  *
  * Canvas 2D, paused when offscreen, still under reduced motion. The dots
  * also lift toward the cursor, matching the Europe map.
@@ -18,7 +16,7 @@ const NEUTRAL: RGB = [96, 104, 128]
 const BLUE: RGB = [37, 66, 178]
 const RED: RGB = [201, 62, 45]
 
-/** Grid pitch in CSS pixels — small and tight. */
+/** Grid pitch in CSS pixels: small and tight. */
 const GAP = 12
 const DOT = 1.5
 
@@ -53,7 +51,7 @@ export function HeroField() {
 
     let width = 0
     let height = 0
-    let cells: { x: number; y: number; edge: number; order: number; delay: number }[] = []
+    let cells: { x: number; y: number; edge: number; delay: number }[] = []
     let time = reduceMotion ? 1.9 : 0
     let reveal = reduceMotion ? 1 : 0
 
@@ -74,11 +72,11 @@ export function HeroField() {
         for (let c = 0; c <= cols; c++) {
           const x = offX + c * GAP
           const y = offY + r * GAP
-          /* Fades on three sides; the right edge stays strong so the
-             field carries into the card instead of stopping short. */
-          const edge = smoothstep(x / 54) * smoothstep(Math.min(y, height - y) / 40)
+          /* Fades toward the text on the left and softly top and bottom;
+             the right runs off the page, so it keeps its full strength. */
+          const edge = smoothstep(x / 70) * smoothstep(Math.min(y, height - y) / 44)
           if (edge <= 0.01) continue
-          cells.push({ x, y, edge, order: smoothstep((x / width - 0.4) / 0.42), delay: (x + y * 0.35) / diag })
+          cells.push({ x, y, edge, delay: (x + y * 0.35) / diag })
         }
       }
     }
@@ -132,11 +130,7 @@ export function HeroField() {
         const w1 = Math.sin(k * d1 - omega * time) * f1
         const w2 = Math.sin(k * d2 - omega * time + 1.1) * f2
         /* Crests read bright, troughs fade back into the paper. */
-        const turbulent = Math.pow(smoothstep((w1 + w2) * 0.95 + 0.46), 1.35)
-        /* Toward the card the interference resolves into an even lattice
-           that only breathes, so the right of the panel reads as settled. */
-        const settled = 0.46 + 0.12 * Math.sin(cell.x * 0.02 - time * 0.9)
-        const amp = turbulent + (settled - turbulent) * cell.order
+        const amp = Math.pow(smoothstep((w1 + w2) * 0.95 + 0.46), 1.35)
 
         const lift = influence > 0.004 ? field(cell.x, cell.y) : null
         const boost = lift?.f ?? 0
@@ -144,8 +138,8 @@ export function HeroField() {
         const size = DOT * (0.55 + amp * 1.05 + boost * 1.1)
         const alpha = (0.07 + amp * 0.46 + boost * 0.34) * cell.edge * appear
 
-        /* Colour by which source is nearer, running red → neutral → blue
-           rather than straight red → blue, which would go muddy purple
+        /* Colour by which source is nearer, running red to neutral to blue
+           rather than straight red to blue, which would go muddy purple
            across the whole middle of the panel. */
         const tone = smoothstep((d2 - d1) / BLEND / 2 + 0.5)
         const hue: RGB =
@@ -160,9 +154,7 @@ export function HeroField() {
                 NEUTRAL[1] + (BLUE[1] - NEUTRAL[1]) * ((tone - 0.5) * 2),
                 NEUTRAL[2] + (BLUE[2] - NEUTRAL[2]) * ((tone - 0.5) * 2),
               ]
-        /* The settled zone belongs to neither axis, so its colour drains
-           back to neutral as the two fields resolve into one. */
-        const mixIn = Math.min(1, amp * 0.85 + boost * 0.5) * (1 - cell.order * 0.75)
+        const mixIn = Math.min(1, amp * 0.85 + boost * 0.5)
         const r = NEUTRAL[0] + (hue[0] - NEUTRAL[0]) * mixIn
         const g = NEUTRAL[1] + (hue[1] - NEUTRAL[1]) * mixIn
         const b = NEUTRAL[2] + (hue[2] - NEUTRAL[2]) * mixIn

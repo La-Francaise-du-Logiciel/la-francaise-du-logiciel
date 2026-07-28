@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react'
 import { AnimatedBackground } from '@/components/animated-background'
-import { CountUp } from '@/components/count-up'
+import { HeroField } from '@/components/hero-field'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
-import { HeroField } from '@/components/hero-field'
 import { getMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
@@ -20,8 +18,8 @@ export function Hero() {
         <div className="bloom bloom-red -right-48 top-8 h-[40rem] w-[40rem] [--bloom-shift:-18px]" />
       </PointerField>
 
-      <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-20 sm:px-8 sm:pt-20">
-        <h1 className="max-w-4xl text-balance font-serif text-4xl leading-[1.0] tracking-tight sm:text-6xl lg:text-[3.9rem]">
+      <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-24">
+        <h1 className="max-w-[38rem] text-balance font-serif text-4xl leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.1rem] xl:text-[3.6rem]">
           {t.headline.map((line, i) => (
             <span
               key={line.text}
@@ -60,45 +58,14 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Centerpiece: the interference field of the two axes */}
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="relative overflow-hidden rounded-xl border border-border bg-card/40">
-          <div className="grid gap-0 md:grid-cols-[1.15fr_1fr]">
-            {/* The field fills the whole cell and is its own hover surface */}
-            <div
-              data-flow-surface
-              className="relative min-h-[280px] border-b border-border md:border-b-0 md:border-r"
-            >
-              <HeroField />
-            </div>
-
-            <div className="flex flex-col justify-center gap-6 p-8 sm:p-10">
-              <div className="grid grid-cols-3 gap-6">
-                <Stat label={t.stats[0].label}>
-                  <CountUp to={2} />
-                </Stat>
-                <Stat label={t.stats[1].label}>
-                  <CountUp to={100} suffix="%" />
-                </Stat>
-                {/* Dependency counting down to zero: that is the point */}
-                <Stat label={t.stats[2].label}>
-                  <CountUp to={0} from={100} />
-                </Stat>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">{t.note}</p>
-            </div>
-          </div>
-        </div>
+      {/* Beside the headline on wide screens, running off the right edge of
+          the page; a band beneath the text once there is no room alongside. */}
+      <div
+        data-flow-surface
+        className="relative h-[220px] w-full sm:h-[260px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[38%] xl:w-[44%]"
+      >
+        <HeroField />
       </div>
     </section>
-  )
-}
-
-function Stat({ children, label }: { children: ReactNode; label: string }) {
-  return (
-    <div className="flex flex-col gap-1">
-      <span className="font-serif text-4xl leading-none text-foreground">{children}</span>
-      <span className="text-xs leading-snug text-muted-foreground">{label}</span>
-    </div>
   )
 }

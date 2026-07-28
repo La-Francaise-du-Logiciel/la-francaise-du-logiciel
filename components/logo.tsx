@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 /**
  * Geometric monogram for La Française du Logiciel.
- * Two stacked bars — blue over red — evoke both the tricolore and the
+ * Two stacked bars, blue over red, evoke both the tricolore and the
  * company's two axes: conseil (build) and souveraineté (foundation).
  */
 export function LogoMark({ className }: { className?: string }) {

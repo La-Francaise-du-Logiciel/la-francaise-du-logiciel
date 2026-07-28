@@ -1,6 +1,6 @@
 /**
  * French message catalogue. Every user-visible string on the site lives
- * here — including alt text, aria labels and metadata — so a new locale
+ * here, including alt text, aria labels and metadata, so a new locale
  * is a sibling file plus an entry in lib/i18n.ts.
  *
  * ` ` is the narrow no-break space French typography puts before
@@ -46,16 +46,9 @@ export const fr = {
       'La Française du Logiciel conçoit des logiciels métier sur mesure et bâtit l’infrastructure de la souveraineté numérique française et européenne. Deux métiers, une même conviction : la technologie doit servir ceux qui l’emploient.',
     ctaPrimary: 'Démarrer un projet',
     ctaSecondary: 'Découvrir nos deux axes',
-    stats: [
-      { key: 'axes', label: 'axes complémentaires' },
-      { key: 'data', label: 'données en Europe' },
-      { key: 'lockin', label: 'dépendance imposée' },
-    ],
-    note: 'Nous construisons des outils qui créent de la valeur, sur des fondations que vous maîtrisez de bout en bout, du code à l’hébergement.',
   },
 
   axes: {
-    kicker: 'Deux axes / une trajectoire',
     title: 'Nous créons de la valeur, et nous la protégeons.',
     conseil: {
       title: 'Le logiciel qui travaille pour vous',
@@ -101,7 +94,6 @@ export const fr = {
   },
 
   approach: {
-    kicker: 'Notre approche',
     title: 'Une méthode d’ingénieur, une exigence d’artisan.',
     intro:
       'La même rigueur, que l’on construise votre logiciel métier ou une brique d’infrastructure d’intérêt collectif.',
@@ -130,7 +122,6 @@ export const fr = {
   },
 
   manifesto: {
-    kicker: 'Manifeste',
     /* `accent` marks the phrases that ignite once the sentence settles. */
     quote: [
       { text: 'Nous croyons qu’un pays qui' },
@@ -155,21 +146,19 @@ export const fr = {
   },
 
   commitments: {
-    kicker: 'Valeur & souveraineté',
     title: 'La valeur chez vous, les données en Europe.',
     intro:
       'Du temps rendu à vos équipes, des outils qui vous appartiennent, une infrastructure que vous pouvez auditer. La performance n’exige pas de céder le contrôle.',
     stats: [
       { key: 'time', label: 'de temps en moins sur les tâches répétitives que nous automatisons' },
-      { key: 'ownership', label: 'du code livré, documenté et réversible : il vous appartient' },
+      { key: 'ownership', label: 'du code livré, documenté et réversible : il vous appartient' },
       { key: 'independence', label: 'dépendance imposée à des acteurs extra-européens' },
       { key: 'hosting', label: 'des données hébergées en France ou en Europe' },
     ],
-    caption: 'Vos données vivent ici — et nulle part ailleurs',
+    caption: 'Vos données vivent ici, et nulle part ailleurs',
   },
 
   contact: {
-    kicker: 'Travaillons ensemble',
     title: 'Un projet à construire, une souveraineté à défendre.',
     intro:
       'Parlons de votre logiciel métier, de votre infrastructure, ou des deux. Premier échange sans engagement.',

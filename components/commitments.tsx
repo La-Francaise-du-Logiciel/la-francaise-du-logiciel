@@ -20,12 +20,7 @@ export function Commitments() {
       <div className="relative mx-auto max-w-6xl px-5 pt-24 sm:px-8 sm:pt-32">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <Reveal>
-              <p className="mb-4 text-xs text-muted-foreground">
-                {t.kicker}
-              </p>
-            </Reveal>
-            <Reveal variant="mask-rise" delay={90}>
+            <Reveal variant="mask-rise">
               <h2 className="text-balance font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
                 {t.title}
               </h2>

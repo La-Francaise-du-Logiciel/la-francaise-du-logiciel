@@ -55,7 +55,7 @@ export function Reveal({ children, className, delay = 0, variant = 'fade-up', as
   const stateClass = visible ? classes.in : classes.init
 
   /* The mask clips its element to zero area, which stops IntersectionObserver
-     from ever seeing the wrapper intersect — so clip an inner element instead. */
+     from ever seeing the wrapper intersect, so clip an inner element instead. */
   if (variant === 'mask-rise') {
     return (
       <Tag ref={ref} className={className}>

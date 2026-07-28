@@ -16,12 +16,7 @@ export function Axes() {
   return (
     <section id="axes" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
       <div className="mb-14 max-w-2xl">
-        <Reveal>
-          <p className="mb-4 text-xs text-muted-foreground">
-            {t.kicker}
-          </p>
-        </Reveal>
-        <Reveal variant="mask-rise" delay={90}>
+        <Reveal variant="mask-rise">
           <h2 className="text-balance font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
             {t.title}
           </h2>

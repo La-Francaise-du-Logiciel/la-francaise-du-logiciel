@@ -18,12 +18,7 @@ export function ContactCta() {
       <div className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <Reveal>
-              <p className="mb-4 text-xs text-muted-foreground">
-                {t.kicker}
-              </p>
-            </Reveal>
-            <Reveal variant="mask-rise" delay={90}>
+            <Reveal variant="mask-rise">
               <h2 className="text-balance font-serif text-4xl leading-[1.05] tracking-tight sm:text-6xl">
                 {t.title}
               </h2>
