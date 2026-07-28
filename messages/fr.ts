@@ -3,14 +3,14 @@
  * here, including alt text, aria labels and metadata, so a new locale
  * is a sibling file plus an entry in lib/i18n.ts.
  *
- * ` ` is the narrow no-break space French typography puts before
- * `:` `;` `!` `?`; ` ` is the regular no-break space.
+ * ` ` is the narrow no-break space French typography puts before
+ * `:` `;` `!` `?`; ` ` is the regular no-break space.
  */
 export const fr = {
   metadata: {
-    title: 'La Française du Logiciel · Conseil et souveraineté numérique',
+    title: 'La Française du Logiciel · Logiciels métier, infrastructure européenne',
     description:
-      'La Française du Logiciel conçoit des logiciels métier qui font gagner du temps aux entreprises, et bâtit l’infrastructure de la souveraineté numérique française et européenne.',
+      'Nous développons des sites, des logiciels métier et des automatisations, et nous les déployons chez des fournisseurs européens. Nous construisons aussi les plateformes qui manquent encore pour se passer des géants américains.',
   },
 
   brand: {
@@ -30,93 +30,93 @@ export const fr = {
     items: [
       { key: 'conseil', label: 'Conseil', href: '#conseil' },
       { key: 'souverainete', label: 'Souveraineté', href: '#souverainete' },
-      { key: 'approche', label: 'Notre approche', href: '#approche' },
+      { key: 'approche', label: 'Méthode', href: '#approche' },
       { key: 'manifeste', label: 'Manifeste', href: '#manifeste' },
     ],
   },
 
   hero: {
     headline: [
-      { text: 'Le logiciel qui vous' },
-      { text: 'fait gagner du temps,' },
-      { text: 'l’infrastructure qui vous', accent: true },
-      { text: 'rend indépendant.', accent: true },
+      { text: 'Nous développons' },
+      { text: 'vos logiciels métier,' },
+      { text: 'et nous les hébergeons' },
+      { text: 'en Europe. Pas ailleurs.', accent: true },
     ],
     intro:
-      'La Française du Logiciel conçoit des logiciels métier sur mesure et bâtit l’infrastructure de la souveraineté numérique française et européenne. Deux métiers, une même conviction : la technologie doit servir ceux qui l’emploient.',
+      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes, et nous les déployons chez des fournisseurs européens. Scaleway plutôt qu’AWS. Plausible plutôt que Google Analytics.',
     ctaPrimary: 'Démarrer un projet',
-    ctaSecondary: 'Découvrir nos deux axes',
+    ctaSecondary: 'Ce que nous faisons',
   },
 
   axes: {
-    title: 'Nous créons de la valeur, et nous la protégeons.',
+    title: 'Ce que nous faisons.',
     conseil: {
-      title: 'Le logiciel qui travaille pour vous',
-      body: 'Nous accompagnons les entreprises pour concevoir des logiciels (sites, SaaS, automatisation IA) qui font gagner du temps et créent une valeur mesurable. Au sens large, tout ce qui transforme une contrainte en avantage.',
+      title: 'Développement sur mesure',
+      body: 'Nous partons de votre fonctionnement réel, pas d’un cahier des charges théorique. L’objectif est de remplacer les tableurs, les copier-coller et les allers-retours par e-mail par un outil qui fait le travail à leur place. Vous repartez avec le code, la documentation et les accès.',
       imageAlt:
         'Espace de travail d’un développeur, écran affichant du code dans une ambiance sombre',
       link: 'Parler de votre projet',
       items: [
         {
-          title: 'Sites & produits web',
-          desc: 'Des interfaces rapides, soignées et pensées pour convertir.',
+          title: 'Sites et applications web',
+          desc: 'Vitrine, espace client, back-office. Rapides à charger, simples à faire évoluer.',
         },
         {
-          title: 'SaaS sur mesure',
-          desc: 'Des plateformes métier taillées pour vos processus réels.',
+          title: 'Logiciels métier',
+          desc: 'Un outil qui suit votre façon de travailler, plutôt que l’inverse.',
         },
         {
-          title: 'Automatisation & IA',
-          desc: 'Des agents et flux qui absorbent les tâches répétitives.',
+          title: 'Automatisation et IA',
+          desc: 'Des scripts et des modèles sur les tâches répétitives, quand c’est justifié.',
         },
       ],
     },
     souverainete: {
-      title: 'L’infrastructure qui vous rend libre',
-      body: 'Nous bâtissons des produits et des infrastructures au service de la souveraineté numérique française et européenne, pour ne dépendre d’aucune puissance étrangère, qu’elle soit américaine, chinoise ou autre.',
+      title: 'Sortir de la dépendance américaine',
+      body: 'Par défaut, nous choisissons des fournisseurs européens : Scaleway pour l’hébergement, Plausible pour la mesure d’audience. Vos données restent soumises au droit européen, pas au CLOUD Act. Et là où l’équivalent européen n’existe pas encore, nous le construisons nous-mêmes.',
       imageAlt: 'Salle serveur d’un centre de données éclairée de bleu et de rouge',
-      link: 'Rejoindre le mouvement',
+      link: 'Suivre le projet',
       items: [
         {
-          title: 'Données protégées',
-          desc: 'Hébergement en France, conformité RGPD par défaut.',
+          title: 'Fournisseurs européens',
+          desc: 'Scaleway, Plausible et quelques autres, choisis pour que rien ne sorte de l’Union.',
         },
         {
-          title: 'Infrastructure ouverte',
-          desc: 'Des briques interopérables, sans verrou propriétaire.',
+          title: 'Plateforme de déploiement',
+          desc: 'Une alternative européenne à Vercel. En construction.',
         },
         {
-          title: 'Indépendance',
-          desc: 'Aucune dépendance imposée aux puissances extra-européennes.',
+          title: 'Forge logicielle',
+          desc: 'Une alternative à GitHub. Prévue ensuite.',
         },
       ],
     },
   },
 
   approach: {
-    title: 'Une méthode d’ingénieur, une exigence d’artisan.',
+    title: 'Comment nous travaillons.',
     intro:
-      'La même rigueur, que l’on construise votre logiciel métier ou une brique d’infrastructure d’intérêt collectif.',
+      'Quatre étapes, quelques semaines par projet. Vous voyez le produit avancer en continu et vous gardez la main du début à la fin.',
     steps: [
       {
         num: '01',
         title: 'Comprendre',
-        desc: 'Nous partons de votre métier, pas d’une solution toute faite. Cadrage précis des enjeux, des flux et de la valeur attendue.',
+        desc: 'Nous passons du temps dans votre métier avant d’écrire la moindre ligne. Il arrive que nous vous déconseillions la moitié de ce que vous aviez imaginé.',
       },
       {
         num: '02',
         title: 'Concevoir',
-        desc: 'Architecture claire, choix technologiques durables et ouverts. Chaque brique est pensée pour rester la vôtre.',
+        desc: 'Des choix techniques ennuyeux, documentés, sur des standards ouverts. Rien qu’une autre équipe ne puisse reprendre après nous.',
       },
       {
         num: '03',
-        title: 'Construire',
-        desc: 'Développement itératif, livraisons régulières et lisibles. Vous voyez le produit prendre forme, sans effet tunnel.',
+        title: 'Livrer',
+        desc: 'Une première version utilisable en quelques semaines, puis des itérations courtes. Pas de tunnel de six mois.',
       },
       {
         num: '04',
-        title: 'Maîtriser',
-        desc: 'Déploiement sur une infrastructure souveraine, documentation et transfert. L’autonomie plutôt que la dépendance.',
+        title: 'Vous passer la main',
+        desc: 'Le code, la documentation et les accès vous appartiennent. Si vous voulez continuer sans nous, rien ne vous en empêche.',
       },
     ],
   },
@@ -124,69 +124,80 @@ export const fr = {
   manifesto: {
     /* `accent` marks the phrases that ignite once the sentence settles. */
     quote: [
-      { text: 'Nous croyons qu’un pays qui' },
-      { text: 'maîtrise ses logiciels', accent: 'blue' },
-      { text: 'maîtrise son avenir. Que la performance et l’indépendance ne s’opposent pas,' },
-      { text: 'elles se renforcent.', accent: 'red' },
+      {
+        text: 'Pendant vingt ans, choisir un fournisseur américain était le choix raisonnable : meilleur, moins cher, mieux intégré.',
+      },
+      { text: 'Ce n’est plus vrai partout,', accent: 'blue' },
+      { text: 'et le risque juridique, lui,' },
+      { text: 'n’a fait que grandir.', accent: 'red' },
     ],
     values: [
       {
-        title: 'Utile avant tout',
-        desc: 'Chaque ligne de code doit résoudre un problème réel et libérer du temps. La technologie n’est jamais une fin en soi.',
+        title: 'Nous disons non',
+        desc: 'Une partie de notre travail consiste à vous déconseiller des fonctionnalités. C’est souvent là que nous vous faisons gagner le plus.',
       },
       {
-        title: 'Souverain par conception',
-        desc: 'Nous privilégions les standards ouverts, les données en Europe et les architectures que nos clients peuvent reprendre.',
+        title: 'Européen par défaut',
+        desc: 'Sortir de l’Europe doit être une décision justifiée et discutée avec vous, jamais un réglage par défaut.',
       },
       {
-        title: 'Durable et lisible',
-        desc: 'Un logiciel bien construit se comprend, se maintient et se transmet. Nous fuyons la complexité inutile.',
+        title: 'Réversible',
+        desc: 'Vous devez pouvoir partir. Le code, les données et l’infrastructure sont à vous, sans négociation.',
       },
     ],
   },
 
   commitments: {
-    title: 'La valeur chez vous, les données en Europe.',
+    title: 'Nos engagements.',
     intro:
-      'Du temps rendu à vos équipes, des outils qui vous appartiennent, une infrastructure que vous pouvez auditer. La performance n’exige pas de céder le contrôle.',
+      'Nous démarrons : pas encore de logos clients à aligner ni de chiffres à vous vendre. À la place, voici ce sur quoi vous pouvez nous tenir dès le premier projet.',
     stats: [
-      { key: 'time', label: 'de temps en moins sur les tâches répétitives que nous automatisons' },
-      { key: 'ownership', label: 'du code livré, documenté et réversible : il vous appartient' },
-      { key: 'independence', label: 'dépendance imposée à des acteurs extra-européens' },
-      { key: 'hosting', label: 'des données hébergées en France ou en Europe' },
+      { key: 'contact', label: 'interlocuteur, du premier échange jusqu’à la livraison' },
+      { key: 'response', label: 'heures ouvrées pour une première réponse' },
+      { key: 'ownership', label: 'du code et de la documentation livrés, sans rétention' },
+      { key: 'europe', label: 'fournisseur hors d’Europe sans votre accord' },
     ],
-    caption: 'Vos données vivent ici, et nulle part ailleurs',
+    caption: 'Vos données restent ici.',
   },
 
   contact: {
-    title: 'Un projet à construire, une souveraineté à défendre.',
+    title: 'Parlons-en.',
     intro:
-      'Parlons de votre logiciel métier, de votre infrastructure, ou des deux. Premier échange sans engagement.',
+      'Dites-nous ce que vous voulez construire, ou ce qui vous coince aujourd’hui. Le premier échange ne vous engage à rien.',
     email: 'contact@lafrancaisedulogiciel.fr',
     write: 'Nous écrire',
-    book: 'Prendre rendez-vous',
-    responseTime: 'Réponse sous 48h ouvrées',
+    responseTime: 'Réponse sous 48 heures ouvrées',
   },
 
   footer: {
     tagline:
-      'Conseil logiciel et souveraineté numérique. Conçu et hébergé en France, au service de l’indépendance européenne.',
+      'Nous développons des logiciels métier et nous les déployons sur des infrastructures européennes. Basés en France.',
     madeIn: 'Fait en France',
     columns: [
       {
-        key: 'conseil',
-        title: 'Conseil',
-        links: ['Sites & produits web', 'SaaS sur mesure', 'Automatisation & IA', 'Audit technique'],
-      },
-      {
-        key: 'souverainete',
-        title: 'Souveraineté',
-        links: ['Infrastructure', 'Hébergement en France', 'Standards ouverts', 'Conformité RGPD'],
+        key: 'offre',
+        title: 'Ce que nous faisons',
+        links: [
+          { label: 'Développement sur mesure', href: '#conseil' },
+          { label: 'Infrastructure européenne', href: '#souverainete' },
+          { label: 'Méthode', href: '#approche' },
+        ],
       },
       {
         key: 'entreprise',
-        title: 'Entreprise',
-        links: ['Notre approche', 'Manifeste', 'Carrières', 'Contact'],
+        title: 'L’entreprise',
+        links: [
+          { label: 'Manifeste', href: '#manifeste' },
+          { label: 'Engagements', href: '#engagements' },
+        ],
+      },
+      {
+        key: 'contact',
+        title: 'Contact',
+        links: [
+          { label: 'Nous écrire', href: 'mailto:contact@lafrancaisedulogiciel.fr' },
+          { label: 'Démarrer un projet', href: '#contact' },
+        ],
       },
     ],
     /** {year} is replaced at render time. */

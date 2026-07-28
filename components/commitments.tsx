@@ -4,12 +4,13 @@ import { EuropeNetwork } from '@/components/europe-network'
 import { Reveal } from '@/components/reveal'
 import { getMessages } from '@/lib/i18n'
 
-/* Values pair with the catalogue's stats by position. */
+/* Values pair with the catalogue's stats by position. These are promises
+   we control, not measurements we cannot yet back up. */
 const VALUES = [
-  { to: 40, suffix: ' %' },
+  { to: 1 },
+  { to: 48 },
   { to: 100, suffix: ' %' },
   { to: 0, from: 100 },
-  { to: 100, suffix: ' %' },
 ]
 
 export function Commitments() {

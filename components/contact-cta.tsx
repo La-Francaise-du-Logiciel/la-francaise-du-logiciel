@@ -48,13 +48,6 @@ export function ContactCta() {
               </span>
               <HoverArrow />
             </a>
-            <a
-              href="#top"
-              className="arrow-hover inline-flex items-center justify-between gap-4 rounded-md border border-border px-6 py-4 text-sm font-medium text-foreground transition-colors duration-300 ease-out hover:border-foreground/40 hover:bg-card"
-            >
-              {t.book}
-              <HoverArrow />
-            </a>
             <p className="mt-2 text-[11px] text-muted-foreground">
               {t.responseTime}
             </p>
