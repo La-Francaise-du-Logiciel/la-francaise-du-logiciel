@@ -7,7 +7,15 @@ export function Hero() {
   const t = getMessages().hero
 
   return (
-    <section id="top" className="relative isolate overflow-hidden pt-16">
+    /* The whole section is the field's hover surface, so the dots answer
+       the cursor even where the text sits over them. */
+    <section id="top" data-flow-surface className="relative isolate overflow-hidden pt-16">
+      {/* Holds the field off the transparent header so the nav stays legible */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-background via-background/90 to-transparent lg:block"
+      />
+
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-24">
         <h1 className="max-w-[38rem] text-balance font-serif text-4xl leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.1rem] xl:text-[3.6rem]">
           {t.headline.map((line, i) => (
@@ -48,12 +56,10 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Beside the headline on wide screens, running off the right edge of
-          the page; a band beneath the text once there is no room alongside. */}
-      <div
-        data-flow-surface
-        className="relative h-[220px] w-full sm:h-[260px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[38%] xl:w-[44%]"
-      >
+      {/* Spans the whole hero on wide screens, a bare texture behind the
+          text that builds to full strength off the right edge of the page;
+          a band beneath the text once there is no room alongside. */}
+      <div className="relative h-[220px] w-full sm:h-[260px] lg:absolute lg:inset-0 lg:-z-10 lg:h-auto">
         <HeroField />
       </div>
     </section>

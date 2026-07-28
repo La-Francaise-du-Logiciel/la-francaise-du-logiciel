@@ -3,10 +3,11 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * The two métiers as one surface. Two wave sources, conseil in blue above
- * and souveraineté in vermilion below, interfere continuously across the
- * panel; where they meet the colour resolves to neutral. It fades out
- * against the headline on its left and runs off the right of the page.
+ * The hero's whole background. Two wave sources, conseil in blue above and
+ * souveraineté in vermilion below, interfere continuously across it; where
+ * they meet the colour resolves to neutral. Presence ramps left to right,
+ * so behind the headline it is only a bare grey texture and it builds to
+ * full strength as it runs off the right of the page.
  *
  * Canvas 2D, paused when offscreen, still under reduced motion. The dots
  * also lift toward the cursor, matching the Europe map.
@@ -24,7 +25,7 @@ const DOT = 1.5
 const WAVELENGTH = 96
 const PERIOD = 5.2
 /** How quickly each source's contribution falls off with distance. */
-const REACH = 320
+const REACH = 420
 /** Width of the band where the two colours meet; smaller is more polarized. */
 const BLEND = 150
 
@@ -51,7 +52,7 @@ export function HeroField() {
 
     let width = 0
     let height = 0
-    let cells: { x: number; y: number; edge: number; delay: number }[] = []
+    let cells: { x: number; y: number; edge: number; presence: number; delay: number }[] = []
     let time = reduceMotion ? 1.9 : 0
     let reveal = reduceMotion ? 1 : 0
 
@@ -72,12 +73,13 @@ export function HeroField() {
         for (let c = 0; c <= cols; c++) {
           const x = offX + c * GAP
           const y = offY + r * GAP
-          /* Fades toward the text on the left and out at top and bottom;
-             the top fade is deep enough to clear the transparent header,
-             and the right runs off the page so it keeps full strength. */
-          const edge = smoothstep(x / 70) * smoothstep(y / 96) * smoothstep((height - y) / 44)
+          /* Out at the very edges; the top fade is deep enough to help
+             clear the header, and the right runs off the page. */
+          const edge = smoothstep(x / 30) * smoothstep(y / 90) * smoothstep((height - y) / 44)
           if (edge <= 0.01) continue
-          cells.push({ x, y, edge, delay: (x + y * 0.35) / diag })
+          /* Barely there behind the headline, full strength past it. */
+          const presence = 0.13 + 0.87 * smoothstep((x / width - 0.46) / 0.26)
+          cells.push({ x, y, edge, presence, delay: (x + y * 0.35) / diag })
         }
       }
     }
@@ -112,10 +114,12 @@ export function HeroField() {
         influence += (0 - influence) * 0.07
       }
 
-      /* The two sources drift slowly, so the pattern never repeats visibly. */
-      const ax = width * (0.3 + 0.07 * Math.cos(time * 0.21))
+      /* The two sources sit out where presence is high, so the strongest
+         part of the pattern lands past the text rather than under it.
+         They drift slowly, so it never repeats visibly. */
+      const ax = width * (0.72 + 0.05 * Math.cos(time * 0.21))
       const ay = height * (0.26 + 0.09 * Math.sin(time * 0.17))
-      const bx = width * (0.26 + 0.08 * Math.sin(time * 0.19))
+      const bx = width * (0.68 + 0.06 * Math.sin(time * 0.19))
       const by = height * (0.76 + 0.08 * Math.cos(time * 0.23))
 
       ctx.clearRect(0, 0, width, height)
@@ -134,10 +138,13 @@ export function HeroField() {
         const amp = Math.pow(smoothstep((w1 + w2) * 0.95 + 0.46), 1.35)
 
         const lift = influence > 0.004 ? field(cell.x, cell.y) : null
-        const boost = lift?.f ?? 0
+        /* Everything the eye reads as strength is scaled by presence, so
+           the text side stays quiet even under the cursor. */
+        const boost = (lift?.f ?? 0) * cell.presence
+        const vis = amp * cell.presence
 
-        const size = DOT * (0.55 + amp * 1.05 + boost * 1.1)
-        const alpha = (0.07 + amp * 0.46 + boost * 0.34) * cell.edge * appear
+        const size = DOT * (0.55 + vis * 1.15 + boost * 1.1)
+        const alpha = (0.05 + vis * 0.5 + boost * 0.34) * cell.edge * appear
 
         /* Colour by which source is nearer, running red to neutral to blue
            rather than straight red to blue, which would go muddy purple
@@ -155,14 +162,14 @@ export function HeroField() {
                 NEUTRAL[1] + (BLUE[1] - NEUTRAL[1]) * ((tone - 0.5) * 2),
                 NEUTRAL[2] + (BLUE[2] - NEUTRAL[2]) * ((tone - 0.5) * 2),
               ]
-        const mixIn = Math.min(1, amp * 0.85 + boost * 0.5)
+        const mixIn = Math.min(1, vis * 0.9 + boost * 0.5)
         const r = NEUTRAL[0] + (hue[0] - NEUTRAL[0]) * mixIn
         const g = NEUTRAL[1] + (hue[1] - NEUTRAL[1]) * mixIn
         const b = NEUTRAL[2] + (hue[2] - NEUTRAL[2]) * mixIn
 
         ctx.fillStyle = `rgba(${r.toFixed(0)}, ${g.toFixed(0)}, ${b.toFixed(0)}, ${alpha.toFixed(3)})`
         ctx.beginPath()
-        ctx.arc(cell.x, cell.y - (lift?.lift ?? 0), size, 0, Math.PI * 2)
+        ctx.arc(cell.x, cell.y - (lift?.lift ?? 0) * cell.presence, size, 0, Math.PI * 2)
         ctx.fill()
       }
     }
