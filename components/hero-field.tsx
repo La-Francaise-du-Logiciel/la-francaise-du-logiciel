@@ -72,9 +72,10 @@ export function HeroField() {
         for (let c = 0; c <= cols; c++) {
           const x = offX + c * GAP
           const y = offY + r * GAP
-          /* Fades toward the text on the left and softly top and bottom;
-             the right runs off the page, so it keeps its full strength. */
-          const edge = smoothstep(x / 70) * smoothstep(Math.min(y, height - y) / 44)
+          /* Fades toward the text on the left and out at top and bottom;
+             the top fade is deep enough to clear the transparent header,
+             and the right runs off the page so it keeps full strength. */
+          const edge = smoothstep(x / 70) * smoothstep(y / 96) * smoothstep((height - y) / 44)
           if (edge <= 0.01) continue
           cells.push({ x, y, edge, delay: (x + y * 0.35) / diag })
         }

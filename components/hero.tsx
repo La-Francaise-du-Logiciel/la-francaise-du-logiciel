@@ -1,7 +1,5 @@
-import { AnimatedBackground } from '@/components/animated-background'
 import { HeroField } from '@/components/hero-field'
 import { HoverArrow } from '@/components/hover-arrow'
-import { PointerField } from '@/components/pointer-field'
 import { getMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
@@ -10,14 +8,6 @@ export function Hero() {
 
   return (
     <section id="top" className="relative isolate overflow-hidden pt-16">
-      <AnimatedBackground />
-
-      {/* The tricolore as ambient light, drifting gently against the cursor */}
-      <PointerField className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="bloom bloom-blue -left-40 -top-48 h-[36rem] w-[36rem]" />
-        <div className="bloom bloom-red -right-48 top-8 h-[40rem] w-[40rem] [--bloom-shift:-18px]" />
-      </PointerField>
-
       <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-24">
         <h1 className="max-w-[38rem] text-balance font-serif text-4xl leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.1rem] xl:text-[3.6rem]">
           {t.headline.map((line, i) => (
