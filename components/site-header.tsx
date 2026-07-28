@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
 import { Wordmark } from '@/components/logo'
@@ -9,6 +11,7 @@ import { cn } from '@/lib/utils'
 
 export function SiteHeader() {
   const t = getMessages()
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -27,30 +30,37 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <a href="#top" className="shrink-0" aria-label={t.brand.homeLabel}>
+        <Link href="/" className="shrink-0" aria-label={t.brand.homeLabel}>
           <Wordmark />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label={t.nav.primaryLabel}>
-          {t.nav.items.map((item) => (
-            <a
-              key={item.key}
-              href={item.href}
-              className="underline-slide text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
-            >
-              {item.label}
-            </a>
-          ))}
+          {t.nav.items.map((item) => {
+            const active = pathname === item.href
+            return (
+              <Link
+                key={item.key}
+                href={item.href}
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'underline-slide text-sm transition-colors duration-300 ease-out hover:text-foreground',
+                  active ? 'text-foreground' : 'text-muted-foreground',
+                )}
+              >
+                {item.label}
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="arrow-hover inline-flex items-center gap-1.5 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
             {t.nav.cta}
             <HoverArrow />
-          </a>
+          </Link>
         </div>
 
         <button
@@ -68,23 +78,23 @@ export function SiteHeader() {
         <div className="border-t border-border bg-background/95 backdrop-blur-md md:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col px-5 py-4 sm:px-8" aria-label={t.nav.mobileLabel}>
             {t.nav.items.map((item) => (
-              <a
+              <Link
                 key={item.key}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="border-b border-border/60 py-3 text-base text-foreground last:border-0"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               onClick={() => setOpen(false)}
               className="arrow-hover mt-4 inline-flex items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background"
             >
               {t.nav.cta}
               <HoverArrow />
-            </a>
+            </Link>
           </nav>
         </div>
       )}

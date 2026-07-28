@@ -2,24 +2,19 @@ import type { CSSProperties } from 'react'
 import { Reveal } from '@/components/reveal'
 import { getMessages } from '@/lib/i18n'
 
-export function Approach() {
+export function Approach({ title }: { title?: string }) {
   const t = getMessages().approach
 
   return (
-    <section id="approche" className="relative border-y border-border bg-card/30">
+    <section id="approche" className="relative bg-card/30">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
-        <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <Reveal variant="mask-rise">
-              <h2 className="text-balance font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
-                {t.title}
-              </h2>
-            </Reveal>
-          </div>
-          <Reveal delay={200}>
-            <p className="max-w-sm text-pretty leading-relaxed text-muted-foreground">{t.intro}</p>
+        {title ? (
+          <Reveal variant="mask-rise" className="mb-14">
+            <h2 className="max-w-2xl text-balance font-serif text-3xl leading-tight tracking-tight sm:text-4xl">
+              {title}
+            </h2>
           </Reveal>
-        </div>
+        ) : null}
 
         {/* One reveal group: the line draws across the four steps in sequence */}
         <Reveal

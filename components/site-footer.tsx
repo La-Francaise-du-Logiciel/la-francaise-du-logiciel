@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Wordmark } from '@/components/logo'
 import { format, getMessages } from '@/lib/i18n'
 
@@ -30,12 +31,7 @@ export function SiteFooter() {
               <ul className="flex flex-col gap-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
-                    >
-                      {link.label}
-                    </a>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
                   </li>
                 ))}
               </ul>
@@ -48,15 +44,39 @@ export function SiteFooter() {
             {format(t.copyright, { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground">
+            <Link
+              href="/mentions-legales"
+              className="text-xs text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
+            >
               {t.legal}
-            </a>
-            <a href="#" className="text-xs text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground">
+            </Link>
+            <Link
+              href="/confidentialite"
+              className="text-xs text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground"
+            >
               {t.privacy}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
     </footer>
+  )
+}
+
+/** mailto and hash targets stay plain anchors; routes use the router. */
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const className =
+    'text-sm text-muted-foreground transition-colors duration-300 ease-out hover:text-foreground'
+  if (href.startsWith('/') && !href.startsWith('/#')) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    )
+  }
+  return (
+    <a href={href} className={className}>
+      {children}
+    </a>
   )
 }

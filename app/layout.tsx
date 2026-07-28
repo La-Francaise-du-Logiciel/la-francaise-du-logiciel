@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Instrument_Serif } from 'next/font/google'
+import { SiteFooter } from '@/components/site-footer'
+import { SiteHeader } from '@/components/site-header'
 import { defaultLocale, getMessages } from '@/lib/i18n'
 import './globals.css'
 
@@ -38,7 +40,9 @@ export default function RootLayout({
       className={`${geist.variable} ${instrumentSerif.variable} bg-background`}
     >
       <body className="font-sans antialiased">
-        {children}
+        <SiteHeader />
+        <main>{children}</main>
+        <SiteFooter />
       </body>
     </html>
   )

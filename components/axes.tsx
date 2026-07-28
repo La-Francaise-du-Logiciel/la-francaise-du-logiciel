@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { Code, Cpu, Globe, Layers, Network, ShieldCheck } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
@@ -50,6 +51,7 @@ interface AxisContent {
   readonly body: string
   readonly imageAlt: string
   readonly link: string
+  readonly href: string
   readonly items: readonly { readonly title: string; readonly desc: string }[]
 }
 
@@ -109,15 +111,15 @@ function AxisCard({ id, accent, content, icons, image, delay }: AxisCardProps) {
               })}
             </ul>
 
-            <a
-              href="#contact"
+            <Link
+              href={content.href}
               className="group/link arrow-hover mt-auto inline-flex items-center gap-1.5 pt-8 text-sm font-medium text-foreground"
             >
               <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">
                 {content.link}
               </span>
               <HoverArrow />
-            </a>
+            </Link>
           </div>
         </article>
       </GlowCard>

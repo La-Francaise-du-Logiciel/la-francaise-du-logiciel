@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { HeroField } from '@/components/hero-field'
 import { HoverArrow } from '@/components/hover-arrow'
 import { getMessages } from '@/lib/i18n'
@@ -40,19 +41,19 @@ export function Hero() {
           className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center animate-rise"
           style={{ animationDelay: '0.72s' }}
         >
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="arrow-hover sheen inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
             {t.ctaPrimary}
             <HoverArrow />
-          </a>
-          <a
-            href="#conseil"
+          </Link>
+          <Link
+            href="/conseil"
             className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors duration-300 ease-out hover:border-foreground/40 hover:bg-card"
           >
             {t.ctaSecondary}
-          </a>
+          </Link>
         </div>
       </div>
 
