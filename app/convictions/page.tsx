@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/page-header'
 import { CardGrid, Prose, Section } from '@/components/section'
 import { getMessages } from '@/lib/i18n'
 
-const t = getMessages().pages.manifeste
+const t = getMessages().pages.convictions
 const manifesto = getMessages().manifesto
 
 export const metadata: Metadata = {

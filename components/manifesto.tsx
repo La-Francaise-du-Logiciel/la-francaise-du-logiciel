@@ -57,7 +57,7 @@ export function ManifestoTeaser() {
       <ManifestoQuote />
       <Reveal delay={200}>
         <Link
-          href="/manifeste"
+          href="/convictions"
           className="group/link arrow-hover mt-10 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
         >
           <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">

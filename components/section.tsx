@@ -73,3 +73,25 @@ export function Prose({ paragraphs }: { paragraphs: readonly string[] }) {
     </div>
   )
 }
+
+type Entry = { readonly label: string; readonly value: string }
+
+/** Label/value pairs for the legal notice. */
+export function DefinitionList({ entries }: { entries: readonly Entry[] }) {
+  return (
+    <dl className="max-w-2xl">
+      {entries.map((entry, i) => (
+        /* HTML allows a div to group each dt/dd pair, which is what the
+           reveal wrapper renders. */
+        <Reveal
+          key={entry.label}
+          delay={i * 50}
+          className="flex flex-col gap-1 border-b border-border py-4 last:border-0 sm:flex-row sm:gap-8"
+        >
+          <dt className="w-full text-sm text-muted-foreground sm:w-64 sm:shrink-0">{entry.label}</dt>
+          <dd className="text-pretty leading-relaxed">{entry.value}</dd>
+        </Reveal>
+      ))}
+    </dl>
+  )
+}

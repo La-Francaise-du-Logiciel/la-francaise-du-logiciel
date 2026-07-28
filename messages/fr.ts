@@ -33,7 +33,7 @@ export const fr = {
       { key: 'conseil', label: 'Conseil', href: '/conseil' },
       { key: 'souverainete', label: 'Souveraineté', href: '/souverainete' },
       { key: 'methode', label: 'Méthode', href: '/methode' },
-      { key: 'manifeste', label: 'Manifeste', href: '/manifeste' },
+      { key: 'convictions', label: 'Convictions', href: '/convictions' },
     ],
   },
 
@@ -149,7 +149,7 @@ export const fr = {
         desc: 'Vous devez pouvoir partir. Le code, les données et l’infrastructure sont à vous, sans négociation.',
       },
     ],
-    readMore: 'Lire le manifeste',
+    readMore: 'Pourquoi nous faisons ça',
   },
 
   commitments: {
@@ -187,7 +187,7 @@ export const fr = {
         items: [
           {
             title: 'Sites et applications web',
-            desc: 'Site public, espace client, back-office, outil interne. Nous nous occupons aussi des performances et du référencement : un site lent vous coûte des clients avant même qu’ils vous lisent.',
+            desc: 'Site public, espace client, back-office, outil interne. Nous nous occupons aussi des performances et du référencement : un site lent vous coûte des clients avant même qu’ils ne vous lisent.',
           },
           {
             title: 'Logiciels métier',
@@ -264,7 +264,7 @@ export const fr = {
           },
           {
             title: 'Même règle partout',
-            desc: 'E-mails transactionnels, stockage de fichiers, sauvegardes, service de paiement : chaque brique passe le même filtre.',
+            desc: 'E-mails transactionnels, stockage de fichiers, sauvegardes, service de paiement : chaque service passe le même filtre.',
           },
           {
             title: 'Aucune exception silencieuse',
@@ -286,7 +286,7 @@ export const fr = {
             desc: 'Dépôts, revue de code, intégration continue. Prévu après la plateforme de déploiement.',
           },
         ],
-        note: 'Ces deux produits ne sont pas encore disponibles. Si le sujet vous concerne, écrivez-nous : nous cherchons des premiers utilisateurs pour les éprouver en conditions réelles.',
+        note: 'Ces deux produits ne sont pas encore disponibles. Si le sujet vous concerne, écrivez-nous : nous cherchons nos premiers utilisateurs pour les éprouver en conditions réelles.',
       },
     },
 
@@ -311,18 +311,18 @@ export const fr = {
           },
           {
             title: 'Un hébergement que nous contrôlons',
-            desc: 'Les comptes sont ouverts à votre nom dès le premier jour. Nous partir ne doit jamais couper votre service.',
+            desc: 'Les comptes sont ouverts à votre nom dès le premier jour. Notre départ ne doit jamais interrompre votre service.',
           },
         ],
       },
     },
 
-    manifeste: {
-      metaTitle: 'Manifeste',
+    convictions: {
+      metaTitle: 'Convictions',
       metaDescription:
         'Pourquoi nous pensons que la dépendance aux fournisseurs américains est devenue un risque, et ce que nous en faisons.',
-      title: 'Manifeste',
-      intro: 'Ce en quoi nous croyons, et ce que cela change concrètement dans nos projets.',
+      title: 'Pourquoi nous refusons de dépendre d’un fournisseur américain.',
+      intro: 'Ce que nous pensons, et ce que cela change concrètement dans nos projets.',
       valuesTitle: 'Ce que cela change, concrètement',
       paragraphs: [
         'Nous ne pensons pas que les outils américains soient mauvais. La plupart sont excellents, et nous les avons utilisés pendant des années. Le problème n’est pas leur qualité, c’est la position dans laquelle ils placent celui qui en dépend : un changement de tarif, de conditions ou de politique, et vous n’avez aucun recours.',
@@ -345,6 +345,83 @@ export const fr = {
       helpNote:
         'Rien de tout cela n’est obligatoire. Un message de trois lignes suffit pour commencer.',
     },
+
+    mentionsLegales: {
+      metaTitle: 'Mentions légales',
+      metaDescription:
+        'Éditeur, hébergeur et propriété intellectuelle du site de La Française du Logiciel.',
+      title: 'Mentions légales',
+      intro: 'Les informations exigées par l’article 6 de la loi pour la confiance dans l’économie numérique.',
+      publisher: {
+        title: 'Éditeur du site',
+        entries: [
+          { label: 'Éditeur', value: 'Vincent Wendling, entrepreneur individuel (EI)' },
+          { label: 'Nom commercial', value: 'La Française du Logiciel' },
+          { label: 'Siège', value: '6 rue des Frères Eberts, 67100 Strasbourg, France' },
+          { label: 'SIREN', value: '942 561 762' },
+          { label: 'SIRET (siège)', value: '942 561 762 00017' },
+          { label: 'Code APE', value: '58.29C — Édition de logiciels applicatifs' },
+          { label: 'Immatriculation', value: 'Registre national des entreprises (RNE)' },
+          { label: 'Directeur de la publication', value: 'Vincent Wendling' },
+          { label: 'Contact', value: 'contact@lafrancaisedulogiciel.fr' },
+        ],
+      },
+      host: {
+        title: 'Hébergeur',
+        entries: [
+          { label: 'Hébergeur', value: 'Scaleway, société par actions simplifiée' },
+          { label: 'Capital social', value: '142 050 €' },
+          { label: 'Siège', value: '8 rue de la Ville-l’Évêque, 75008 Paris, France' },
+          { label: 'RCS', value: 'Paris 433 115 904' },
+          { label: 'Site', value: 'scaleway.com' },
+        ],
+      },
+      ip: {
+        title: 'Propriété intellectuelle',
+        paragraphs: [
+          'Les textes, la charte graphique et le code de ce site sont la propriété de Vincent Wendling, sauf mention contraire. Leur reproduction sur un autre support, sans autorisation écrite préalable, n’est pas autorisée.',
+          'Les logiciels que nous développons pour nos clients ne relèvent pas de cette clause : leurs droits sont cédés au client dans les conditions prévues au contrat.',
+        ],
+      },
+    },
+
+    confidentialite: {
+      metaTitle: 'Confidentialité',
+      metaDescription:
+        'Ce site ne dépose aucun cookie, ne mesure pas son audience et ne charge aucun service tiers. Ce que nous faisons des données que vous nous envoyez.',
+      title: 'Ce site ne collecte rien sur vous.',
+      intro:
+        'La page la plus courte du site, et nous aimerions qu’elle le reste. Voici précisément ce qui se passe quand vous la consultez.',
+      sections: [
+        {
+          title: 'Aucun suivi, aucun cookie',
+          paragraphs: [
+            'Ce site ne dépose aucun cookie, ne mesure pas son audience et ne charge aucune ressource depuis un serveur tiers. Les polices de caractères sont servies depuis notre propre domaine plutôt que depuis un service extérieur.',
+            'Vous pouvez le vérifier : ouvrez l’onglet réseau de votre navigateur et regardez la liste des domaines contactés. Il n’y en a qu’un.',
+          ],
+        },
+        {
+          title: 'Ce que nous recevons si vous nous écrivez',
+          paragraphs: [
+            'Si vous nous envoyez un e-mail, nous recevons votre adresse, votre message et ce que vous avez choisi d’y mettre. Nous nous en servons pour vous répondre et, le cas échéant, pour préparer une proposition. Rien de tout cela n’est revendu, cédé ou utilisé pour de la prospection.',
+            'Nous conservons ces échanges le temps de la relation commerciale, puis trois ans à compter du dernier contact. Les documents comptables liés à un projet suivent les durées légales.',
+          ],
+        },
+        {
+          title: 'Où sont hébergées ces données',
+          paragraphs: [
+            'Le site est hébergé par Scaleway, en France. Nos e-mails sont hébergés en Europe, chez un prestataire soumis au droit européen. Aucune donnée n’est transférée hors de l’Union européenne.',
+          ],
+        },
+        {
+          title: 'Vos droits',
+          paragraphs: [
+            'Vous pouvez demander l’accès, la rectification ou l’effacement des données vous concernant, ainsi que vous opposer à leur traitement. Une demande à contact@lafrancaisedulogiciel.fr suffit, et nous y répondons sous un mois.',
+            'Si notre réponse ne vous convient pas, vous pouvez saisir la Commission nationale de l’informatique et des libertés (CNIL), 3 place de Fontenoy, 75007 Paris.',
+          ],
+        },
+      ],
+    },
   },
 
   footer: {
@@ -365,7 +442,7 @@ export const fr = {
         key: 'entreprise',
         title: 'L’entreprise',
         links: [
-          { label: 'Manifeste', href: '/manifeste' },
+          { label: 'Convictions', href: '/convictions' },
           { label: 'Engagements', href: '/#engagements' },
         ],
       },
