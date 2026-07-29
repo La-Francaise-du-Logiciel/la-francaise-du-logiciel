@@ -41,7 +41,7 @@ export function ContactCta() {
           <Reveal delay={260} className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[18rem]">
             <Link
               href="/contact"
-              className="cta-flag arrow-hover inline-flex items-center justify-between gap-4 rounded-md bg-foreground px-6 py-4 text-sm font-medium text-background"
+              className="arrow-hover sheen inline-flex items-center justify-between gap-4 rounded-md bg-foreground px-6 py-4 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
             >
               <span className="inline-flex items-center gap-2.5">
                 <Mail className="h-4 w-4" />

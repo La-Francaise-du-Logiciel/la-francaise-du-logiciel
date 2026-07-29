@@ -288,35 +288,6 @@
     transform: scaleX(1);
   }
 
-  /* ---- Primary CTA: the tricolore slides in from the left ---------------- */
-  /* Same soft blue-to-red gradient as the footer hairline, with the middle
-     deepened so the light text stays readable while it passes under. */
-  .cta-flag {
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .cta-flag::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      90deg,
-      var(--blue) 0%,
-      var(--blue) 16%,
-      oklch(0.5 0.02 264) 50%,
-      var(--red) 84%,
-      var(--red) 100%
-    );
-    transform: translateX(-101%);
-    transition: transform 0.55s var(--ease-out-expo);
-  }
-  .cta-flag:hover::before,
-  .cta-flag:focus-visible::before {
-    transform: translateX(0);
-  }
-
   /* ---- Primary button sheen sweep ---------------------------------------- */
   .sheen {
     position: relative;
@@ -538,9 +509,6 @@
     }
     .sheen::after {
       display: none;
-    }
-    .cta-flag::before {
-      transition: none;
     }
   }
 }

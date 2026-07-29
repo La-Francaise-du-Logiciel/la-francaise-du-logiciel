@@ -77,7 +77,7 @@ export function ContactForm() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <button
             type="submit"
-            className="cta-flag arrow-hover inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background"
+            className="arrow-hover sheen inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
             {f.submit}
             <HoverArrow />
