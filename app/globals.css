@@ -93,6 +93,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Tailwind v4 no longer puts a pointer on buttons; restore it so every
+     interactive control signals the same way links do. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
   /* Everything is sized in rem, so scaling the root scales type,
      spacing and container widths together. 16px reads small on large
      desktop screens; step it up with the viewport. */
