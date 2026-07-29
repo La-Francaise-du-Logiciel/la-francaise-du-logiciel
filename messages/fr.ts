@@ -45,7 +45,7 @@ export const fr = {
       { text: 'en Europe. Pas ailleurs.', accent: true },
     ],
     intro:
-      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes, et nous les déployons sur une infrastructure européenne. Vos données restent soumises au droit européen, pas au CLOUD Act.',
+      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes, et, par défaut, nous les déployons sur une infrastructure européenne : vos données restent soumises au droit européen, pas au CLOUD Act.',
     ctaPrimary: 'Démarrer un projet',
     ctaSecondary: 'Ce que nous faisons',
   },
@@ -76,14 +76,18 @@ export const fr = {
     },
     souverainete: {
       title: 'Sortir de la dépendance américaine',
-      body: 'Par défaut, nous choisissons des prestataires soumis au droit européen : hébergement, mesure d’audience, envoi d’e-mails, sauvegardes. Et là où l’équivalent européen n’existe pas encore, nous le construisons nous-mêmes.',
+      body: 'Par défaut, nous déployons chez des prestataires soumis au droit européen, et c’est ce que nous vous recommandons. Mais c’est votre choix : si votre contexte penche pour un fournisseur américain, nous travaillons avec. Et si vous voulez en sortir, nous vous aidons à migrer.',
       imageAlt: 'Salle serveur d’un centre de données éclairée de bleu et de rouge',
       link: 'Voir le détail',
       href: '/souverainete',
       items: [
         {
-          title: 'Fournisseurs européens',
-          desc: 'Hébergement, mesure d’audience, envoi d’e-mails : uniquement des prestataires soumis au droit européen.',
+          title: 'Européen par défaut',
+          desc: 'Hébergement, mesure d’audience, envoi d’e-mails : des prestataires soumis au droit européen, sauf décision contraire de votre part.',
+        },
+        {
+          title: 'Conseil et migration',
+          desc: 'Un état des lieux de vos dépendances, puis la migration de vos données et de vos outils, à votre rythme.',
         },
         {
           title: 'Plateforme de déploiement',
@@ -240,10 +244,10 @@ export const fr = {
     souverainete: {
       metaTitle: 'Souveraineté numérique',
       metaDescription:
-        'Nous hébergeons vos projets chez des prestataires soumis au droit européen, et nous construisons les plateformes qui manquent encore en Europe.',
+        'Européen par défaut, jamais imposé : nous déployons chez des prestataires soumis au droit européen, nous vous aidons à y migrer, et nous construisons les plateformes qui manquent encore.',
       title: 'Vos données n’ont pas à quitter l’Europe.',
       intro:
-        'Nous choisissons des prestataires soumis au droit européen pour tout ce que nous déployons, et nous construisons ceux qui manquent encore.',
+        'Par défaut, nous déployons chez des prestataires soumis au droit européen, et nous vous aidons à y migrer l’existant. C’est une recommandation forte, pas une condition pour travailler ensemble.',
       problem: {
         title: 'Pourquoi cela compte',
         paragraphs: [
@@ -267,8 +271,27 @@ export const fr = {
             desc: 'E-mails transactionnels, stockage de fichiers, sauvegardes, service de paiement : chaque service passe le même filtre.',
           },
           {
-            title: 'Aucune exception silencieuse',
-            desc: 'S’il n’existe aucune option européenne acceptable, nous vous le disons et nous décidons ensemble. Jamais par défaut.',
+            title: 'Une préférence, jamais une condition',
+            desc: 'Un groupe international, une contrainte de coût, un outil déjà en place : si votre situation penche pour un fournisseur américain ou autre, nous travaillons avec, en vous disant ce que cela implique.',
+          },
+        ],
+      },
+      consulting: {
+        title: 'Vous accompagner vers plus de souveraineté',
+        intro:
+          'Si vos données et vos outils sont déjà chez des fournisseurs américains, rien n’oblige à tout refaire d’un coup. Nous intervenons aussi en conseil, pour organiser la transition.',
+        items: [
+          {
+            title: 'État des lieux',
+            desc: 'L’inventaire de vos dépendances : hébergement, logiciels, flux de données, et ce que chacune implique juridiquement et contractuellement.',
+          },
+          {
+            title: 'Plan de migration',
+            desc: 'Ce qui vaut la peine d’être migré, dans quel ordre, à quel coût. Parfois, la bonne réponse est de ne pas tout bouger.',
+          },
+          {
+            title: 'Mise en œuvre',
+            desc: 'La migration de vos données, de vos logiciels et de vos processus, sans interrompre votre activité.',
           },
         ],
       },
@@ -426,7 +449,7 @@ export const fr = {
 
   footer: {
     tagline:
-      'Nous développons des logiciels métier et nous les déployons sur des infrastructures européennes. Basés en France.',
+      'Nous développons des logiciels métier et, par défaut, nous les déployons sur des infrastructures européennes. Basés en France.',
     madeIn: 'Fait en France',
     columns: [
       {

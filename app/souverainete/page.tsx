@@ -23,6 +23,13 @@ export default function Page() {
         <CardGrid items={t.practice.items} columns={4} />
       </Section>
       <Section
+        title={t.consulting.title}
+        intro={t.consulting.intro}
+        className="border-t border-border"
+      >
+        <CardGrid items={t.consulting.items} />
+      </Section>
+      <Section
         title={t.building.title}
         intro={t.building.intro}
         className="border-t border-border"

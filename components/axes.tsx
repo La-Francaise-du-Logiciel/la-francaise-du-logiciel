@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { Code, Cpu, Globe, Layers, Network, ShieldCheck } from 'lucide-react'
+import { ArrowRightLeft, Code, Cpu, GitBranch, Layers, Network, ShieldCheck } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
 import { HoverArrow } from '@/components/hover-arrow'
 import { Reveal } from '@/components/reveal'
@@ -9,7 +9,7 @@ import { getMessages } from '@/lib/i18n'
 
 /* Icons pair with the catalogue's items by position. */
 const CONSEIL_ICONS = [Code, Layers, Cpu]
-const SOUV_ICONS = [ShieldCheck, Network, Globe]
+const SOUV_ICONS = [ShieldCheck, ArrowRightLeft, Network, GitBranch]
 
 export function Axes() {
   const t = getMessages().axes
