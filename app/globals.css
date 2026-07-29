@@ -92,6 +92,20 @@
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
   }
+
+  /* Everything is sized in rem, so scaling the root scales type,
+     spacing and container widths together. 16px reads small on large
+     desktop screens; step it up with the viewport. */
+  @media (min-width: 1800px) {
+    html {
+      font-size: 17.5px;
+    }
+  }
+  @media (min-width: 2400px) {
+    html {
+      font-size: 19px;
+    }
+  }
 }
 
 @layer utilities {

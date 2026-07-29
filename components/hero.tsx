@@ -25,7 +25,7 @@ export function Hero() {
           whatever height the viewport leaves it, so the section always
           fills the screen exactly. */}
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-5 py-14 sm:px-8 sm:py-16">
-        <h1 className="max-w-[38rem] text-balance font-serif text-4xl leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.1rem] xl:text-[3.6rem]">
+        <h1 className="max-w-[38rem] text-balance font-serif text-4xl leading-[1.02] tracking-tight sm:text-5xl lg:max-w-[44rem] lg:text-[3.6rem] xl:max-w-[48rem] xl:text-[4.2rem]">
           {t.headline.map((line, i) => (
             <span
               key={line.text}
@@ -38,14 +38,14 @@ export function Hero() {
         </h1>
 
         <p
-          className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground animate-rise"
+          className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground animate-rise lg:mt-8 lg:max-w-2xl xl:text-xl"
           style={{ animationDelay: '0.6s' }}
         >
           {t.intro}
         </p>
 
         <div
-          className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center animate-rise"
+          className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center animate-rise lg:mt-10"
           style={{ animationDelay: '0.72s' }}
         >
           <Link

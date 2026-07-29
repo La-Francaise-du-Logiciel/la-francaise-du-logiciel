@@ -72,6 +72,10 @@ export const fr = {
           title: 'Automatisation et IA',
           desc: 'Des scripts et des modèles sur les tâches répétitives, quand c’est justifié.',
         },
+        {
+          title: 'Reprise d’existant',
+          desc: 'Un outil hérité, un prestataire parti : nous reprenons, stabilisons, faisons évoluer.',
+        },
       ],
     },
     souverainete: {
@@ -141,8 +145,8 @@ export const fr = {
     ],
     values: [
       {
-        title: 'Nous disons non',
-        desc: 'Une partie de notre travail consiste à vous déconseiller des fonctionnalités. C’est souvent là que nous vous faisons gagner le plus.',
+        title: 'Utile avant tout',
+        desc: 'Nous préférons un outil simple que vos équipes utilisent à un outil complet qu’elles évitent. Quitte à vous déconseiller des fonctionnalités en cours de route.',
       },
       {
         title: 'Européen par défaut',
@@ -200,6 +204,10 @@ export const fr = {
           {
             title: 'Automatisation et intelligence artificielle',
             desc: 'Des scripts, des intégrations entre vos outils existants, parfois un modèle de langage. Nous vous dirons aussi quand l’IA n’apporte rien à votre problème, ce qui arrive souvent.',
+          },
+          {
+            title: 'Reprise d’existant',
+            desc: 'Un outil développé par un prestataire qui ne répond plus, un logiciel que personne n’ose toucher : nous reprenons le code, nous le stabilisons, puis nous le faisons évoluer.',
           },
         ],
       },
