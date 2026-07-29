@@ -10,7 +10,7 @@ export const fr = {
   metadata: {
     title: 'La Française du Logiciel · Logiciels métier, infrastructure européenne',
     description:
-      'Nous développons des sites, des logiciels métier et des automatisations, et, par défaut, nous les déployons sur une infrastructure européenne. Nous construisons aussi les plateformes qui manquent encore pour se passer des géants américains.',
+      'Nous développons des sites, des logiciels métier et des automatisations, et nous aidons nos clients à gagner en souveraineté numérique, jusqu’à construire les plateformes européennes qui manquent encore.',
     /** Appended to every page title except the home page. */
     titleSuffix: ' · La Française du Logiciel',
   },
@@ -41,11 +41,11 @@ export const fr = {
     headline: [
       { text: 'Nous développons' },
       { text: 'vos logiciels métier,' },
-      { text: 'et nous les hébergeons' },
-      { text: 'en Europe, par défaut.', accent: true },
+      { text: 'et nous vous aidons' },
+      { text: 'à gagner en souveraineté.', accent: true },
     ],
     intro:
-      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes. Et nous les déployons sur une infrastructure européenne, sous un droit qui protège vos données du CLOUD Act.',
+      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes. Et notre premier réflexe est de les déployer sur une infrastructure européenne, qui met vos données hors de portée du CLOUD Act.',
     ctaPrimary: 'Démarrer un projet',
     ctaSecondary: 'Ce que nous faisons',
   },
@@ -79,15 +79,15 @@ export const fr = {
       ],
     },
     souverainete: {
-      title: 'Sortir de la dépendance américaine',
-      body: 'Par défaut, nous déployons chez des prestataires soumis au droit européen, et c’est ce que nous vous recommandons. Mais c’est votre choix : si votre contexte penche pour un fournisseur américain, nous travaillons avec. Et si vous voulez en sortir, nous vous aidons à migrer.',
+      title: 'Conseil en souveraineté',
+      body: 'Où vivent vos données, qui peut y accéder, ce que coûterait un départ de votre fournisseur : nous posons ces questions sur chaque projet. Nous recommandons l’Europe quand elle répond au besoin, et elle y répond de mieux en mieux. Quand vous êtes prêts, nous menons la migration.',
       imageAlt: 'Salle serveur d’un centre de données éclairée de bleu et de rouge',
       link: 'Voir le détail',
       href: '/souverainete',
       items: [
         {
-          title: 'Européen par défaut',
-          desc: 'Hébergement, mesure d’audience, envoi d’e-mails : des prestataires soumis au droit européen, sauf décision contraire de votre part.',
+          title: 'Européen d’abord',
+          desc: 'Hébergement, mesure d’audience, envoi d’e-mails : notre premier choix va aux prestataires soumis au droit européen.',
         },
         {
           title: 'Conseil et migration',
@@ -149,7 +149,7 @@ export const fr = {
         desc: 'Nous préférons un outil simple que vos équipes utilisent à un outil complet qu’elles évitent. Quitte à vous déconseiller des fonctionnalités en cours de route.',
       },
       {
-        title: 'Européen par défaut',
+        title: 'Européen d’abord',
         desc: 'Sortir de l’Europe doit être une décision justifiée et discutée avec vous, jamais un réglage par défaut.',
       },
       {
@@ -252,10 +252,10 @@ export const fr = {
     souverainete: {
       metaTitle: 'Souveraineté numérique',
       metaDescription:
-        'Européen par défaut, jamais imposé : nous déployons chez des prestataires soumis au droit européen, nous vous aidons à y migrer, et nous construisons les plateformes qui manquent encore.',
+        'Nous guidons nos clients vers plus de souveraineté : hébergement européen en premier choix, migration à votre rythme, et les plateformes qui manquent encore, que nous construisons.',
       title: 'Vos données n’ont pas à quitter l’Europe.',
       intro:
-        'Par défaut, nous déployons chez des prestataires soumis au droit européen, et nous vous aidons à y migrer l’existant. C’est une recommandation forte, pas une condition pour travailler ensemble.',
+        'Notre rôle est de vous amener vers plus de souveraineté, au rythme que votre activité permet. Hébergement européen en premier choix, migration de l’existant quand elle se justifie, et un conseil honnête quand elle ne se justifie pas.',
       problem: {
         title: 'Pourquoi cela compte',
         paragraphs: [
@@ -279,7 +279,7 @@ export const fr = {
             desc: 'E-mails transactionnels, stockage de fichiers, sauvegardes, service de paiement : chaque service passe le même filtre.',
           },
           {
-            title: 'Une préférence, jamais une condition',
+            title: 'Votre contexte d’abord',
             desc: 'Un groupe international, une contrainte de coût, un outil déjà en place : si votre situation penche pour un fournisseur américain ou autre, nous travaillons avec, en vous disant ce que cela implique.',
           },
         ],
@@ -351,8 +351,8 @@ export const fr = {
     convictions: {
       metaTitle: 'Convictions',
       metaDescription:
-        'Pourquoi nous pensons que la dépendance aux fournisseurs américains est devenue un risque, et ce que nous en faisons.',
-      title: 'Pourquoi nous refusons de dépendre d’un fournisseur américain.',
+        'Pourquoi la dépendance aux fournisseurs américains est devenue un risque, et comment nous guidons nos clients vers plus de souveraineté.',
+      title: 'Rendre la dépendance choisie, plutôt que subie.',
       intro: 'Ce que nous pensons, et ce que cela change concrètement dans nos projets.',
       valuesTitle: 'Ce que cela change, concrètement',
       paragraphs: [
@@ -470,7 +470,7 @@ export const fr = {
 
   footer: {
     tagline:
-      'Nous développons des logiciels métier et, par défaut, nous les déployons sur des infrastructures européennes. Basés en France.',
+      'Nous développons des logiciels métier et nous aidons nos clients à gagner en souveraineté. Basés en France.',
     madeIn: 'Fait en France',
     columns: [
       {
