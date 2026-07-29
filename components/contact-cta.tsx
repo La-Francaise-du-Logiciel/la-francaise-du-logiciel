@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Mail } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
@@ -38,16 +39,16 @@ export function ContactCta() {
           </div>
 
           <Reveal delay={260} className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[18rem]">
-            <a
-              href={`mailto:${t.email}`}
-              className="arrow-hover sheen inline-flex items-center justify-between gap-4 rounded-md bg-foreground px-6 py-4 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
+            <Link
+              href="/contact"
+              className="cta-flag arrow-hover inline-flex items-center justify-between gap-4 rounded-md bg-foreground px-6 py-4 text-sm font-medium text-background"
             >
               <span className="inline-flex items-center gap-2.5">
                 <Mail className="h-4 w-4" />
                 {t.write}
               </span>
               <HoverArrow />
-            </a>
+            </Link>
             <p className="mt-2 text-[11px] text-muted-foreground">
               {t.responseTime}
             </p>

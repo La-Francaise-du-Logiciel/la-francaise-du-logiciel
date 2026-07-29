@@ -375,6 +375,19 @@ export const fr = {
       ],
       helpNote:
         'Rien de tout cela n’est obligatoire. Un message de trois lignes suffit pour commencer.',
+      form: {
+        nameLabel: 'Votre nom ou votre entreprise',
+        namePlaceholder: 'Facultatif',
+        messageLabel: 'Votre message',
+        messagePlaceholder: 'Ce que vous faites, ce qui vous coince, ce que vous voulez construire.',
+        submit: 'Écrire dans votre messagerie',
+        hint: 'Ce bouton prépare l’e-mail dans votre messagerie. Rien ne part sans vous.',
+        subjectWithName: 'Premier contact de {name}',
+        subjectFallback: 'Premier contact',
+        directLabel: 'Ou copiez simplement notre adresse',
+        copy: 'Copier',
+        copied: 'Copiée',
+      },
     },
 
     mentionsLegales: {

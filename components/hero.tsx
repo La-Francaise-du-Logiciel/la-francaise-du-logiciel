@@ -50,7 +50,7 @@ export function Hero() {
         >
           <Link
             href="/contact"
-            className="arrow-hover sheen inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
+            className="cta-flag arrow-hover inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background"
           >
             {t.ctaPrimary}
             <HoverArrow />
