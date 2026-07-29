@@ -45,7 +45,7 @@ export const fr = {
       { text: 'en Europe, par défaut.', accent: true },
     ],
     intro:
-      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes. Nous recommandons un hébergement sous droit européen, hors de portée du CLOUD Act. Le dernier mot vous revient.',
+      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes. Et nous les déployons sur une infrastructure européenne, sous un droit qui protège vos données du CLOUD Act.',
     ctaPrimary: 'Démarrer un projet',
     ctaSecondary: 'Ce que nous faisons',
   },
