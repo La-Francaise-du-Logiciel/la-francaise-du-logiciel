@@ -10,7 +10,7 @@ export const fr = {
   metadata: {
     title: 'La Française du Logiciel · Logiciels métier, infrastructure européenne',
     description:
-      'Nous développons des sites, des logiciels métier et des automatisations, et nous les déployons sur une infrastructure européenne. Nous construisons aussi les plateformes qui manquent encore pour se passer des géants américains.',
+      'Nous développons des sites, des logiciels métier et des automatisations, et, par défaut, nous les déployons sur une infrastructure européenne. Nous construisons aussi les plateformes qui manquent encore pour se passer des géants américains.',
     /** Appended to every page title except the home page. */
     titleSuffix: ' · La Française du Logiciel',
   },
@@ -42,10 +42,10 @@ export const fr = {
       { text: 'Nous développons' },
       { text: 'vos logiciels métier,' },
       { text: 'et nous les hébergeons' },
-      { text: 'en Europe. Pas ailleurs.', accent: true },
+      { text: 'en Europe, par défaut.', accent: true },
     ],
     intro:
-      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes, et, par défaut, nous les déployons sur une infrastructure européenne : vos données restent soumises au droit européen, pas au CLOUD Act.',
+      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes. Nous recommandons un hébergement sous droit européen, hors de portée du CLOUD Act. Le dernier mot vous revient.',
     ctaPrimary: 'Démarrer un projet',
     ctaSecondary: 'Ce que nous faisons',
   },
