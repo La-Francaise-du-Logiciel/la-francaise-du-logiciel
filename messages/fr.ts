@@ -177,7 +177,7 @@ export const fr = {
     title: 'Dites-nous ce qui vous amène.',
     intro:
       'Un projet précis, une idée encore floue, ou une question sur l’hébergement de vos données. Le premier échange ne vous engage à rien.',
-    email: 'contact@lafrancaisedulogiciel.fr',
+    email: 'contact@francaisedulogiciel.fr',
     write: 'Nous écrire',
     responseTime: 'Réponse sous 24 heures ouvrées',
   },
@@ -378,13 +378,16 @@ export const fr = {
       form: {
         nameLabel: 'Votre nom ou votre entreprise',
         namePlaceholder: 'Facultatif',
+        emailLabel: 'Votre adresse e-mail',
+        emailPlaceholder: 'Pour pouvoir vous répondre',
         messageLabel: 'Votre message',
         messagePlaceholder: 'Ce que vous faites, ce qui vous coince, ce que vous voulez construire.',
-        submit: 'Écrire dans votre messagerie',
-        hint: 'Ce bouton prépare l’e-mail dans votre messagerie. Rien ne part sans vous.',
-        subjectWithName: 'Premier contact de {name}',
-        subjectFallback: 'Premier contact',
-        directLabel: 'Ou copiez simplement notre adresse',
+        submit: 'Envoyer le message',
+        sending: 'Envoi en cours…',
+        success: 'Message envoyé. Nous vous répondons sous 24 heures ouvrées.',
+        error: 'L’envoi a échoué. Écrivez-nous directement à l’adresse ci-dessous.',
+        hint: 'Votre message part de ce site vers notre boîte, par un relais e-mail hébergé en France.',
+        directLabel: 'Ou écrivez-nous directement',
         copy: 'Copier',
         copied: 'Copiée',
       },
@@ -407,7 +410,7 @@ export const fr = {
           { label: 'Code APE', value: '58.29C — Édition de logiciels applicatifs' },
           { label: 'Immatriculation', value: 'Registre national des entreprises (RNE)' },
           { label: 'Directeur de la publication', value: 'Vincent Wendling' },
-          { label: 'Contact', value: 'contact@lafrancaisedulogiciel.fr' },
+          { label: 'Contact', value: 'contact@francaisedulogiciel.fr' },
         ],
       },
       host: {
@@ -447,20 +450,20 @@ export const fr = {
         {
           title: 'Ce que nous recevons si vous nous écrivez',
           paragraphs: [
-            'Si vous nous envoyez un e-mail, nous recevons votre adresse, votre message et ce que vous avez choisi d’y mettre. Nous nous en servons pour vous répondre et, le cas échéant, pour préparer une proposition. Rien de tout cela n’est revendu, cédé ou utilisé pour de la prospection.',
+            'Si vous nous écrivez, par le formulaire du site ou par e-mail, nous recevons votre adresse, votre message et ce que vous avez choisi d’y mettre. Nous nous en servons pour vous répondre et, le cas échéant, pour préparer une proposition. Rien de tout cela n’est revendu, cédé ou utilisé pour de la prospection.',
             'Nous conservons ces échanges le temps de la relation commerciale, puis trois ans à compter du dernier contact. Les documents comptables liés à un projet suivent les durées légales.',
           ],
         },
         {
           title: 'Où sont hébergées ces données',
           paragraphs: [
-            'Le site est hébergé par Scaleway, en France. Nos e-mails sont hébergés en Europe, chez un prestataire soumis au droit européen. Aucune donnée n’est transférée hors de l’Union européenne.',
+            'Le site est hébergé par Scaleway, en France, et les messages du formulaire nous parviennent par son relais e-mail, en France également. Nos e-mails sont hébergés en Europe, chez un prestataire soumis au droit européen. Aucune donnée n’est transférée hors de l’Union européenne.',
           ],
         },
         {
           title: 'Vos droits',
           paragraphs: [
-            'Vous pouvez demander l’accès, la rectification ou l’effacement des données vous concernant, ainsi que vous opposer à leur traitement. Une demande à contact@lafrancaisedulogiciel.fr suffit, et nous y répondons sous un mois.',
+            'Vous pouvez demander l’accès, la rectification ou l’effacement des données vous concernant, ainsi que vous opposer à leur traitement. Une demande à contact@francaisedulogiciel.fr suffit, et nous y répondons sous un mois.',
             'Si notre réponse ne vous convient pas, vous pouvez saisir la Commission nationale de l’informatique et des libertés (CNIL), 3 place de Fontenoy, 75007 Paris.',
           ],
         },
@@ -494,7 +497,7 @@ export const fr = {
         key: 'contact',
         title: 'Contact',
         links: [
-          { label: 'Nous écrire', href: 'mailto:contact@lafrancaisedulogiciel.fr' },
+          { label: 'Nous écrire', href: 'mailto:contact@francaisedulogiciel.fr' },
           { label: 'Démarrer un projet', href: '/contact' },
         ],
       },

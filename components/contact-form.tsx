@@ -3,29 +3,45 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { Check, Copy } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
-import { format, getMessages } from '@/lib/i18n'
+import { getMessages } from '@/lib/i18n'
+
+type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 /**
- * A form with no backend, on purpose: submitting composes the e-mail in
- * the visitor's own mail client, so nothing transits through a service.
- * The direct address sits underneath with a copy button for people who
- * would rather start from their inbox.
+ * Posts to /api/contact, which relays the message through Scaleway
+ * Transactional Email. The direct address sits underneath, both as the
+ * fallback when the relay fails and for people who prefer their inbox.
  */
 export function ContactForm() {
   const contact = getMessages().contact
   const f = getMessages().pages.contact.form
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [website, setWebsite] = useState('') // honeypot
+  const [status, setStatus] = useState<Status>('idle')
   const [copied, setCopied] = useState(false)
   const copiedTimer = useRef(0)
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const subject = name.trim() ? format(f.subjectWithName, { name: name.trim() }) : f.subjectFallback
-    const params = new URLSearchParams({ subject, body: message })
-    /* URLSearchParams encodes spaces as +, which mail clients show as-is */
-    window.location.href = `mailto:${contact.email}?${params.toString().replace(/\+/g, '%20')}`
+    if (status === 'sending') return
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message, website }),
+      })
+      if (!res.ok) throw new Error(String(res.status))
+      setStatus('sent')
+      setName('')
+      setEmail('')
+      setMessage('')
+    } catch {
+      setStatus('error')
+    }
   }
 
   const onCopy = async () => {
@@ -61,11 +77,28 @@ export function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-2">
+          <label htmlFor="contact-email" className="text-sm font-medium text-foreground">
+            {f.emailLabel}
+          </label>
+          <input
+            id="contact-email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={f.emailPlaceholder}
+            autoComplete="email"
+            className={fieldClass}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
           <label htmlFor="contact-message" className="text-sm font-medium text-foreground">
             {f.messageLabel}
           </label>
           <textarea
             id="contact-message"
+            required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder={f.messagePlaceholder}
@@ -74,16 +107,41 @@ export function ContactForm() {
           />
         </div>
 
+        {/* Honeypot: hidden from people, filled by bots */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="contact-website">Website</label>
+          <input
+            id="contact-website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </div>
+
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <button
             type="submit"
-            className="arrow-hover sheen inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
+            disabled={status === 'sending'}
+            className="arrow-hover sheen inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground disabled:opacity-60"
           >
-            {f.submit}
+            {status === 'sending' ? f.sending : f.submit}
             <HoverArrow />
           </button>
           <p className="text-xs leading-relaxed text-muted-foreground">{f.hint}</p>
         </div>
+
+        {status === 'sent' ? (
+          <p role="status" className="text-sm font-medium text-[var(--blue)]">
+            {f.success}
+          </p>
+        ) : null}
+        {status === 'error' ? (
+          <p role="status" className="text-sm font-medium text-[var(--red)]">
+            {f.error}
+          </p>
+        ) : null}
       </form>
 
       <div className="mt-10 border-t border-border pt-8">
