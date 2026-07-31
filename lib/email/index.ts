@@ -1,8 +1,10 @@
 import {
   MailerConfigurationError,
+  type EmailAddress,
   type EmailMessage,
   type Mailer,
 } from '@/lib/email/mailer'
+import { ResendMailer } from '@/lib/email/providers/resend-mailer'
 import { ScalewayTemMailer } from '@/lib/email/providers/scaleway-tem-mailer'
 
 export {
@@ -15,12 +17,39 @@ export {
 } from '@/lib/email/mailer'
 
 const EMAIL_DOMAIN = 'francaisedulogiciel.fr'
+const SENDER_NAME = 'La Française du Logiciel'
+const DEFAULT_PROVIDER = 'resend'
+
 let implementation: Mailer | undefined
 type Environment = Readonly<Record<string, string | undefined>>
+type MailerFactory = (environment: Environment, from: EmailAddress) => Mailer
 
 /**
- * Application-facing mailer. To change providers, replace only the factory
- * below; call sites continue to depend on the Mailer interface.
+ * Provider adapters, keyed by the MAIL_PROVIDER value that selects one.
+ * Switching providers is an environment change; adding one is an entry here
+ * plus a file under providers/. Neither touches a call site, because the rest
+ * of the site depends on the Mailer interface alone.
+ */
+const providers: Readonly<Record<string, MailerFactory>> = {
+  resend: (environment, from) =>
+    new ResendMailer({
+      apiKey: requiredEnvironmentVariable(environment, 'RESEND_API_KEY'),
+      from,
+    }),
+  'scaleway-tem': (environment, from) =>
+    new ScalewayTemMailer({
+      secretKey: requiredEnvironmentVariable(environment, 'SCW_SECRET_KEY'),
+      projectId: uuidEnvironmentVariable(environment, 'SCW_PROJECT_ID'),
+      region: exactEnvironmentVariable(environment, 'SCW_EMAIL_REGION', 'fr-par'),
+      from,
+    }),
+}
+
+export const supportedProviders: readonly string[] = Object.keys(providers)
+
+/**
+ * Application-facing mailer. Call sites depend on this and on the Mailer
+ * interface; which provider answers is decided by createMailer.
  */
 export const mailer: Mailer = {
   send(message: EmailMessage) {
@@ -30,18 +59,18 @@ export const mailer: Mailer = {
 }
 
 export function createMailer(environment: Environment = process.env): Mailer {
+  const provider = environment.MAIL_PROVIDER?.trim().toLowerCase() || DEFAULT_PROVIDER
+  const factory = providers[provider]
+  if (!factory) {
+    throw new MailerConfigurationError(
+      `Unknown MAIL_PROVIDER "${provider}". Supported: ${supportedProviders.join(', ')}.`,
+    )
+  }
+
   const from = requiredEnvironmentVariable(environment, 'CONTACT_FROM').toLowerCase()
   assertSendingDomain(from)
 
-  return new ScalewayTemMailer({
-    secretKey: requiredEnvironmentVariable(environment, 'SCW_SECRET_KEY'),
-    projectId: uuidEnvironmentVariable(environment, 'SCW_PROJECT_ID'),
-    region: exactEnvironmentVariable(environment, 'SCW_EMAIL_REGION', 'fr-par'),
-    from: {
-      email: from,
-      name: 'La Française du Logiciel',
-    },
-  })
+  return factory(environment, { email: from, name: SENDER_NAME })
 }
 
 function requiredEnvironmentVariable(environment: Environment, name: string): string {

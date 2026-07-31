@@ -8,9 +8,9 @@ import { getMessages } from '@/lib/i18n'
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 /**
- * Posts to /api/contact, which relays the message through Scaleway
- * Transactional Email. The direct address sits underneath, both as the
- * fallback when the relay fails and for people who prefer their inbox.
+ * Posts to /api/contact, which relays the message through the configured
+ * mail provider. The direct address sits underneath, both as the fallback
+ * when the relay fails and for people who prefer their inbox.
  */
 export function ContactForm() {
   const contact = getMessages().contact

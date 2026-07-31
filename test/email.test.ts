@@ -6,6 +6,10 @@ import {
   RecordingMailer,
   type Mailer,
 } from '@/lib/email'
+import {
+  ResendMailer,
+  type ResendClient,
+} from '@/lib/email/providers/resend-mailer'
 import { ScalewayTemMailer } from '@/lib/email/providers/scaleway-tem-mailer'
 
 const SCALEWAY = {
@@ -29,6 +33,19 @@ function recordingFetch(response: Response) {
     return response
   }) as typeof fetch
   return { calls, fetchImpl }
+}
+
+function recordingResend(result: unknown) {
+  const calls: Array<Record<string, unknown>> = []
+  const client = {
+    emails: {
+      send: async (payload: Record<string, unknown>) => {
+        calls.push(payload)
+        return { ...(result as object), headers: null }
+      },
+    },
+  } as unknown as ResendClient
+  return { calls, client }
 }
 
 describe('Mailer port', () => {
@@ -76,16 +93,91 @@ describe('Scaleway TEM adapter', () => {
   })
 })
 
+describe('Resend adapter', () => {
+  it('hands the provider-neutral message to the SDK in its own shape', async () => {
+    const { calls, client } = recordingResend({ data: { id: 'ff3c…' }, error: null })
+    const mailer = new ResendMailer({ from: SCALEWAY.from, client })
+
+    await mailer.send(MESSAGE)
+
+    expect(calls).toEqual([
+      {
+        from: '"La Française du Logiciel" <formulaire@francaisedulogiciel.fr>',
+        to: ['contact@francaisedulogiciel.fr'],
+        subject: MESSAGE.subject,
+        text: MESSAGE.text,
+        replyTo: 'person@example.fr',
+      },
+    ])
+  })
+
+  it('quotes a display name so it cannot break out of the address header', async () => {
+    const { calls, client } = recordingResend({ data: { id: 'ff3c…' }, error: null })
+    const mailer = new ResendMailer({ from: SCALEWAY.from, client })
+
+    await mailer.send({
+      ...MESSAGE,
+      replyTo: { email: 'person@example.fr', name: 'Ada" <attacker@evil.fr>, x' },
+    })
+
+    expect(calls[0]?.replyTo).toBe('"Ada <attacker@evil.fr>, x" <person@example.fr>')
+  })
+
+  it('surfaces provider rejection without including its message', async () => {
+    const { client } = recordingResend({
+      data: null,
+      error: { name: 'validation_error', statusCode: 422, message: 'person@example.fr rejected' },
+    })
+    const mailer = new ResendMailer({ from: SCALEWAY.from, client })
+
+    const delivery = mailer.send(MESSAGE)
+    await expect(delivery).rejects.toBeInstanceOf(MailDeliveryError)
+    await expect(delivery).rejects.not.toThrow(/person@example\.fr/)
+  })
+
+  it('wraps a transport failure as a delivery error', async () => {
+    const client = {
+      emails: {
+        send: async () => {
+          throw new Error('socket hang up')
+        },
+      },
+    } as unknown as ResendClient
+    const mailer = new ResendMailer({ from: SCALEWAY.from, client })
+
+    await expect(mailer.send(MESSAGE)).rejects.toBeInstanceOf(MailDeliveryError)
+  })
+})
+
 describe('email configuration', () => {
   const environment = {
     CONTACT_FROM: 'formulaire@francaisedulogiciel.fr',
+    RESEND_API_KEY: 're_test_key',
+  }
+  const scaleway = {
+    ...environment,
+    MAIL_PROVIDER: 'scaleway-tem',
     SCW_SECRET_KEY: SCALEWAY.secretKey,
     SCW_PROJECT_ID: SCALEWAY.projectId,
     SCW_EMAIL_REGION: 'fr-par',
   }
 
-  it('builds the configured provider behind the Mailer interface', () => {
-    expect(createMailer(environment)).toBeInstanceOf(ScalewayTemMailer)
+  it('builds Resend by default, behind the Mailer interface', () => {
+    expect(createMailer(environment)).toBeInstanceOf(ResendMailer)
+  })
+
+  it('switches provider from the environment alone', () => {
+    expect(createMailer(scaleway)).toBeInstanceOf(ScalewayTemMailer)
+  })
+
+  it('refuses an unknown provider instead of silently falling back', () => {
+    expect(() => createMailer({ ...environment, MAIL_PROVIDER: 'sendgrid' })).toThrow(
+      /MAIL_PROVIDER/,
+    )
+  })
+
+  it('requires the selected provider credential', () => {
+    expect(() => createMailer({ ...environment, RESEND_API_KEY: '' })).toThrow(/RESEND_API_KEY/)
   })
 
   it('rejects the similarly named but incorrect sending domain', () => {
@@ -98,10 +190,10 @@ describe('email configuration', () => {
   })
 
   it('rejects unsupported regions and malformed project IDs before sending', () => {
-    expect(() => createMailer({ ...environment, SCW_EMAIL_REGION: 'nl-ams' })).toThrow(
+    expect(() => createMailer({ ...scaleway, SCW_EMAIL_REGION: 'nl-ams' })).toThrow(
       /SCW_EMAIL_REGION/,
     )
-    expect(() => createMailer({ ...environment, SCW_PROJECT_ID: 'not-a-project-id' })).toThrow(
+    expect(() => createMailer({ ...scaleway, SCW_PROJECT_ID: 'not-a-project-id' })).toThrow(
       /SCW_PROJECT_ID/,
     )
   })
