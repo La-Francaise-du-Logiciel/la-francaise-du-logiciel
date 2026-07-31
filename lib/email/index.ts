@@ -16,7 +16,12 @@ export {
   RecordingMailer,
 } from '@/lib/email/mailer'
 
-const EMAIL_DOMAIN = 'francaisedulogiciel.fr'
+/**
+ * Mail leaves a dedicated subdomain, so the root domain's reputation never
+ * depends on what the contact form sends. Recipients are unconstrained; only
+ * the sender is pinned here.
+ */
+const SENDING_DOMAIN = 'mails.francaisedulogiciel.fr'
 const SENDER_NAME = 'La Française du Logiciel'
 const DEFAULT_PROVIDER = 'resend'
 
@@ -102,9 +107,9 @@ function exactEnvironmentVariable(
 }
 
 function assertSendingDomain(email: string): void {
-  if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split('@').at(-1) !== EMAIL_DOMAIN) {
+  if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split('@').at(-1) !== SENDING_DOMAIN) {
     throw new MailerConfigurationError(
-      `CONTACT_FROM must use the validated ${EMAIL_DOMAIN} domain.`,
+      `CONTACT_FROM must use the validated ${SENDING_DOMAIN} domain.`,
     )
   }
 }

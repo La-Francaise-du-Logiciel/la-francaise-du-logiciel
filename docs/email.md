@@ -34,14 +34,14 @@ Variables communes, quel que soit le fournisseur :
 | Variable | Rôle |
 | --- | --- |
 | `MAIL_PROVIDER` | `resend` (défaut) ou `scaleway-tem`. |
-| `CONTACT_FROM` | Expéditeur. Doit être sur `francaisedulogiciel.fr`, domaine validé chez le fournisseur. |
+| `CONTACT_FROM` | Expéditeur. Doit être sur `mails.francaisedulogiciel.fr`, le sous-domaine d'envoi validé chez le fournisseur. |
 | `CONTACT_TO` | Boîte de réception qui reçoit les messages du formulaire. |
 
 Variables propres à Resend :
 
 | Variable | Rôle |
 | --- | --- |
-| `RESEND_API_KEY` | Clé d'API Resend, en envoi seul, restreinte au domaine du site. |
+| `RESEND_API_KEY` | Clé d'API Resend, en envoi seul, restreinte au sous-domaine d'envoi. |
 
 Variables propres à Scaleway TEM :
 
@@ -51,17 +51,24 @@ Variables propres à Scaleway TEM :
 | `SCW_PROJECT_ID` | Projet Scaleway qui porte le domaine validé. |
 | `SCW_EMAIL_REGION` | `fr-par`. |
 
-En développement, ces valeurs vont dans `.env.local` (ignoré par git). En
-production, elles vont dans l'environnement de l'hébergeur. `.env.example`
-liste les variables et la marche à suivre côté console.
+En développement, ces valeurs vont dans `.env` ou `.env.local`, tous deux
+ignorés par git. En production, elles vont dans l'environnement de
+l'hébergeur. `.env.example` liste les variables et la marche à suivre côté
+console.
+
+Le courrier part de `mails.francaisedulogiciel.fr`, un sous-domaine dédié : la
+réputation d'envoi du domaine racine ne dépend jamais de ce que poste le
+formulaire. `lib/email` refuse tout autre expéditeur, y compris le domaine
+racine. Les destinataires, eux, ne sont pas contraints — `CONTACT_TO` reste sur
+`francaisedulogiciel.fr`.
 
 ### Mettre en place Resend
 
-1. Tableau de bord Resend → **Domains** → ajouter `francaisedulogiciel.fr`,
-   publier les enregistrements SPF, DKIM et DMARC proposés, puis attendre le
-   statut vérifié.
+1. Tableau de bord Resend → **Domains** → ajouter
+   `mails.francaisedulogiciel.fr`, publier les enregistrements SPF, DKIM et
+   DMARC proposés, puis attendre le statut vérifié.
 2. **API Keys** → créer une clé dédiée à ce site, en permission *Sending
-   access*, restreinte à ce domaine. Ne pas réutiliser une clé d'un autre
+   access*, restreinte à ce sous-domaine. Ne pas réutiliser une clé d'un autre
    produit.
 3. Renseigner `RESEND_API_KEY`, `CONTACT_FROM` et `CONTACT_TO`.
 
