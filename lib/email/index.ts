@@ -16,18 +16,16 @@ export {
   RecordingMailer,
 } from '@/lib/email/mailer'
 
-/**
- * Mail leaves a dedicated subdomain, so the root domain's reputation never
- * depends on what the contact form sends. Recipients are unconstrained; only
- * the sender is pinned here.
- */
-const SENDING_DOMAIN = 'mails.francaisedulogiciel.fr'
 const SENDER_NAME = 'La Française du Logiciel'
-const DEFAULT_PROVIDER = 'resend'
+const DEFAULT_PROVIDER = 'scaleway-tem'
 
 let implementation: Mailer | undefined
 type Environment = Readonly<Record<string, string | undefined>>
 type MailerFactory = (environment: Environment, from: EmailAddress) => Mailer
+interface ProviderRegistration {
+  readonly sendingDomain: string
+  readonly create: MailerFactory
+}
 
 /**
  * Provider adapters, keyed by the MAIL_PROVIDER value that selects one.
@@ -35,19 +33,25 @@ type MailerFactory = (environment: Environment, from: EmailAddress) => Mailer
  * plus a file under providers/. Neither touches a call site, because the rest
  * of the site depends on the Mailer interface alone.
  */
-const providers: Readonly<Record<string, MailerFactory>> = {
-  resend: (environment, from) =>
-    new ResendMailer({
-      apiKey: requiredEnvironmentVariable(environment, 'RESEND_API_KEY'),
-      from,
-    }),
-  'scaleway-tem': (environment, from) =>
-    new ScalewayTemMailer({
-      secretKey: requiredEnvironmentVariable(environment, 'SCW_SECRET_KEY'),
-      projectId: uuidEnvironmentVariable(environment, 'SCW_PROJECT_ID'),
-      region: exactEnvironmentVariable(environment, 'SCW_EMAIL_REGION', 'fr-par'),
-      from,
-    }),
+const providers: Readonly<Record<string, ProviderRegistration>> = {
+  resend: {
+    sendingDomain: 'mails.francaisedulogiciel.fr',
+    create: (environment, from) =>
+      new ResendMailer({
+        apiKey: requiredEnvironmentVariable(environment, 'RESEND_API_KEY'),
+        from,
+      }),
+  },
+  'scaleway-tem': {
+    sendingDomain: 'francaisedulogiciel.fr',
+    create: (environment, from) =>
+      new ScalewayTemMailer({
+        secretKey: requiredEnvironmentVariable(environment, 'SCW_SECRET_KEY'),
+        projectId: uuidEnvironmentVariable(environment, 'SCW_PROJECT_ID'),
+        region: exactEnvironmentVariable(environment, 'SCW_EMAIL_REGION', 'fr-par'),
+        from,
+      }),
+  },
 }
 
 export const supportedProviders: readonly string[] = Object.keys(providers)
@@ -65,17 +69,17 @@ export const mailer: Mailer = {
 
 export function createMailer(environment: Environment = process.env): Mailer {
   const provider = environment.MAIL_PROVIDER?.trim().toLowerCase() || DEFAULT_PROVIDER
-  const factory = providers[provider]
-  if (!factory) {
+  const registration = providers[provider]
+  if (!registration) {
     throw new MailerConfigurationError(
       `Unknown MAIL_PROVIDER "${provider}". Supported: ${supportedProviders.join(', ')}.`,
     )
   }
 
   const from = requiredEnvironmentVariable(environment, 'CONTACT_FROM').toLowerCase()
-  assertSendingDomain(from)
+  assertSendingDomain(from, registration.sendingDomain)
 
-  return factory(environment, { email: from, name: SENDER_NAME })
+  return registration.create(environment, { email: from, name: SENDER_NAME })
 }
 
 function requiredEnvironmentVariable(environment: Environment, name: string): string {
@@ -106,10 +110,10 @@ function exactEnvironmentVariable(
   return value
 }
 
-function assertSendingDomain(email: string): void {
-  if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split('@').at(-1) !== SENDING_DOMAIN) {
+function assertSendingDomain(email: string, sendingDomain: string): void {
+  if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split('@').at(-1) !== sendingDomain) {
     throw new MailerConfigurationError(
-      `CONTACT_FROM must use the validated ${SENDING_DOMAIN} domain.`,
+      `CONTACT_FROM must use the validated ${sendingDomain} domain for the selected provider.`,
     )
   }
 }

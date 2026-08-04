@@ -1,7 +1,8 @@
 # Envoi d'e-mails
 
 Le formulaire de contact (`/contact`) poste vers `app/api/contact/route.ts`, qui
-relaie le message via `lib/email`. Resend est le fournisseur par défaut.
+relaie le message via `lib/email`. Scaleway Transactional Email (TEM) est le
+fournisseur par défaut.
 
 ## Architecture
 
@@ -33,8 +34,8 @@ Variables communes, quel que soit le fournisseur :
 
 | Variable | Rôle |
 | --- | --- |
-| `MAIL_PROVIDER` | `resend` (défaut) ou `scaleway-tem`. |
-| `CONTACT_FROM` | Expéditeur. Doit être sur `mails.francaisedulogiciel.fr`, le sous-domaine d'envoi validé chez le fournisseur. |
+| `MAIL_PROVIDER` | `scaleway-tem` (défaut) ou `resend`. |
+| `CONTACT_FROM` | Expéditeur. Doit correspondre au domaine validé du fournisseur sélectionné. |
 | `CONTACT_TO` | Boîte de réception qui reçoit les messages du formulaire. |
 
 Variables propres à Resend :
@@ -56,11 +57,23 @@ ignorés par git. En production, elles vont dans l'environnement de
 l'hébergeur. `.env.example` liste les variables et la marche à suivre côté
 console.
 
-Le courrier part de `mails.francaisedulogiciel.fr`, un sous-domaine dédié : la
-réputation d'envoi du domaine racine ne dépend jamais de ce que poste le
-formulaire. `lib/email` refuse tout autre expéditeur, y compris le domaine
-racine. Les destinataires, eux, ne sont pas contraints — `CONTACT_TO` reste sur
+Par défaut, le courrier Scaleway TEM part de
+`formulaire@francaisedulogiciel.fr`, domaine déjà validé dans le projet TEM du
+site. Si Resend est explicitement sélectionné, il part de
+`formulaire@mails.francaisedulogiciel.fr`. `lib/email` vérifie le couple
+fournisseur/domaine et refuse les domaines ressemblants ou mal configurés. Les
+destinataires ne sont pas contraints — `CONTACT_TO` reste sur
 `francaisedulogiciel.fr`.
+
+### Mettre en place Scaleway TEM (fournisseur par défaut)
+
+1. Dans le projet Scaleway dédié à ce site, valider
+   `francaisedulogiciel.fr` dans **Transactional Email**.
+2. Créer une application IAM et une clé d'API dédiées au site, limitées à ce
+   projet et à l'envoi TEM.
+3. Renseigner `SCW_SECRET_KEY`, `SCW_PROJECT_ID`,
+   `SCW_EMAIL_REGION=fr-par`,
+   `CONTACT_FROM=formulaire@francaisedulogiciel.fr` et `CONTACT_TO`.
 
 ### Mettre en place Resend
 
@@ -77,8 +90,11 @@ de secrets de l'hébergeur.
 
 ## Changer de fournisseur
 
-Passer à Scaleway TEM : mettre `MAIL_PROVIDER=scaleway-tem` et renseigner les
-variables `SCW_*`. Aucun changement de code, aucun redéploiement de composant.
+Passer à Resend : mettre `MAIL_PROVIDER=resend`, renseigner
+`RESEND_API_KEY` et utiliser
+`CONTACT_FROM=formulaire@mails.francaisedulogiciel.fr`. Revenir à Scaleway TEM
+consiste uniquement à remettre `MAIL_PROVIDER=scaleway-tem` (ou à l'omettre),
+le `CONTACT_FROM` racine et les variables `SCW_*`. Aucun appelant ne change.
 
 Ajouter un fournisseur :
 

@@ -12,7 +12,12 @@ import {
 } from '@/lib/email/providers/resend-mailer'
 import { ScalewayTemMailer } from '@/lib/email/providers/scaleway-tem-mailer'
 
-const SENDER = {
+const SCALEWAY_SENDER = {
+  email: 'formulaire@francaisedulogiciel.fr',
+  name: 'La Française du Logiciel',
+}
+
+const RESEND_SENDER = {
   email: 'formulaire@mails.francaisedulogiciel.fr',
   name: 'La Française du Logiciel',
 }
@@ -20,7 +25,7 @@ const SENDER = {
 const SCALEWAY = {
   secretKey: 'scw-secret',
   projectId: '1f26c6ea-a773-4cc8-9f1a-01815709733a',
-  from: SENDER,
+  from: SCALEWAY_SENDER,
   region: 'fr-par',
 }
 
@@ -101,7 +106,7 @@ describe('Scaleway TEM adapter', () => {
 describe('Resend adapter', () => {
   it('hands the provider-neutral message to the SDK in its own shape', async () => {
     const { calls, client } = recordingResend({ data: { id: 'ff3c…' }, error: null })
-    const mailer = new ResendMailer({ from: SENDER, client })
+    const mailer = new ResendMailer({ from: RESEND_SENDER, client })
 
     await mailer.send(MESSAGE)
 
@@ -118,7 +123,7 @@ describe('Resend adapter', () => {
 
   it('quotes a display name so it cannot break out of the address header', async () => {
     const { calls, client } = recordingResend({ data: { id: 'ff3c…' }, error: null })
-    const mailer = new ResendMailer({ from: SENDER, client })
+    const mailer = new ResendMailer({ from: RESEND_SENDER, client })
 
     await mailer.send({
       ...MESSAGE,
@@ -133,7 +138,7 @@ describe('Resend adapter', () => {
       data: null,
       error: { name: 'validation_error', statusCode: 422, message: 'person@example.fr rejected' },
     })
-    const mailer = new ResendMailer({ from: SENDER, client })
+    const mailer = new ResendMailer({ from: RESEND_SENDER, client })
 
     const delivery = mailer.send(MESSAGE)
     await expect(delivery).rejects.toBeInstanceOf(MailDeliveryError)
@@ -148,50 +153,63 @@ describe('Resend adapter', () => {
         },
       },
     } as unknown as ResendClient
-    const mailer = new ResendMailer({ from: SENDER, client })
+    const mailer = new ResendMailer({ from: RESEND_SENDER, client })
 
     await expect(mailer.send(MESSAGE)).rejects.toBeInstanceOf(MailDeliveryError)
   })
 })
 
 describe('email configuration', () => {
-  const environment = {
-    CONTACT_FROM: SENDER.email,
-    RESEND_API_KEY: 're_test_key',
-  }
   const scaleway = {
-    ...environment,
-    MAIL_PROVIDER: 'scaleway-tem',
+    CONTACT_FROM: SCALEWAY_SENDER.email,
     SCW_SECRET_KEY: SCALEWAY.secretKey,
     SCW_PROJECT_ID: SCALEWAY.projectId,
     SCW_EMAIL_REGION: 'fr-par',
   }
+  const resend = {
+    CONTACT_FROM: RESEND_SENDER.email,
+    MAIL_PROVIDER: 'resend',
+    RESEND_API_KEY: 're_test_key',
+  }
 
-  it('builds Resend by default, behind the Mailer interface', () => {
-    expect(createMailer(environment)).toBeInstanceOf(ResendMailer)
-  })
-
-  it('switches provider from the environment alone', () => {
+  it('builds Scaleway TEM by default, behind the Mailer interface', () => {
     expect(createMailer(scaleway)).toBeInstanceOf(ScalewayTemMailer)
   })
 
+  it('switches provider from the environment alone', () => {
+    expect(createMailer(resend)).toBeInstanceOf(ResendMailer)
+  })
+
   it('refuses an unknown provider instead of silently falling back', () => {
-    expect(() => createMailer({ ...environment, MAIL_PROVIDER: 'sendgrid' })).toThrow(
+    expect(() => createMailer({ ...scaleway, MAIL_PROVIDER: 'sendgrid' })).toThrow(
       /MAIL_PROVIDER/,
     )
   })
 
   it('requires the selected provider credential', () => {
-    expect(() => createMailer({ ...environment, RESEND_API_KEY: '' })).toThrow(/RESEND_API_KEY/)
+    expect(() => createMailer({ ...scaleway, SCW_SECRET_KEY: '' })).toThrow(/SCW_SECRET_KEY/)
+    expect(() => createMailer({ ...resend, RESEND_API_KEY: '' })).toThrow(/RESEND_API_KEY/)
   })
 
-  it('accepts only the dedicated sending subdomain', () => {
+  it('accepts only the Scaleway-validated root domain by default', () => {
     for (const from of [
       'formulaire@lafrancaisedulogiciel.fr', // lookalike domain
-      'formulaire@francaisedulogiciel.fr', // root domain, not the sending one
+      'formulaire@mails.francaisedulogiciel.fr', // Resend's sending subdomain
+      'formulaire@francaisedulogiciel.fr.evil.fr', // suffix impostor
+    ]) {
+      expect(() => createMailer({ ...scaleway, CONTACT_FROM: from })).toThrow(
+        MailerConfigurationError,
+      )
+    }
+  })
+
+  it('accepts only the Resend-validated subdomain when Resend is selected', () => {
+    for (const from of [
+      'formulaire@lafrancaisedulogiciel.fr', // lookalike domain
+      'formulaire@francaisedulogiciel.fr', // Scaleway's root domain
       'formulaire@mails.francaisedulogiciel.fr.evil.fr', // suffix impostor
     ]) {
-      expect(() => createMailer({ ...environment, CONTACT_FROM: from })).toThrow(
+      expect(() => createMailer({ ...resend, CONTACT_FROM: from })).toThrow(
         MailerConfigurationError,
       )
     }
