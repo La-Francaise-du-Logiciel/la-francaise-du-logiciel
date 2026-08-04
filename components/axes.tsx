@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { ArrowRightLeft, Code, Cpu, GitBranch, Layers, Network, ShieldCheck, Wrench } from 'lucide-react'
+import { Code, Cpu, Database, FileSearch, Layers, Scale, Server, Wrench } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
 import { HoverArrow } from '@/components/hover-arrow'
 import { Reveal } from '@/components/reveal'
@@ -9,7 +9,7 @@ import { getMessages } from '@/lib/i18n'
 
 /* Icons pair with the catalogue's items by position. */
 const CONSEIL_ICONS = [Code, Layers, Cpu, Wrench]
-const SOUV_ICONS = [ShieldCheck, ArrowRightLeft, Network, GitBranch]
+const AUDIT_ICONS = [FileSearch, Server, Database, Scale]
 
 export function Axes() {
   const t = getMessages().axes
@@ -34,11 +34,11 @@ export function Axes() {
           delay={0}
         />
         <AxisCard
-          id="souverainete"
+          id="audit"
           accent="var(--red)"
-          content={t.souverainete}
-          icons={SOUV_ICONS}
-          image="/images/sovereignty.png"
+          content={t.audit}
+          icons={AUDIT_ICONS}
+          image="/images/wireframe-structure.png"
           delay={120}
         />
       </div>

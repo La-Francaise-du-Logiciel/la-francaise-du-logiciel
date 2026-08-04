@@ -6,11 +6,11 @@ import { getMessages } from '@/lib/i18n'
 
 /* Values pair with the catalogue's stats by position. These are promises
    we control, not measurements we cannot yet back up. */
-const VALUES = [
+const VALUES: readonly { to: number; from?: number; suffix?: string }[] = [
   { to: 1 },
   { to: 24 },
   { to: 100, suffix: ' %' },
-  { to: 0, from: 100 },
+  { to: 2 },
 ]
 
 export function Commitments() {
@@ -57,14 +57,6 @@ export function Commitments() {
         <div className="h-full w-full [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]">
           <EuropeNetwork />
         </div>
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-5 pb-16 sm:px-8">
-        <Reveal delay={120} className="text-center">
-          <p className="font-serif text-base italic text-muted-foreground">
-            {t.caption}
-          </p>
-        </Reveal>
       </div>
     </section>
   )

@@ -19,7 +19,7 @@ export default function Page() {
         <CardGrid items={t.build.items} columns={2} />
       </Section>
       <Section title={t.how.title} className="border-t border-border">
-        <CardGrid items={t.how.items} />
+        <CardGrid items={t.how.items} columns={2} />
       </Section>
       <Section title={t.deliver.title} intro={t.deliver.intro} className="border-t border-border">
         <CardGrid items={t.deliver.items} columns={4} />

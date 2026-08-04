@@ -4,7 +4,7 @@ import { Reveal } from '@/components/reveal'
 export function PageHeader({ title, intro }: { title: string; intro?: string }) {
   return (
     <section className="relative border-b border-border">
-      <div className="mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+      <div className="mx-auto max-w-6xl px-5 pb-16 pt-36 sm:px-8 sm:pb-20 sm:pt-44">
         <Reveal variant="mask-rise">
           <h1 className="max-w-3xl text-balance font-serif text-4xl leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
             {title}

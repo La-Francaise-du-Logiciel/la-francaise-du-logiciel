@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="460" viewBox="0 0 360 460" role="img" aria-labelledby="title desc">
+  <title id="title">LFL monogram logo — dark-background version</title>
+  <desc id="desc">La Française du Logiciel identity. All lettering is outlined from Didot Regular.</desc>
+  <metadata>Master typeface: Didot Regular. Brand text and monogram are vector outlines; no font dependency.</metadata>
+  <g id="lfl-seal">
+      <path d="M 62.000 212.000 A 118.000 164.000 0 0 1 298.000 212.000" fill="none" stroke="#FFFFFF" stroke-width="7.000" stroke-linecap="round"/>
+      <path d="M 298.000 248.000 A 118.000 164.000 0 0 1 62.000 248.000" fill="none" stroke="#FFFFFF" stroke-width="7.000" stroke-linecap="round"/>
+      <rect x="58.000" y="227.000" width="22.000" height="6.000" rx="3.000" fill="#1767D2"/>
+      <rect x="280.000" y="227.000" width="22.000" height="6.000" rx="3.000" fill="#D91C2B"/>
+      <g fill="#FFFFFF" transform="translate(113.000 312.000) scale(0.1330000 -0.2850000)"><path d="M30 14H141V698H30V712H352V698H241V14H419Q507 14 557.0 69.0Q607 124 630 219H641V0H30Z" transform="translate(0.000 0)"/></g><g fill="#FFFFFF" transform="translate(165.000 258.000) scale(0.0952000 -0.1512000)"><path d="M30 14H141V698H30V712H602V539H591Q578 578 563.0 607.5Q548 637 527.0 657.5Q506 678 477.0 688.0Q448 698 407 698H241V374H306Q339 374 362.0 380.0Q385 386 401.5 402.5Q418 419 429.5 447.5Q441 476 452 521H463V210H452Q445 239 437.5 266.0Q430 293 416.5 314.0Q403 335 380.5 347.5Q358 360 322 360H241V14H352V0H30Z" transform="translate(0.000 0)"/></g><g fill="#FFFFFF" transform="translate(194.000 346.000) scale(0.1060000 -0.1484000)"><path d="M30 14H141V698H30V712H352V698H241V14H419Q507 14 557.0 69.0Q607 124 630 219H641V0H30Z" transform="translate(0.000 0)"/></g>
+    </g>
+</svg>

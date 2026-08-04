@@ -22,6 +22,22 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: getMessages().metadata.title,
   description: getMessages().metadata.description,
+  icons: {
+    icon: [
+      {
+        url: '/icon-light-32x32.png',
+        type: 'image/png',
+        sizes: '32x32',
+      },
+      {
+        url: '/icon.svg',
+        type: 'image/svg+xml',
+        sizes: 'any',
+      },
+    ],
+    shortcut: '/icon.svg',
+    apple: [{ url: '/apple-icon.png', type: 'image/png', sizes: '180x180' }],
+  },
 }
 
 export const viewport: Viewport = {

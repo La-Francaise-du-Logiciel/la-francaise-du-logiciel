@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Wordmark } from '@/components/logo'
+import { BrandBanner } from '@/components/logo'
 import { format, getMessages } from '@/lib/i18n'
 
 export function SiteFooter() {
@@ -8,9 +8,9 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div className="flex flex-col gap-5">
-            <Wordmark />
+            <BrandBanner className="max-w-sm" />
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{t.tagline}</p>
             <div className="flex flex-col gap-2.5">
               <span className="font-serif text-lg italic leading-none text-foreground">

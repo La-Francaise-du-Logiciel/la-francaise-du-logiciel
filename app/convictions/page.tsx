@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <>
       <PageHeader title={t.title} intro={t.intro} />
-      <Section>
+      <Section id="independance">
         <ManifestoQuote />
       </Section>
       <Section className="border-t border-border">

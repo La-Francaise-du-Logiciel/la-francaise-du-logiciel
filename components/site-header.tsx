@@ -29,12 +29,12 @@ export function SiteHeader() {
         scrolled ? 'border-b border-border bg-background/80 backdrop-blur-md' : 'border-b border-transparent',
       )}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" className="shrink-0" aria-label={t.brand.homeLabel}>
           <Wordmark />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label={t.nav.primaryLabel}>
+        <nav className="hidden items-center gap-9 md:flex" aria-label={t.nav.primaryLabel}>
           {t.nav.items.map((item) => {
             const active = pathname === item.href
             return (
@@ -43,7 +43,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'underline-slide text-sm transition-colors duration-300 ease-out hover:text-foreground',
+                  'underline-slide text-base transition-colors duration-300 ease-out hover:text-foreground',
                   active ? 'text-foreground' : 'text-muted-foreground',
                 )}
               >
@@ -56,7 +56,7 @@ export function SiteHeader() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href="/contact"
-            className="arrow-hover inline-flex items-center gap-1.5 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
+            className="arrow-hover inline-flex items-center gap-2 rounded-md bg-foreground px-5 py-2.5 text-base font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
             {t.nav.cta}
             <HoverArrow />
@@ -66,11 +66,11 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border text-foreground md:hidden"
           aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={open}
         >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
@@ -82,7 +82,7 @@ export function SiteHeader() {
                 key={item.key}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-border/60 py-3 text-base text-foreground last:border-0"
+                className="border-b border-border/60 py-3.5 text-lg text-foreground last:border-0"
               >
                 {item.label}
               </Link>
@@ -90,7 +90,7 @@ export function SiteHeader() {
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
-              className="arrow-hover mt-4 inline-flex items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background"
+              className="arrow-hover mt-4 inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-5 py-3 text-base font-medium text-background"
             >
               {t.nav.cta}
               <HoverArrow />

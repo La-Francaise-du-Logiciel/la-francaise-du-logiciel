@@ -3,8 +3,8 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * The hero's whole background. Two wave sources, conseil in blue above and
- * souveraineté in vermilion below, interfere continuously across it; where
+ * The hero's whole background. Two wave sources, development in blue above and
+ * audit in vermilion below, interfere continuously across it; where
  * they meet the colour resolves to neutral. Presence ramps left to right,
  * so behind the headline it is only a bare grey texture and it builds to
  * full strength as it runs off the right of the page.

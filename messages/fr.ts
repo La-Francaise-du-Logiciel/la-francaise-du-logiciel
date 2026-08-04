@@ -8,9 +8,9 @@
  */
 export const fr = {
   metadata: {
-    title: 'La Française du Logiciel · Logiciels métier, infrastructure européenne',
+    title: 'La Française du Logiciel · Logiciels métier, applications web et audit',
     description:
-      'Nous développons des sites, des logiciels métier et des automatisations, et nous aidons nos clients à gagner en souveraineté numérique, jusqu’à construire les plateformes européennes qui manquent encore.',
+      'Logiciels métier, applications web, automatisations et audit de l’existant. Nous livrons le code et la documentation, et pouvons assurer le suivi technique dans la durée.',
     /** Appended to every page title except the home page. */
     titleSuffix: ' · La Française du Logiciel',
   },
@@ -31,7 +31,7 @@ export const fr = {
     cta: 'Nous parler',
     items: [
       { key: 'conseil', label: 'Conseil', href: '/conseil' },
-      { key: 'souverainete', label: 'Souveraineté', href: '/souverainete' },
+      { key: 'audit', label: 'Audit', href: '/audit' },
       { key: 'methode', label: 'Méthode', href: '/methode' },
       { key: 'convictions', label: 'Convictions', href: '/convictions' },
     ],
@@ -40,12 +40,12 @@ export const fr = {
   hero: {
     headline: [
       { text: 'Nous développons' },
-      { text: 'vos logiciels métier,' },
-      { text: 'et nous vous aidons' },
-      { text: 'à gagner en souveraineté.', accent: true },
+      { text: 'les logiciels métier' },
+      { text: 'qui font avancer' },
+      { text: 'votre activité.', accent: true },
     ],
     intro:
-      'Sites, applications métier, automatisations : nous construisons les outils qui font gagner du temps à vos équipes. Et notre premier réflexe est de les déployer sur une infrastructure européenne, qui met vos données hors de portée du CLOUD Act.',
+      'Logiciels métier, applications web, automatisations et audit de l’existant. Nous livrons le code et la documentation. Si vous le souhaitez, nous assurons aussi dans la durée l’administration des comptes techniques, la maintenance et le suivi de votre environnement.',
     ctaPrimary: 'Démarrer un projet',
     ctaSecondary: 'Ce que nous faisons',
   },
@@ -54,7 +54,7 @@ export const fr = {
     title: 'Ce que nous faisons.',
     conseil: {
       title: 'Développement sur mesure',
-      body: 'Nous partons de votre fonctionnement réel, pas d’un cahier des charges théorique. L’objectif est de remplacer les tableurs, les copier-coller et les allers-retours par e-mail par un outil qui fait le travail à leur place. Vous repartez avec le code, la documentation et les accès.',
+      body: 'Nous partons de votre fonctionnement réel, pas d’un cahier des charges théorique. L’objectif est de remplacer les tableurs, les copier-coller et les allers-retours par e-mail par un outil qui fait le travail à leur place. Vous repartez avec le code, la documentation et la possibilité de reprendre entièrement la main.',
       imageAlt:
         'Espace de travail d’un développeur, écran affichant du code dans une ambiance sombre',
       link: 'Voir le détail',
@@ -78,28 +78,28 @@ export const fr = {
         },
       ],
     },
-    souverainete: {
-      title: 'Conseil en souveraineté',
-      body: 'Où vivent vos données, qui peut y accéder, ce que coûterait un départ de votre fournisseur : nous posons ces questions sur chaque projet. Nous recommandons l’Europe quand elle répond au besoin, et elle y répond de mieux en mieux. Quand vous êtes prêts, nous menons la migration.',
-      imageAlt: 'Salle serveur d’un centre de données éclairée de bleu et de rouge',
+    audit: {
+      title: 'Audit et reprise d’existant',
+      body: 'Nous regardons l’état réel du code, de son environnement technique et des données avant de recommander quoi que ce soit. Vous savez ce qui menace de casser, ce qui coûte cher à maintenir et ce qui mérite d’être conservé.',
+      imageAlt: 'Structure logicielle abstraite composée de blocs bleus et rouges',
       link: 'Voir le détail',
-      href: '/souverainete',
+      href: '/audit',
       items: [
         {
-          title: 'Européen d’abord',
-          desc: 'Hébergement, mesure d’audience, envoi d’e-mails : notre premier choix va aux prestataires soumis au droit européen.',
+          title: 'Code et architecture',
+          desc: 'Qualité, sécurité, dépendances, tests et capacité d’une nouvelle équipe à reprendre.',
         },
         {
-          title: 'Conseil et migration',
-          desc: 'Un état des lieux de vos dépendances, puis la migration de vos données et de vos outils, à votre rythme.',
+          title: 'Déploiement et données',
+          desc: 'Déploiement, sauvegardes, accès, flux de données et points de fragilité.',
         },
         {
-          title: 'Plateforme de déploiement',
-          desc: 'Une alternative européenne à Vercel. En construction.',
+          title: 'Coût de remise à niveau',
+          desc: 'Un chiffrage par priorité, pour décider avec autre chose qu’une impression.',
         },
         {
-          title: 'Hébergement de code',
-          desc: 'Une alternative à GitHub. Prévue ensuite.',
+          title: 'Reprendre ou refaire',
+          desc: 'Une comparaison chiffrée des deux chemins, avec leurs risques et leurs délais.',
         },
       ],
     },
@@ -128,7 +128,7 @@ export const fr = {
       {
         num: '04',
         title: 'Vous passer la main',
-        desc: 'Le code, la documentation et les accès vous appartiennent. Si vous voulez continuer sans nous, rien ne vous en empêche.',
+        desc: 'Le code et la documentation vous sont livrés. Si vous voulez continuer sans nous, nous vous transférons le contrôle complet des comptes techniques et organisons la passation.',
       },
     ],
   },
@@ -149,12 +149,12 @@ export const fr = {
         desc: 'Nous préférons un outil simple que vos équipes utilisent à un outil complet qu’elles évitent. Quitte à vous déconseiller des fonctionnalités en cours de route.',
       },
       {
-        title: 'Européen d’abord',
-        desc: 'Sortir de l’Europe doit être une décision justifiée et discutée avec vous, jamais un réglage par défaut.',
+        title: 'Européen par préférence',
+        desc: 'À niveau de service comparable, nous préférons les fournisseurs européens. Le choix reste expliqué et adapté à votre contexte.',
       },
       {
         title: 'Réversible',
-        desc: 'Vous devez pouvoir partir. Le code, les données et l’infrastructure sont à vous, sans négociation.',
+        desc: 'Vous devez pouvoir partir. Le code, les données et la documentation vous sont livrés, et le contrôle des comptes techniques vous est transféré sur demande.',
       },
     ],
     readMore: 'Pourquoi nous faisons ça',
@@ -168,15 +168,34 @@ export const fr = {
       { key: 'contact', label: 'interlocuteur, du premier échange jusqu’à la livraison' },
       { key: 'response', label: 'heures ouvrées pour une première réponse' },
       { key: 'ownership', label: 'du code et de la documentation livrés, sans rétention' },
-      { key: 'europe', label: 'fournisseur hors d’Europe sans votre accord' },
+      { key: 'founders', label: 'fondateurs directement impliqués dans chaque projet' },
     ],
-    caption: 'Vos données restent ici.',
+  },
+
+  projects: {
+    title: 'Nos projets.',
+    intro:
+      'À côté de nos missions clients, nous travaillons sur les produits qui pourront rendre l’indépendance technologique plus simple demain. Ils ne font pas encore partie de nos prestations.',
+    items: [
+      {
+        title: 'Plateforme de déploiement',
+        status: 'En construction',
+        desc: 'Déployer une application aussi simplement qu’avec les grands acteurs américains, en s’appuyant sur des fournisseurs européens.',
+      },
+      {
+        title: 'Forge logicielle',
+        status: 'À l’étude',
+        desc: 'Dépôts, revue de code et intégration continue dans un outil européen pensé pour les petites équipes.',
+      },
+    ],
+    note: 'Ces produits ne sont pas encore disponibles. Nous partageons leur état réel et les ferons évoluer au contact de leurs premiers utilisateurs.',
+    cta: 'Échanger sur ces projets',
   },
 
   contact: {
     title: 'Dites-nous ce qui vous amène.',
     intro:
-      'Un projet précis, une idée encore floue, ou une question sur l’hébergement de vos données. Le premier échange ne vous engage à rien.',
+      'Un projet précis, une idée encore floue, ou un existant sur lequel vous voulez un avis extérieur. Le premier échange ne vous engage à rien, et vous parlerez directement à l’un des deux fondateurs.',
     email: 'contact@francaisedulogiciel.fr',
     write: 'Nous écrire',
     responseTime: 'Réponse sous 24 heures ouvrées',
@@ -186,7 +205,7 @@ export const fr = {
     conseil: {
       metaTitle: 'Développement sur mesure',
       metaDescription:
-        'Sites, applications métier et automatisations construits sur mesure, livrés avec le code, la documentation et les accès, hébergés en Europe.',
+        'Logiciels métier, applications web et automatisations construits sur mesure, livrés avec le code, la documentation et une passation complète si nécessaire.',
       title: 'Nous construisons l’outil qui manque à votre équipe.',
       intro:
         'Un logiciel utile est un logiciel que vos équipes ouvrent tous les matins sans y penser. C’est le seul critère qui nous intéresse.',
@@ -220,7 +239,11 @@ export const fr = {
           },
           {
             title: 'Une proposition écrite',
-            desc: 'Périmètre, délai, prix. Si le projet nous semble trop gros pour commencer d’un coup, nous vous proposons de le découper.',
+            desc: 'Périmètre, délai, prix ferme. Et la liste de ce que nous avons décidé de laisser de côté pour la première version : un projet qui échoue est presque toujours un projet dont personne n’a osé réduire le périmètre.',
+          },
+          {
+            title: 'Audit',
+            desc: 'L’état réel du code, de l’infrastructure et des données. Ce qui menace de casser, ce qui coûte cher à maintenir, ce qui peut être conservé. Vous repartez avec un rapport lisible, une estimation du coût de remise à niveau, et une comparaison chiffrée entre reprendre et refaire.',
           },
           {
             title: 'Des livraisons régulières',
@@ -238,8 +261,8 @@ export const fr = {
             desc: 'Installation, exploitation, décisions techniques et leurs raisons.',
           },
           {
-            title: 'Les accès',
-            desc: 'Hébergement, base de données, noms de domaine : les comptes sont les vôtres.',
+            title: 'La maîtrise des accès',
+            desc: 'Nous pouvons administrer les comptes techniques pendant la mission. À votre demande, nous vous en transférons le contrôle complet, avec les droits d’administration et les moyens de récupération.',
           },
           {
             title: 'Une passation',
@@ -249,75 +272,87 @@ export const fr = {
       },
     },
 
-    souverainete: {
-      metaTitle: 'Souveraineté numérique',
+    audit: {
+      metaTitle: 'Audit applicatif et reprise d’existant',
       metaDescription:
-        'Nous guidons nos clients vers plus de souveraineté : hébergement européen en premier choix, migration à votre rythme, et les plateformes qui manquent encore, que nous construisons.',
-      title: 'Vos données n’ont pas à quitter l’Europe.',
+        'Audit applicatif du code, du déploiement et des données : risques, coûts de maintenance, plan de remise à niveau et comparaison entre reprendre et refaire.',
+      title: 'Avant de reprendre ou de refaire, il faut savoir ce qui existe vraiment.',
       intro:
-        'Notre rôle est de vous amener vers plus de souveraineté, au rythme que votre activité permet. Hébergement européen en premier choix, migration de l’existant quand elle se justifie, et un conseil honnête quand elle ne se justifie pas.',
-      problem: {
-        title: 'Pourquoi cela compte',
+        'Nous examinons votre application et son environnement technique sans présumer de la conclusion. Le but n’est pas de trouver des fautes : c’est de vous donner les éléments techniques et financiers pour décider de la suite.',
+      scope: {
+        title: 'Ce que nous examinons',
+        items: [
+          {
+            title: 'Le code',
+            desc: 'Architecture, lisibilité, dépendances, tests, sécurité et capacité d’une nouvelle équipe à reprendre le projet sans repartir de zéro.',
+          },
+          {
+            title: 'L’environnement technique',
+            desc: 'Déploiements, sauvegardes, supervision, environnements et accès qui font fonctionner l’application. Nous vérifions surtout ce qui peut interrompre le service.',
+          },
+          {
+            title: 'Les données',
+            desc: 'Structure, qualité, doublons, droits d’accès, flux et migrations à prévoir. Une refonte réussie commence souvent par comprendre ce qui doit survivre.',
+          },
+          {
+            title: 'Les coûts cachés',
+            desc: 'Licences, factures d’infrastructure, opérations manuelles et temps passé à contourner l’outil. Le coût réel ne se lit pas seulement dans le code.',
+          },
+        ],
+      },
+      perimeter: {
+        title: 'Un périmètre clair avant de commencer',
         paragraphs: [
-          'Une entreprise américaine reste soumise au CLOUD Act où que se trouvent ses serveurs, y compris dans un centre de données situé en France. Une administration peut lui demander vos données sans passer devant un juge français, et lui interdire de vous prévenir.',
-          'Pendant longtemps, cette question restait théorique face à des outils américains nettement meilleurs. L’écart technique s’est réduit, les alternatives européennes sont devenues utilisables, et l’instabilité politique a rendu le risque plus concret. À partir de là, continuer par habitude n’est plus un choix neutre.',
+          'Nous auditons l’application et ce qui la fait fonctionner : son code, son architecture, son déploiement, sa base de données et ses flux. Nous ne présentons pas cet examen comme un audit complet de votre système d’information.',
+          'Si le diagnostic doit couvrir la sécurité offensive, les réseaux, une infrastructure complexe ou la conformité réglementaire, nous réunissons les spécialistes nécessaires avant de vous proposer un périmètre et un prix.',
         ],
       },
-      practice: {
-        title: 'Ce que nous appliquons à vos projets',
-        items: [
-          {
-            title: 'Hébergement européen',
-            desc: 'En France quand c’est possible, chez un fournisseur européen sinon. Le contrat et le droit applicable sont européens.',
-          },
-          {
-            title: 'Mesure d’audience sans transfert',
-            desc: 'Des statistiques utiles, sans cookie de suivi et sans envoyer vos visiteurs à un régisseur publicitaire.',
-          },
-          {
-            title: 'Même règle partout',
-            desc: 'E-mails transactionnels, stockage de fichiers, sauvegardes, service de paiement : chaque service passe le même filtre.',
-          },
-          {
-            title: 'Votre contexte d’abord',
-            desc: 'Un groupe international, une contrainte de coût, un outil déjà en place : si votre situation penche pour un fournisseur américain ou autre, nous travaillons avec, en vous disant ce que cela implique.',
-          },
-        ],
-      },
-      consulting: {
-        title: 'Vous accompagner vers plus de souveraineté',
+      deliver: {
+        title: 'Ce que vous récupérez',
         intro:
-          'Si vos données et vos outils sont déjà chez des fournisseurs américains, rien n’oblige à tout refaire d’un coup. Nous intervenons aussi en conseil, pour organiser la transition.',
+          'Pas un document réservé aux développeurs : une base de décision que la direction, les équipes métier et l’équipe technique peuvent lire ensemble.',
         items: [
           {
-            title: 'État des lieux',
-            desc: 'L’inventaire de vos dépendances : hébergement, logiciels, flux de données, et ce que chacune implique juridiquement et contractuellement.',
+            title: 'Un rapport lisible',
+            desc: 'Les constats sont expliqués en langage clair, illustrés par des faits et classés par niveau de risque.',
           },
           {
-            title: 'Plan de migration',
-            desc: 'Ce qui vaut la peine d’être migré, dans quel ordre, à quel coût. Parfois, la bonne réponse est de ne pas tout bouger.',
+            title: 'Un plan d’action',
+            desc: 'Ce qu’il faut sécuriser maintenant, remettre à niveau ensuite, et ce qui peut raisonnablement attendre.',
           },
           {
-            title: 'Mise en œuvre',
-            desc: 'La migration de vos données, de vos logiciels et de vos processus, sans interrompre votre activité.',
+            title: 'Une estimation chiffrée',
+            desc: 'Le coût et le délai de la remise à niveau, avec les hypothèses et les éléments laissés hors périmètre.',
+          },
+          {
+            title: 'Un choix argumenté',
+            desc: 'Reprendre ou refaire, comparés sur le coût, le délai, le risque et la durée de vie attendue.',
           },
         ],
       },
-      building: {
-        title: 'Ce que nous construisons',
-        intro:
-          'Certaines briques n’ont pas encore d’équivalent européen sérieux. Plutôt que d’attendre, nous les développons.',
+      process: {
+        title: 'Comment se déroule un audit',
         items: [
           {
-            title: 'Plateforme de déploiement',
-            desc: 'Déployer une application aussi simplement qu’avec les outils américains, sur une infrastructure européenne. En construction.',
+            title: 'Cadrage',
+            desc: 'Nous échangeons avec les personnes qui utilisent, maintiennent et financent l’outil pour comprendre les symptômes autant que le contexte.',
           },
           {
-            title: 'Hébergement de code',
-            desc: 'Dépôts, revue de code, intégration continue. Prévu après la plateforme de déploiement.',
+            title: 'Analyse',
+            desc: 'Nous parcourons le code, les données, la documentation et la production avec des accès adaptés. Chaque constat important est vérifié.',
+          },
+          {
+            title: 'Restitution',
+            desc: 'Nous présentons les conclusions, répondons aux questions et vous remettons les documents. Vous pouvez les utiliser avec nous ou avec une autre équipe.',
           },
         ],
-        note: 'Ces deux produits ne sont pas encore disponibles. Si le sujet vous concerne, écrivez-nous : nous cherchons nos premiers utilisateurs pour les éprouver en conditions réelles.',
+      },
+      decision: {
+        title: 'Un audit n’est pas un prétexte pour tout refaire',
+        paragraphs: [
+          'Une base de code imparfaite peut encore être saine, rentable à conserver et tout à fait reprenable. Nous distinguons les défauts gênants des risques qui menacent réellement l’activité.',
+          'Si l’existant peut être stabilisé, nous proposons un chemin pour le reprendre par étapes. Si repartir coûte moins cher ou présente moins de risques à moyen terme, nous l’expliquons avec les mêmes chiffres. La conclusion doit rester valable même si vous confiez la suite à quelqu’un d’autre.',
+        ],
       },
     },
 
@@ -341,8 +376,8 @@ export const fr = {
             desc: 'Pas de framework maison, pas de dépendance à une personne. Une autre équipe doit pouvoir prendre la suite en lisant le dépôt.',
           },
           {
-            title: 'Un hébergement que nous contrôlons',
-            desc: 'Les comptes sont ouverts à votre nom dès le premier jour. Notre départ ne doit jamais interrompre votre service.',
+            title: 'Une dépendance impossible à quitter',
+            desc: 'Nous pouvons administrer les comptes techniques pendant la mission. Si vous reprenez la main, nous vous en transférons le contrôle complet avec la documentation nécessaire, sans interruption de service.',
           },
         ],
       },
@@ -351,21 +386,22 @@ export const fr = {
     convictions: {
       metaTitle: 'Convictions',
       metaDescription:
-        'Pourquoi la dépendance aux fournisseurs américains est devenue un risque, et comment nous guidons nos clients vers plus de souveraineté.',
+        'Pourquoi nous concevons des logiciels utiles, réversibles et fondés sur des dépendances choisies plutôt que subies.',
       title: 'Rendre la dépendance choisie, plutôt que subie.',
       intro: 'Ce que nous pensons, et ce que cela change concrètement dans nos projets.',
       valuesTitle: 'Ce que cela change, concrètement',
       paragraphs: [
         'Nous ne pensons pas que les outils américains soient mauvais. La plupart sont excellents, et nous les avons utilisés pendant des années. Le problème n’est pas leur qualité, c’est la position dans laquelle ils placent celui qui en dépend : un changement de tarif, de conditions ou de politique, et vous n’avez aucun recours.',
-        'Une entreprise qui ne maîtrise ni son code, ni son hébergement, ni ses données ne possède pas vraiment son outil de travail. Elle le loue, à des conditions qu’elle ne négocie pas.',
-        'Notre métier consiste à rendre cette dépendance choisie plutôt que subie. Parfois cela veut dire migrer, souvent cela veut dire simplement ne pas commencer du mauvais côté.',
+        'Une entreprise qui ne maîtrise ni son code, ni ses données, ni sa capacité à récupérer les comptes qui font fonctionner son logiciel ne possède pas vraiment son outil de travail. Elle le loue, à des conditions qu’elle ne négocie pas.',
+        'Notre métier consiste à rendre cette dépendance choisie plutôt que subie : standards ouverts, exports documentés, contrôle des comptes transférable et choix de fournisseurs expliqué. Nous préférons une solution européenne quand elle répond au besoin, sans en faire une promesse déconnectée de votre contexte.',
+        'C’est ce que nous entendons par souveraineté numérique : la capacité de choisir ses dépendances et d’en sortir. Ce n’est pas une prestation d’hébergement, mais un critère de conception pour chaque logiciel et notre cap de long terme.',
       ],
     },
 
     contact: {
       metaTitle: 'Contact',
       metaDescription:
-        'Écrivez-nous pour parler de votre projet, de votre infrastructure, ou simplement poser une question. Réponse sous 24 heures ouvrées.',
+        'Écrivez-nous pour parler de votre projet, d’un logiciel existant ou simplement poser une question. Réponse sous 24 heures ouvrées.',
       helpTitle: 'Ce qu’il est utile de nous dire',
       helpItems: [
         'Ce que fait votre entreprise, en une phrase.',
@@ -386,7 +422,7 @@ export const fr = {
         sending: 'Envoi en cours…',
         success: 'Message envoyé. Nous vous répondons sous 24 heures ouvrées.',
         error: 'L’envoi a échoué. Écrivez-nous directement à l’adresse ci-dessous.',
-        hint: 'Votre message part de ce site vers notre boîte, par un relais e-mail hébergé en France.',
+        hint: 'Votre message est utilisé uniquement pour vous répondre.',
         directLabel: 'Ou écrivez-nous directement',
         copy: 'Copier',
         copied: 'Copiée',
@@ -473,7 +509,7 @@ export const fr = {
 
   footer: {
     tagline:
-      'Nous développons des logiciels métier et nous aidons nos clients à gagner en souveraineté. Basés en France.',
+      'Logiciels métier, applications web, automatisations et audit de l’existant. Basés en France.',
     madeIn: 'Fait en France',
     columns: [
       {
@@ -481,7 +517,7 @@ export const fr = {
         title: 'Ce que nous faisons',
         links: [
           { label: 'Développement sur mesure', href: '/conseil' },
-          { label: 'Souveraineté numérique', href: '/souverainete' },
+          { label: 'Audit de l’existant', href: '/audit' },
           { label: 'Méthode', href: '/methode' },
         ],
       },
@@ -490,6 +526,7 @@ export const fr = {
         title: 'L’entreprise',
         links: [
           { label: 'Convictions', href: '/convictions' },
+          { label: 'Nos projets', href: '/#projets' },
           { label: 'Engagements', href: '/#engagements' },
         ],
       },

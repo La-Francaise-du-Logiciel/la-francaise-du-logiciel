@@ -13,7 +13,7 @@ export function Hero() {
     <section
       id="top"
       data-flow-surface
-      className="relative isolate flex min-h-svh flex-col overflow-hidden pt-16"
+      className="relative isolate flex min-h-svh flex-col overflow-hidden pt-20"
     >
       {/* Holds the field off the transparent header so the nav stays legible */}
       <div
