@@ -68,8 +68,14 @@ function preferredLocale(request: NextRequest) {
   return negotiateLocale(request.headers.get('accept-language'))
 }
 
-/** A negotiated redirect depends on who is asking; caches must not share it. */
+/**
+ * A negotiated redirect depends on who is asking, so no cache may reuse it:
+ * one shared copy of `/ -> /en` would drag French readers into English. Vary
+ * states the inputs; no-store keeps intermediaries that ignore Vary out of it
+ * altogether. It costs nothing, the response carries no content.
+ */
 function vary(response: NextResponse) {
   response.headers.set('Vary', 'Accept-Language, Cookie')
+  response.headers.set('Cache-Control', 'no-store')
   return response
 }
