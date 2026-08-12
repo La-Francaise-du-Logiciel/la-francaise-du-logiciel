@@ -5,13 +5,15 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
+import { LanguageSwitcher } from '@/components/language-switcher'
 import { Wordmark } from '@/components/logo'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, publicPath, type Locale } from '@/lib/i18n'
+import { path } from '@/lib/routes'
 import { cn } from '@/lib/utils'
 
-export function SiteHeader() {
-  const t = getMessages()
-  const pathname = usePathname()
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const t = getMessages(locale)
+  const pathname = publicPath(usePathname())
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -30,8 +32,8 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="shrink-0" aria-label={t.brand.homeLabel}>
-          <Wordmark />
+        <Link href={path('home', locale)} className="shrink-0" aria-label={t.brand.homeLabel}>
+          <Wordmark locale={locale} />
         </Link>
 
         <nav className="hidden items-center gap-9 md:flex" aria-label={t.nav.primaryLabel}>
@@ -54,8 +56,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <LanguageSwitcher locale={locale} />
           <Link
-            href="/contact"
+            href={path('contact', locale)}
             className="arrow-hover inline-flex items-center gap-2 rounded-md bg-foreground px-5 py-2.5 text-base font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
             {t.nav.cta}
@@ -63,15 +66,18 @@ export function SiteHeader() {
           </Link>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border text-foreground md:hidden"
-          aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-          aria-expanded={open}
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <LanguageSwitcher locale={locale} />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border text-foreground"
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -88,13 +94,17 @@ export function SiteHeader() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href={path('contact', locale)}
               onClick={() => setOpen(false)}
               className="arrow-hover mt-4 inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-5 py-3 text-base font-medium text-background"
             >
               {t.nav.cta}
               <HoverArrow />
             </Link>
+            <div className="mt-6 flex items-center justify-between border-t border-border pt-5">
+              <span className="text-sm text-muted-foreground">{t.nav.language.label}</span>
+              <LanguageSwitcher locale={locale} variant="full" onNavigate={() => setOpen(false)} />
+            </div>
           </nav>
         </div>
       )}

@@ -1,17 +1,11 @@
-import type { Metadata } from 'next'
 import { ContactCta } from '@/components/contact-cta'
 import { PageHeader } from '@/components/page-header'
 import { CardGrid, Prose, Section } from '@/components/section'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
 
-const t = getMessages().pages.audit
+export function AuditView({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).pages.audit
 
-export const metadata: Metadata = {
-  title: t.metaTitle + getMessages().metadata.titleSuffix,
-  description: t.metaDescription,
-}
-
-export default function Page() {
   return (
     <>
       <PageHeader title={t.title} intro={t.intro} />
@@ -34,7 +28,7 @@ export default function Page() {
       <Section title={t.decision.title} className="border-t border-border">
         <Prose paragraphs={t.decision.paragraphs} />
       </Section>
-      <ContactCta />
+      <ContactCta locale={locale} />
     </>
   )
 }

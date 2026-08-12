@@ -2,13 +2,19 @@ import { Fragment, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { HoverArrow } from '@/components/hover-arrow'
 import { Reveal } from '@/components/reveal'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { path } from '@/lib/routes'
 
-const ACCENT_COLORS = { blue: 'var(--blue)', red: 'var(--red)' } as const
+/* Catalogues carry the accent by name; an unknown name simply means the
+   phrase is not highlighted. */
+const ACCENT_COLORS: Record<string, string | undefined> = {
+  blue: 'var(--blue)',
+  red: 'var(--red)',
+}
 
 /** The quote itself, word-staggered, with its key phrases igniting late. */
-export function ManifestoQuote() {
-  const t = getMessages().manifesto
+export function ManifestoQuote({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).manifesto
   let wordIndex = 0
   let accentIndex = 0
 
@@ -24,7 +30,8 @@ export function ManifestoQuote() {
                 </span>{' '}
               </Fragment>
             ))
-            if (!('accent' in seg)) return <Fragment key={si}>{words}</Fragment>
+            const accent = 'accent' in seg ? ACCENT_COLORS[seg.accent] : undefined
+            if (!accent) return <Fragment key={si}>{words}</Fragment>
             /* Each highlighted phrase ignites a beat after the last */
             const igniteDelay = `${1.05 + accentIndex++ * 0.35}s`
             return (
@@ -33,7 +40,7 @@ export function ManifestoQuote() {
                 className="ignite"
                 style={
                   {
-                    '--ignite-color': ACCENT_COLORS[seg.accent],
+                    '--ignite-color': accent,
                     '--ignite-d': igniteDelay,
                   } as CSSProperties
                 }
@@ -49,15 +56,15 @@ export function ManifestoQuote() {
 }
 
 /** On the home page: the quote, then a way through to the full manifesto. */
-export function ManifestoTeaser() {
-  const t = getMessages().manifesto
+export function ManifestoTeaser({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).manifesto
 
   return (
     <section className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
-      <ManifestoQuote />
+      <ManifestoQuote locale={locale} />
       <Reveal delay={200}>
         <Link
-          href="/convictions"
+          href={path('convictions', locale)}
           className="group/link arrow-hover mt-10 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
         >
           <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">

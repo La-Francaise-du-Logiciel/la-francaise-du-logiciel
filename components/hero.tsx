@@ -1,17 +1,18 @@
 import Link from 'next/link'
 import { HeroField } from '@/components/hero-field'
 import { HoverArrow } from '@/components/hover-arrow'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { ANCHORS, path } from '@/lib/routes'
 import { cn } from '@/lib/utils'
 
-export function Hero() {
-  const t = getMessages().hero
+export function Hero({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).hero
 
   return (
     /* The whole section is the field's hover surface, so the dots answer
        the cursor even where the text sits over them. */
     <section
-      id="top"
+      id={ANCHORS.top}
       data-flow-surface
       className="relative isolate flex min-h-svh flex-col overflow-hidden pt-20"
     >
@@ -29,7 +30,7 @@ export function Hero() {
           {t.headline.map((line, i) => (
             <span
               key={line.text}
-              className={cn('block animate-rise', 'accent' in line && 'italic text-[var(--blue)]')}
+              className={cn('block animate-rise', line.accent && 'italic text-[var(--blue)]')}
               style={{ animationDelay: `${0.05 + i * 0.13}s` }}
             >
               {line.text}
@@ -49,14 +50,14 @@ export function Hero() {
           style={{ animationDelay: '0.72s' }}
         >
           <Link
-            href="/contact"
+            href={path('contact', locale)}
             className="arrow-hover sheen inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
           >
             {t.ctaPrimary}
             <HoverArrow />
           </Link>
           <Link
-            href="/conseil"
+            href={path('conseil', locale)}
             className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors duration-300 ease-out hover:border-foreground/40 hover:bg-card"
           >
             {t.ctaSecondary}

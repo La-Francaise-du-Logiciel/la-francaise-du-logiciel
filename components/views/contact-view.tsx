@@ -1,26 +1,21 @@
-import type { Metadata } from 'next'
 import { ContactForm } from '@/components/contact-form'
 import { PageHeader } from '@/components/page-header'
 import { Reveal } from '@/components/reveal'
 import { Section } from '@/components/section'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
 
-const t = getMessages().pages.contact
-const contact = getMessages().contact
+export function ContactView({ locale }: { locale: Locale }) {
+  const messages = getMessages(locale)
+  const t = messages.pages.contact
+  const contact = messages.contact
 
-export const metadata: Metadata = {
-  title: t.metaTitle + getMessages().metadata.titleSuffix,
-  description: t.metaDescription,
-}
-
-export default function Page() {
   return (
     <>
       <PageHeader title={contact.title} intro={contact.intro} />
       <Section>
         <div className="grid gap-14 lg:grid-cols-[1fr_22rem] lg:gap-24">
           <Reveal>
-            <ContactForm />
+            <ContactForm locale={locale} />
           </Reveal>
 
           <aside>

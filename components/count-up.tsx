@@ -1,24 +1,33 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { getIntlTag } from '@/lib/i18n'
+import { getIntlTag, type Locale } from '@/lib/i18n'
 
 interface CountUpProps {
   to: number
   from?: number
   /** Total animation time in ms. */
   duration?: number
-  /** Fraction digits, rendered with a French decimal comma. */
+  /** Fraction digits, rendered with the locale's decimal separator. */
   decimals?: number
   suffix?: string
   className?: string
+  locale: Locale
 }
 
 /**
  * Renders the final value on the server, then counts from `from` to `to`
  * with an ease-out when scrolled into view. Static under reduced motion.
  */
-export function CountUp({ to, from = 0, duration = 1400, decimals = 0, suffix = '', className }: CountUpProps) {
+export function CountUp({
+  to,
+  from = 0,
+  duration = 1400,
+  decimals = 0,
+  suffix = '',
+  className,
+  locale,
+}: CountUpProps) {
   const ref = useRef<HTMLSpanElement | null>(null)
   const [value, setValue] = useState(to)
 
@@ -52,7 +61,7 @@ export function CountUp({ to, from = 0, duration = 1400, decimals = 0, suffix = 
   }, [from, to, duration])
 
   /* Locale-aware: decimal separator and grouping follow the active locale. */
-  const display = new Intl.NumberFormat(getIntlTag(), {
+  const display = new Intl.NumberFormat(getIntlTag(locale), {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   }).format(value)

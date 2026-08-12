@@ -3,7 +3,7 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { Check, Copy } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
@@ -12,9 +12,10 @@ type Status = 'idle' | 'sending' | 'sent' | 'error'
  * mail provider. The direct address sits underneath, both as the fallback
  * when the relay fails and for people who prefer their inbox.
  */
-export function ContactForm() {
-  const contact = getMessages().contact
-  const f = getMessages().pages.contact.form
+export function ContactForm({ locale }: { locale: Locale }) {
+  const t = getMessages(locale)
+  const contact = t.contact
+  const f = t.pages.contact.form
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')

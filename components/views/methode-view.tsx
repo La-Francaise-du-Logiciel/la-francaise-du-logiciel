@@ -1,26 +1,20 @@
-import type { Metadata } from 'next'
 import { Approach } from '@/components/approach'
 import { ContactCta } from '@/components/contact-cta'
 import { PageHeader } from '@/components/page-header'
 import { CardGrid, Section } from '@/components/section'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
 
-const t = getMessages().pages.methode
+export function MethodeView({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).pages.methode
 
-export const metadata: Metadata = {
-  title: t.metaTitle + getMessages().metadata.titleSuffix,
-  description: t.metaDescription,
-}
-
-export default function Page() {
   return (
     <>
       <PageHeader title={t.title} intro={t.intro} />
-      <Approach title={t.stepsTitle} />
+      <Approach title={t.stepsTitle} locale={locale} />
       <Section title={t.refusals.title} className="border-t border-border">
         <CardGrid items={t.refusals.items} />
       </Section>
-      <ContactCta />
+      <ContactCta locale={locale} />
     </>
   )
 }

@@ -2,13 +2,19 @@ import Link from 'next/link'
 import { HoverArrow } from '@/components/hover-arrow'
 import { Reveal } from '@/components/reveal'
 import { Section } from '@/components/section'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { ANCHORS, path } from '@/lib/routes'
 
-export function Projects() {
-  const t = getMessages().projects
+export function Projects({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).projects
 
   return (
-    <Section id="projets" title={t.title} intro={t.intro} className="border-t border-border">
+    <Section
+      id={ANCHORS.projects}
+      title={t.title}
+      intro={t.intro}
+      className="border-t border-border"
+    >
       <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
         {t.items.map((item, index) => (
           <Reveal
@@ -31,7 +37,7 @@ export function Projects() {
       <Reveal delay={180} className="mt-8 flex max-w-2xl flex-col items-start gap-5">
         <p className="text-pretty text-sm leading-relaxed text-muted-foreground">{t.note}</p>
         <Link
-          href="/contact"
+          href={path('contact', locale)}
           className="group/link arrow-hover inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
         >
           <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">

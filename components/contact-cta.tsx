@@ -3,13 +3,17 @@ import { Mail } from 'lucide-react'
 import { HoverArrow } from '@/components/hover-arrow'
 import { PointerField } from '@/components/pointer-field'
 import { Reveal } from '@/components/reveal'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { ANCHORS, path } from '@/lib/routes'
 
-export function ContactCta() {
-  const t = getMessages().contact
+export function ContactCta({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).contact
 
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-border bg-card/30">
+    <section
+      id={ANCHORS.contact}
+      className="relative overflow-hidden border-t border-border bg-card/30"
+    >
       {/* A soft tricolor light rising from below, drifting with the cursor.
           The two are deliberately mismatched: the blue one is tall, low and
           well to the left, the red one wide, higher and short of the edge,
@@ -40,7 +44,7 @@ export function ContactCta() {
 
           <Reveal delay={260} className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[18rem]">
             <Link
-              href="/contact"
+              href={path('contact', locale)}
               className="arrow-hover sheen inline-flex items-center justify-between gap-4 rounded-md bg-foreground px-6 py-4 text-sm font-medium text-background transition-colors duration-300 ease-out hover:bg-[var(--blue)] hover:text-primary-foreground"
             >
               <span className="inline-flex items-center gap-2.5">

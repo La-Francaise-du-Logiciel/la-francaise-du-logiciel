@@ -1,12 +1,13 @@
 import type { CSSProperties } from 'react'
 import { Reveal } from '@/components/reveal'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { ANCHORS } from '@/lib/routes'
 
-export function Approach({ title }: { title?: string }) {
-  const t = getMessages().approach
+export function Approach({ title, locale }: { title?: string; locale: Locale }) {
+  const t = getMessages(locale).approach
 
   return (
-    <section id="approche" className="relative bg-card/30">
+    <section id={ANCHORS.approach} className="relative bg-card/30">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         {title ? (
           <Reveal variant="mask-rise" className="mb-14">

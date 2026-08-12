@@ -1,7 +1,11 @@
+import { ANCHORS, anchorPath, path } from '@/lib/routes'
+
 /**
  * French message catalogue. Every user-visible string on the site lives
  * here, including alt text, aria labels and metadata, so a new locale
  * is a sibling file plus an entry in lib/i18n.ts.
+ *
+ * Links resolve through lib/routes so a slug is renamed in one place.
  *
  * ` ` is the narrow no-break space French typography puts before
  * `:` `;` `!` `?`; ` ` is the regular no-break space.
@@ -29,19 +33,26 @@ export const fr = {
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     cta: 'Nous parler',
+    language: {
+      /** Names the FR/EN control for screen readers. */
+      label: 'Langue',
+      /** {language} is replaced by the target language's own name. */
+      switchTo: 'Afficher le site en {language}',
+    },
     items: [
-      { key: 'conseil', label: 'Conseil', href: '/conseil' },
-      { key: 'audit', label: 'Audit', href: '/audit' },
-      { key: 'methode', label: 'Méthode', href: '/methode' },
-      { key: 'convictions', label: 'Convictions', href: '/convictions' },
+      { key: 'conseil', label: 'Conseil', href: path('conseil', 'fr') },
+      { key: 'audit', label: 'Audit', href: path('audit', 'fr') },
+      { key: 'methode', label: 'Méthode', href: path('methode', 'fr') },
+      { key: 'convictions', label: 'Convictions', href: path('convictions', 'fr') },
     ],
   },
 
   hero: {
+    /* `accent` italicises the line and sets it in blue. */
     headline: [
-      { text: 'Nous développons' },
-      { text: 'les logiciels métier' },
-      { text: 'qui font avancer' },
+      { text: 'Nous développons', accent: false },
+      { text: 'les logiciels qui', accent: false },
+      { text: 'font avancer', accent: false },
       { text: 'votre activité.', accent: true },
     ],
     intro:
@@ -58,7 +69,7 @@ export const fr = {
       imageAlt:
         'Espace de travail d’un développeur, écran affichant du code dans une ambiance sombre',
       link: 'Voir le détail',
-      href: '/conseil',
+      href: path('conseil', 'fr'),
       items: [
         {
           title: 'Sites et applications web',
@@ -83,7 +94,7 @@ export const fr = {
       body: 'Nous regardons l’état réel du code, de son environnement technique et des données avant de recommander quoi que ce soit. Vous savez ce qui menace de casser, ce qui coûte cher à maintenir et ce qui mérite d’être conservé.',
       imageAlt: 'Structure logicielle abstraite composée de blocs bleus et rouges',
       link: 'Voir le détail',
-      href: '/audit',
+      href: path('audit', 'fr'),
       items: [
         {
           title: 'Code et architecture',
@@ -164,11 +175,13 @@ export const fr = {
     title: 'Nos engagements.',
     intro:
       'Nous démarrons : pas encore de logos clients à aligner ni de chiffres à vous vendre. À la place, voici ce sur quoi vous pouvez nous tenir dès le premier projet.',
+    /* The figures live in the component; only the unit is typography, and
+       French sets a no-break space before the percent sign. */
     stats: [
-      { key: 'contact', label: 'interlocuteur, du premier échange jusqu’à la livraison' },
-      { key: 'response', label: 'heures ouvrées pour une première réponse' },
-      { key: 'ownership', label: 'du code et de la documentation livrés, sans rétention' },
-      { key: 'founders', label: 'fondateurs directement impliqués dans chaque projet' },
+      { key: 'contact', suffix: '', label: 'interlocuteur, du premier échange jusqu’à la livraison' },
+      { key: 'response', suffix: '', label: 'heures ouvrées pour une première réponse' },
+      { key: 'ownership', suffix: ' %', label: 'du code et de la documentation livrés, sans rétention' },
+      { key: 'founders', suffix: '', label: 'fondateurs directement impliqués dans chaque projet' },
     ],
   },
 
@@ -471,15 +484,16 @@ export const fr = {
     confidentialite: {
       metaTitle: 'Confidentialité',
       metaDescription:
-        'Ce site ne dépose aucun cookie, ne mesure pas son audience et ne charge aucun service tiers. Ce que nous faisons des données que vous nous envoyez.',
+        'Ce site ne mesure pas son audience et ne charge aucun service tiers. Ce que nous faisons des données que vous nous envoyez.',
       title: 'Ce site ne collecte rien sur vous.',
       intro:
         'La page la plus courte du site, et nous aimerions qu’elle le reste. Voici précisément ce qui se passe quand vous la consultez.',
       sections: [
         {
-          title: 'Aucun suivi, aucun cookie',
+          title: 'Aucun suivi, aucune mesure d’audience',
           paragraphs: [
-            'Ce site ne dépose aucun cookie, ne mesure pas son audience et ne charge aucune ressource depuis un serveur tiers. Les polices de caractères sont servies depuis notre propre domaine plutôt que depuis un service extérieur.',
+            'Ce site ne mesure pas son audience et ne charge aucune ressource depuis un serveur tiers. Les polices de caractères sont servies depuis notre propre domaine plutôt que depuis un service extérieur.',
+            'Le seul cookie de ce site enregistre la langue que vous choisissez vous-même dans le menu. Il ne contient que « fr » ou « en », reste sur votre appareil, et ne sert à rien d’autre qu’à vous réafficher le site dans la bonne langue. Tant que vous ne changez pas de langue, aucun cookie n’est déposé.',
             'Vous pouvez le vérifier : ouvrez l’onglet réseau de votre navigateur et regardez la liste des domaines contactés. Il n’y en a qu’un.',
           ],
         },
@@ -516,18 +530,18 @@ export const fr = {
         key: 'offre',
         title: 'Ce que nous faisons',
         links: [
-          { label: 'Développement sur mesure', href: '/conseil' },
-          { label: 'Audit de l’existant', href: '/audit' },
-          { label: 'Méthode', href: '/methode' },
+          { label: 'Développement sur mesure', href: path('conseil', 'fr') },
+          { label: 'Audit de l’existant', href: path('audit', 'fr') },
+          { label: 'Méthode', href: path('methode', 'fr') },
         ],
       },
       {
         key: 'entreprise',
         title: 'L’entreprise',
         links: [
-          { label: 'Convictions', href: '/convictions' },
-          { label: 'Nos projets', href: '/#projets' },
-          { label: 'Engagements', href: '/#engagements' },
+          { label: 'Convictions', href: path('convictions', 'fr') },
+          { label: 'Nos projets', href: anchorPath('home', 'fr', ANCHORS.projects) },
+          { label: 'Engagements', href: anchorPath('home', 'fr', ANCHORS.commitments) },
         ],
       },
       {
@@ -535,7 +549,7 @@ export const fr = {
         title: 'Contact',
         links: [
           { label: 'Nous écrire', href: 'mailto:contact@francaisedulogiciel.fr' },
-          { label: 'Démarrer un projet', href: '/contact' },
+          { label: 'Démarrer un projet', href: path('contact', 'fr') },
         ],
       },
     ],

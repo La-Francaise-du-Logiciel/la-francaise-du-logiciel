@@ -1,32 +1,27 @@
-import type { Metadata } from 'next'
 import { ContactCta } from '@/components/contact-cta'
 import { ManifestoQuote } from '@/components/manifesto'
 import { PageHeader } from '@/components/page-header'
 import { CardGrid, Prose, Section } from '@/components/section'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { ANCHORS } from '@/lib/routes'
 
-const t = getMessages().pages.convictions
-const manifesto = getMessages().manifesto
+export function ConvictionsView({ locale }: { locale: Locale }) {
+  const messages = getMessages(locale)
+  const t = messages.pages.convictions
 
-export const metadata: Metadata = {
-  title: t.metaTitle + getMessages().metadata.titleSuffix,
-  description: t.metaDescription,
-}
-
-export default function Page() {
   return (
     <>
       <PageHeader title={t.title} intro={t.intro} />
-      <Section id="independance">
-        <ManifestoQuote />
+      <Section id={ANCHORS.independence}>
+        <ManifestoQuote locale={locale} />
       </Section>
       <Section className="border-t border-border">
         <Prose paragraphs={t.paragraphs} />
       </Section>
       <Section title={t.valuesTitle} className="border-t border-border">
-        <CardGrid items={manifesto.values} />
+        <CardGrid items={messages.manifesto.values} />
       </Section>
-      <ContactCta />
+      <ContactCta locale={locale} />
     </>
   )
 }

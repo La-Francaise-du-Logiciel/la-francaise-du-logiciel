@@ -1,15 +1,23 @@
 import Image from 'next/image'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 const LOGO_LIGHT = '/brand/lfl-logo-light.svg'
 const BANNER_LIGHT = '/brand/lfl-banner-light.svg'
 
-export function LogoMark({ className, decorative = false }: { className?: string; decorative?: boolean }) {
+export function LogoMark({
+  className,
+  decorative = false,
+  locale,
+}: {
+  className?: string
+  decorative?: boolean
+  locale: Locale
+}) {
   return (
     <Image
       src={LOGO_LIGHT}
-      alt={decorative ? '' : getMessages().brand.name}
+      alt={decorative ? '' : getMessages(locale).brand.name}
       width={360}
       height={460}
       unoptimized
@@ -18,30 +26,32 @@ export function LogoMark({ className, decorative = false }: { className?: string
   )
 }
 
-export function Wordmark({ className }: { className?: string }) {
-  const { wordmark } = getMessages().brand
+export function Wordmark({ className, locale }: { className?: string; locale: Locale }) {
+  const { brand } = getMessages(locale)
   return (
     <span
       role="img"
-      aria-label={getMessages().brand.name}
+      aria-label={brand.name}
       className={cn('flex items-center gap-3', className)}
     >
-      <LogoMark decorative />
+      <LogoMark decorative locale={locale} />
       <span className="flex flex-col leading-none">
-        <span className="font-serif text-xl tracking-tight text-foreground">{wordmark.top}</span>
+        <span className="font-serif text-xl tracking-tight text-foreground">
+          {brand.wordmark.top}
+        </span>
         <span className="text-xs leading-none text-muted-foreground">
-          {wordmark.bottom}
+          {brand.wordmark.bottom}
         </span>
       </span>
     </span>
   )
 }
 
-export function BrandBanner({ className }: { className?: string }) {
+export function BrandBanner({ className, locale }: { className?: string; locale: Locale }) {
   return (
     <Image
       src={BANNER_LIGHT}
-      alt={getMessages().brand.name}
+      alt={getMessages(locale).brand.name}
       width={1200}
       height={360}
       unoptimized

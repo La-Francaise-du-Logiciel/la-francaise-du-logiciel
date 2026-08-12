@@ -2,22 +2,24 @@ import type { CSSProperties } from 'react'
 import { CountUp } from '@/components/count-up'
 import { EuropeNetwork } from '@/components/europe-network'
 import { Reveal } from '@/components/reveal'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, type Locale } from '@/lib/i18n'
+import { ANCHORS } from '@/lib/routes'
 
 /* Values pair with the catalogue's stats by position. These are promises
-   we control, not measurements we cannot yet back up. */
-const VALUES: readonly { to: number; from?: number; suffix?: string }[] = [
+   we control, not measurements we cannot yet back up. The unit that goes
+   after each one is typography, so it comes from the catalogue. */
+const VALUES: readonly { to: number; from?: number }[] = [
   { to: 1 },
   { to: 24 },
-  { to: 100, suffix: ' %' },
+  { to: 100 },
   { to: 2 },
 ]
 
-export function Commitments() {
-  const t = getMessages().commitments
+export function Commitments({ locale }: { locale: Locale }) {
+  const t = getMessages(locale).commitments
 
   return (
-    <section id="engagements" className="relative overflow-hidden border-t border-border">
+    <section id={ANCHORS.commitments} className="relative overflow-hidden border-t border-border">
       <div className="relative mx-auto max-w-6xl px-5 pt-24 sm:px-8 sm:pt-32">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
@@ -41,8 +43,9 @@ export function Commitments() {
                   <CountUp
                     to={VALUES[i].to}
                     from={VALUES[i].from}
-                    suffix={VALUES[i].suffix}
+                    suffix={stat.suffix}
                     duration={1600}
+                    locale={locale}
                   />
                 </span>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{stat.label}</p>
