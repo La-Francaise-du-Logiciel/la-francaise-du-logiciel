@@ -36,7 +36,7 @@ export default function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const preferred = preferredLocale(request)
+  const preferred = isPageLoad(request) ? preferredLocale(request) : null
   if (preferred && preferred !== rootLocale) {
     const target = alternatePath(pathname, preferred)
     if (target) {
@@ -53,6 +53,26 @@ export default function proxy(request: NextRequest) {
   const url = request.nextUrl.clone()
   url.pathname = pathname === '/' ? ROOT_PREFIX : `${ROOT_PREFIX}${pathname}`
   return NextResponse.rewrite(url)
+}
+
+/**
+ * Whether a person is loading a page, as opposed to the router fetching
+ * data behind one.
+ *
+ * Only the former should be sent to another language. Negotiating a router
+ * fetch is what broke the switcher: sitting on `/en`, the router prefetches
+ * `/` while the cookie still says English, caches the redirect back to
+ * `/en` as the answer, and the click then replays it.
+ *
+ * `Sec-Fetch-Dest` is the signal because it is a browser header rather than
+ * a framework one: Next strips its own `RSC` and `Next-Router-*` headers,
+ * and the `_rsc` query parameter, before a proxy ever sees them. Clients
+ * that send no Fetch Metadata at all (curl, older crawlers) are treated as
+ * page loads, which is what keeps the plain-HTTP behaviour intact.
+ */
+function isPageLoad(request: NextRequest): boolean {
+  const dest = request.headers.get('sec-fetch-dest')
+  return dest ? dest === 'document' : !request.headers.has('next-url')
 }
 
 /**

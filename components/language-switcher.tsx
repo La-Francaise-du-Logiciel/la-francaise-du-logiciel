@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   format,
@@ -56,13 +57,12 @@ export function LanguageSwitcher({
            page for any route the map does not know. */
         const href = active ? pathname : (alternatePath(pathname, target) ?? path('home', target))
 
-        /* A plain anchor, deliberately, not next/link. Both locales share a
-           root layout, so a Link would navigate on the client — and would
-           prefetch the other language while the cookie still says this one,
-           caching the proxy's redirect straight back here. A document load
-           carries the freshly written cookie and re-renders <html lang>. */
+        /* Swaps the content in place rather than reloading the document.
+           This is only safe because proxy.ts leaves prefetches unnegotiated:
+           otherwise the router would cache a redirect back to the current
+           language and the switch would do nothing. */
         return (
-          <a
+          <Link
             key={target}
             href={href}
             hrefLang={target}
@@ -82,7 +82,7 @@ export function LanguageSwitcher({
             )}
           >
             {variant === 'compact' ? LOCALE_LABELS[target].short : LOCALE_LABELS[target].full}
-          </a>
+          </Link>
         )
       })}
     </div>
