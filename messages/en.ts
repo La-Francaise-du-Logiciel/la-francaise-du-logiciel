@@ -187,20 +187,23 @@ export const en = {
   projects: {
     title: 'Our own projects.',
     intro:
-      'Alongside client work, we are building the products that could make technological independence easier tomorrow. They are not part of what we sell yet.',
-    items: [
-      {
-        title: 'Deployment platform',
-        status: 'In progress',
-        desc: 'Shipping an application as easily as the large American platforms allow, on European infrastructure.',
-      },
-      {
-        title: 'Software forge',
-        status: 'Exploring',
-        desc: 'Repositories, code review and continuous integration in a European tool built for small teams.',
-      },
-    ],
-    note: 'Neither is available yet. We would rather say where they honestly stand and build them out alongside their first users.',
+      'Alongside client work, we build the products that make technological independence simpler. One is live, the other is still being built.',
+    tensel: {
+      status: 'Live',
+      /* A proper noun, and the lockup sets it in lower case, so it reads the
+         same in every language. */
+      wordmark: 'tensel',
+      desc: 'Application hosting in Europe. Connect a GitHub repository, push, and the rest is handled. Builds, HTTPS, domains, logs and rollback included, on infrastructure run from Paris.',
+      link: 'tensel.eu',
+      linkLabel: 'Open tensel.eu in a new tab',
+    },
+    forge: {
+      status: 'Exploring',
+      title: 'Code hosting',
+      desc: 'Repositories, code review and continuous integration, in a European alternative to GitHub built for small teams.',
+      unavailable: 'Not open yet',
+    },
+    note: 'Tensel is live and you can try it today. Code hosting is not accessible yet, and we will build it out alongside its first users.',
     cta: 'Talk to us about these',
   },
 

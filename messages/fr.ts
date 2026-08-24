@@ -188,20 +188,26 @@ export const fr = {
   projects: {
     title: 'Nos projets.',
     intro:
-      'À côté de nos missions clients, nous travaillons sur les produits qui pourront rendre l’indépendance technologique plus simple demain. Ils ne font pas encore partie de nos prestations.',
-    items: [
-      {
-        title: 'Plateforme de déploiement',
-        status: 'En construction',
-        desc: 'Déployer une application aussi simplement qu’avec les grands acteurs américains, en s’appuyant sur des fournisseurs européens.',
-      },
-      {
-        title: 'Forge logicielle',
-        status: 'À l’étude',
-        desc: 'Dépôts, revue de code et intégration continue dans un outil européen pensé pour les petites équipes.',
-      },
-    ],
-    note: 'Ces produits ne sont pas encore disponibles. Nous partageons leur état réel et les ferons évoluer au contact de leurs premiers utilisateurs.',
+      'À côté de nos missions clients, nous construisons les produits qui rendent l’indépendance technologique plus simple. Le premier est en ligne, le second est encore en chantier.',
+    /* Deux cartes, deux traitements : le produit publié porte sa marque et
+       son lien, celui qui n’est pas ouvert est rendu en retrait. Des clés
+       nommées plutôt qu’une liste, pour que chacune garde ses champs. */
+    tensel: {
+      status: 'En ligne',
+      /* Nom propre, repris tel quel dans toutes les langues, en bas de casse
+         comme le logo de Tensel. */
+      wordmark: 'tensel',
+      desc: 'Hébergement d’applications en Europe. Vous connectez un dépôt GitHub, vous poussez, et le reste est géré. Build, HTTPS, domaines, journaux et retour arrière inclus, sur une infrastructure opérée à Paris.',
+      link: 'tensel.eu',
+      linkLabel: 'Ouvrir tensel.eu dans un nouvel onglet',
+    },
+    forge: {
+      status: 'À l’étude',
+      title: 'Hébergement de code',
+      desc: 'Dépôts, revue de code et intégration continue, dans une alternative européenne à GitHub pensée pour les petites équipes.',
+      unavailable: 'Pas encore accessible',
+    },
+    note: 'Tensel est en ligne, vous pouvez le tester dès aujourd’hui. L’hébergement de code n’est pas encore accessible, nous le construirons au contact de ses premiers utilisateurs.',
     cta: 'Échanger sur ces projets',
   },
 
