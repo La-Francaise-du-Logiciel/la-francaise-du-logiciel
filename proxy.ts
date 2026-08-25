@@ -1,6 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { isLocale, LOCALE_COOKIE, localeOf, negotiateLocale, rootLocale } from '@/lib/locale'
-import { alternatePath } from '@/lib/routes'
+import { prefersMarkdown } from '@/lib/accept'
+import {
+  isLocale,
+  LOCALE_COOKIE,
+  LOCALE_HEADER,
+  localeOf,
+  negotiateLocale,
+  rootLocale,
+} from '@/lib/locale'
+import { alternatePath, isPublicPage, pageIdOf } from '@/lib/routes'
 import { SITE_HOST } from '@/lib/site'
 
 /**
@@ -10,9 +18,11 @@ import { SITE_HOST } from '@/lib/site'
  *     the apex, which is the host every canonical URL names.
  *  2. `/fr/...` is the internal form of a French URL, never a public one:
  *     redirect it to the unprefixed path so each page has one address.
- *  3. Send a visitor who does not read French to the English version of the
+ *  3. Answer a client that asks for text/markdown, or for a `.md` address,
+ *     with the markdown form of the page rather than the HTML.
+ *  4. Send a visitor who does not read French to the English version of the
  *     page they asked for, once, before they have chosen a language.
- *  4. Serve the unprefixed French URLs from the `/fr` branch of the route
+ *  5. Serve the unprefixed French URLs from the `/fr` branch of the route
  *     tree, as a rewrite, so the address bar keeps showing `/conseil`.
  *
  * Everything stays prerendered: a rewrite picks a static page, it does not
@@ -25,16 +35,34 @@ export const config = {
      top of the proxy keeps the locale rewrite off them. Next reads this
      array at build time, so the paths have to be written out rather than
      spread from a constant. */
-  matcher: ['/((?!api|_next|.*\\..*).*)', '/robots.txt', '/sitemap.xml', '/llms.txt'],
+  matcher: [
+    '/((?!api|_next|.*\\..*).*)',
+    '/robots.txt',
+    '/sitemap.xml',
+    '/llms.txt',
+    /* Every `.md` address, which the pattern above also skips for its dot. */
+    '/((?!api|_next).*\\.md)',
+  ],
 }
 
 const ROOT_PREFIX = `/${rootLocale}`
+const MARKDOWN_ROUTE = '/api/markdown'
+/* Matches MISSING_PAGE in the markdown route. */
+const MARKDOWN_MISSING = '_missing'
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   const canonical = canonicalHostRedirect(request)
   if (canonical) return canonical
+
+  /* `/audit.md` is the same page as `/audit`, addressed so an agent can
+     reach the markdown without negotiating for it. There is no HTML at
+     this address to fall back to, so an unknown one takes the route
+     handler's 404, which is itself markdown. */
+  if (pathname.endsWith(MARKDOWN_SUFFIX)) {
+    return markdownFor(request, pageOf(pathname)) ?? markdownNotFound(request)
+  }
 
   /* A dot means a file rather than a page. Those are in the matcher only
      for the redirect above; rewriting /robots.txt to /fr/robots.txt would
@@ -47,10 +75,22 @@ export default function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 308)
   }
 
+  /* Ahead of language negotiation on purpose: a client that named a URL
+     and asked for markdown gets that URL's markdown, rather than a
+     redirect to whichever translation its Accept-Language prefers.
+     A path we do not know at all gets the markdown 404, which lists the
+     site; a redirect stub is left alone, since forwarding it is more use
+     than telling an agent it does not exist. */
+  if (prefersMarkdown(request.headers.get('accept'))) {
+    const markdown = markdownFor(request, pathname)
+    if (markdown) return markdown
+    if (pageIdOf(pathname) === null) return markdownNotFound(request)
+  }
+
   /* Prefixed locales are an explicit request; only the unprefixed French
      URLs are open to negotiation. */
   if (localeOf(pathname) !== rootLocale) {
-    return NextResponse.next()
+    return NextResponse.next(carryingLocale(request, pathname))
   }
 
   const preferred = isPageLoad(request) ? preferredLocale(request) : null
@@ -63,12 +103,74 @@ export default function proxy(request: NextRequest) {
     }
   }
 
-  /* Next sets its own Vary on a rewritten response, so there is no point
-     adding ours here. Only the redirects above carry it. A shared HTML
-     cache in front of this app therefore has to be configured to vary on
-     Accept-Language and Cookie itself. */
+  /* Next writes its own Vary over anything a rewritten page response
+     carries — set here, or in next.config's headers(), it is replaced
+     either way; both were tried against 16.2.12. So the HTML side cannot
+     announce that it varies on Accept, Accept-Language or Cookie, and a
+     shared cache in front of this app has to be told separately. The
+     markdown route is a route handler rather than a page precisely because
+     a route handler keeps the headers it sets. */
   const url = request.nextUrl.clone()
   url.pathname = pathname === '/' ? ROOT_PREFIX : `${ROOT_PREFIX}${pathname}`
+  return NextResponse.rewrite(url, carryingLocale(request, pathname))
+}
+
+/**
+ * Adds the locale to the request headers on its way into the route tree.
+ *
+ * The pages read their locale from the route segment; this is for the
+ * not-found boundary, which is handed no params and would otherwise answer
+ * an English URL in French. The incoming headers are copied rather than
+ * replaced, since passing a bare Headers object drops the rest.
+ */
+function carryingLocale(request: NextRequest, pathname: string) {
+  const headers = new Headers(request.headers)
+  headers.set(LOCALE_HEADER, localeOf(pathname))
+  return { request: { headers } }
+}
+
+const MARKDOWN_SUFFIX = '.md'
+
+/**
+ * The page a `.md` address is the markdown form of.
+ *
+ * `/audit.md` is `/audit`, and `/index.md` is the home page: agents probe
+ * for the latter, and a bare `/.md` is the same request written differently.
+ */
+function pageOf(markdownPath: string): string {
+  const base = markdownPath.slice(0, -MARKDOWN_SUFFIX.length)
+  const trimmed = base.replace(/\/index$/, '')
+  return trimmed === '' ? '/' : trimmed
+}
+
+/**
+ * Points a request at the markdown form of the page a path names, or null
+ * when the path is not a page we render: a redirect stub, or nothing at
+ * all. The caller decides what null means, because it differs between a
+ * negotiated request and a `.md` address.
+ */
+function markdownFor(request: NextRequest, pathname: string): NextResponse | null {
+  const id = pageIdOf(pathname)
+  if (id === null || !isPublicPage(id)) return null
+
+  return rewriteToMarkdown(request, localeOf(pathname), id)
+}
+
+/** The route handler answers an unknown page with a markdown 404. */
+function markdownNotFound(request: NextRequest): NextResponse {
+  return rewriteToMarkdown(request, localeOf(request.nextUrl.pathname), MARKDOWN_MISSING)
+}
+
+/**
+ * The page and locale travel as path segments. A rewrite does not carry a
+ * query string through to the handler — `request.nextUrl` there still
+ * describes the address the client asked for — so a query would arrive
+ * empty.
+ */
+function rewriteToMarkdown(request: NextRequest, locale: string, page: string): NextResponse {
+  const url = request.nextUrl.clone()
+  url.pathname = `${MARKDOWN_ROUTE}/${locale}/${page}`
+  url.search = ''
   return NextResponse.rewrite(url)
 }
 

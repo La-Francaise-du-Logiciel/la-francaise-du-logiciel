@@ -61,6 +61,7 @@ export function ManifestoTeaser({ locale }: { locale: Locale }) {
 
   return (
     <section className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
+      <h2 className="sr-only">{t.sectionTitle}</h2>
       <ManifestoQuote locale={locale} />
       <Reveal delay={200}>
         <Link

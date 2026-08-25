@@ -19,6 +19,15 @@ export const rootLocale: Locale = 'fr'
  */
 export const fallbackLocale: Locale = 'en'
 
+/**
+ * How the proxy tells the route tree which language it is about to render.
+ *
+ * A not-found boundary receives no route params, and a 404 that answers an
+ * English URL in French is worse than no 404 page at all, so the locale
+ * travels on the request instead.
+ */
+export const LOCALE_HEADER = 'x-locale'
+
 /** Remembers a switch made from the navbar, so the choice survives a visit. */
 export const LOCALE_COOKIE = 'locale'
 export const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365

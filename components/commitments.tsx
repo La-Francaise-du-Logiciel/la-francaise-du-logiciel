@@ -2,18 +2,11 @@ import type { CSSProperties } from 'react'
 import { CountUp } from '@/components/count-up'
 import { EuropeNetwork } from '@/components/europe-network'
 import { Reveal } from '@/components/reveal'
+import { COMMITMENT_FIGURES } from '@/lib/commitments'
 import { getMessages, type Locale } from '@/lib/i18n'
 import { ANCHORS } from '@/lib/routes'
 
-/* Values pair with the catalogue's stats by position. These are promises
-   we control, not measurements we cannot yet back up. The unit that goes
-   after each one is typography, so it comes from the catalogue. */
-const VALUES: readonly { to: number; from?: number }[] = [
-  { to: 1 },
-  { to: 24 },
-  { to: 100 },
-  { to: 2 },
-]
+const VALUES: readonly { to: number; from?: number }[] = COMMITMENT_FIGURES.map((to) => ({ to }))
 
 export function Commitments({ locale }: { locale: Locale }) {
   const t = getMessages(locale).commitments

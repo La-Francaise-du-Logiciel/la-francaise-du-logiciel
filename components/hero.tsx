@@ -33,6 +33,11 @@ export function Hero({ locale }: { locale: Locale }) {
               className={cn('block animate-rise', line.accent && 'italic text-[var(--blue)]')}
               style={{ animationDelay: `${0.05 + i * 0.13}s` }}
             >
+              {/* The spans are display lines, not words. Without a space
+                  between them anything that reads the heading by stripping
+                  tags runs the last word of one line into the first of the
+                  next; the span is `block`, so it changes nothing on screen. */}
+              {i > 0 ? ' ' : ''}
               {line.text}
             </span>
           ))}

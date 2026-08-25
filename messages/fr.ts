@@ -146,6 +146,10 @@ export const fr = {
   },
 
   manifesto: {
+    /* The home page sets this quote as a bare pull-quote, so the heading
+       is there for the document outline and for screen readers rather than
+       for the eye. */
+    sectionTitle: 'Notre conviction',
     /* `accent` marks the phrases that ignite once the sentence settles. */
     quote: [
       {
@@ -526,6 +530,22 @@ export const fr = {
         },
       ],
     },
+  },
+
+  /**
+   * The markdown rendering of the site, served to clients that ask for
+   * text/markdown. Only the wrapper around the page's own copy lives here;
+   * the body is the same catalogue entries the HTML renders.
+   */
+  markdown: {
+    seeAlso: 'Voir aussi',
+    /** {language} is replaced by the other language's own name. */
+    otherLanguage: 'Cette page en {language}',
+    home: 'Accueil',
+    allPages: 'Toutes les pages',
+    notFoundTitle: 'Page introuvable',
+    notFoundIntro:
+      'Cette adresse ne correspond à aucune page. Voici les pages du site, ainsi que le plan et les instructions pour les agents.',
   },
 
   footer: {

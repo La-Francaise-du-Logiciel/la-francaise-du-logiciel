@@ -18,8 +18,10 @@ import {
  * translated per locale, so it is resolved back to a page id through the
  * route map rather than through the folder name.
  */
-/* Only the pages in the route map exist; anything else 404s at the routing
-   layer, without rendering. */
+/* Only the pages in the route map exist. An unknown slug matches no route
+   at all, which is what hands it to app/global-not-found: a `notFound()`
+   thrown from inside this segment would look for a boundary that a root
+   layout under `[locale]` cannot host. */
 export const dynamicParams = false
 
 export function generateStaticParams() {

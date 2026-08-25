@@ -145,6 +145,10 @@ export const en = {
   },
 
   manifesto: {
+    /* The home page sets this quote as a bare pull-quote, so the heading
+       is there for the document outline and for screen readers rather than
+       for the eye. */
+    sectionTitle: 'What we believe',
     /* `accent` marks the phrases that ignite once the sentence settles. */
     quote: [
       {
@@ -524,6 +528,22 @@ export const en = {
         },
       ],
     },
+  },
+
+  /**
+   * The markdown rendering of the site, served to clients that ask for
+   * text/markdown. Only the wrapper around the page's own copy lives here;
+   * the body is the same catalogue entries the HTML renders.
+   */
+  markdown: {
+    seeAlso: 'See also',
+    /** {language} is replaced by the other language's own name. */
+    otherLanguage: 'This page in {language}',
+    home: 'Home',
+    allPages: 'Every page',
+    notFoundTitle: 'Page not found',
+    notFoundIntro:
+      'No page lives at this address. Here are the pages of the site, along with the sitemap and the instructions written for agents.',
   },
 
   footer: {

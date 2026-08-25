@@ -66,6 +66,10 @@ export const PUBLIC_PAGES = ['home', ...CATALOGUE_PAGES] as const satisfies read
 
 export type PublicPageId = (typeof PUBLIC_PAGES)[number]
 
+export function isPublicPage(id: PageId): id is PublicPageId {
+  return (PUBLIC_PAGES as readonly PageId[]).includes(id)
+}
+
 /**
  * Every public page in every language, as `{ id, locale, path }`.
  *
