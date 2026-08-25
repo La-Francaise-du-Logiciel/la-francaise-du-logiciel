@@ -56,6 +56,29 @@ export function redirectTargetOf(id: PageId): { to: PageId; anchor?: string } | 
 }
 
 /**
+ * The pages worth advertising, in the order a reader would meet them.
+ *
+ * Home leads, then the catalogue pages, then the legal ones the catalogue
+ * order already puts last. The REDIRECTS stubs are absent on purpose: a
+ * sitemap entry that 301s teaches a crawler to distrust the sitemap.
+ */
+export const PUBLIC_PAGES = ['home', ...CATALOGUE_PAGES] as const satisfies readonly PageId[]
+
+export type PublicPageId = (typeof PUBLIC_PAGES)[number]
+
+/**
+ * Every public page in every language, as `{ id, locale, path }`.
+ *
+ * The sitemap and llms.txt both need this list, and both would otherwise
+ * re-derive it from PAGES with their own idea of what to leave out.
+ */
+export function publicPaths(): { id: PublicPageId; locale: Locale; path: string }[] {
+  return PUBLIC_PAGES.flatMap((id) =>
+    locales.map((locale) => ({ id, locale, path: PAGES[id][locale] })),
+  )
+}
+
+/**
  * Fragment targets. These are technical identifiers rather than copy, so
  * they stay identical across locales and a shared component can hardcode
  * the one it owns.

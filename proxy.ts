@@ -1,28 +1,45 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { isLocale, LOCALE_COOKIE, localeOf, negotiateLocale, rootLocale } from '@/lib/locale'
 import { alternatePath } from '@/lib/routes'
+import { SITE_HOST } from '@/lib/site'
 
 /**
- * Locale routing. Three jobs, in order:
+ * Canonical host and locale routing. Four jobs, in order:
  *
- *  1. `/fr/...` is the internal form of a French URL, never a public one:
+ *  1. `www` is attached to the same container as the apex, so send it to
+ *     the apex, which is the host every canonical URL names.
+ *  2. `/fr/...` is the internal form of a French URL, never a public one:
  *     redirect it to the unprefixed path so each page has one address.
- *  2. Send a visitor who does not read French to the English version of the
+ *  3. Send a visitor who does not read French to the English version of the
  *     page they asked for, once, before they have chosen a language.
- *  3. Serve the unprefixed French URLs from the `/fr` branch of the route
+ *  4. Serve the unprefixed French URLs from the `/fr` branch of the route
  *     tree, as a rewrite, so the address bar keeps showing `/conseil`.
  *
  * Everything stays prerendered: a rewrite picks a static page, it does not
  * make one dynamic.
  */
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)'],
+  /* The pattern skips anything with a dot in it, which is how static files
+     reach the route tree untouched. robots.txt, sitemap.xml and llms.txt
+     are then named back in so that job 1 covers them too; the guard at the
+     top of the proxy keeps the locale rewrite off them. Next reads this
+     array at build time, so the paths have to be written out rather than
+     spread from a constant. */
+  matcher: ['/((?!api|_next|.*\\..*).*)', '/robots.txt', '/sitemap.xml', '/llms.txt'],
 }
 
 const ROOT_PREFIX = `/${rootLocale}`
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  const canonical = canonicalHostRedirect(request)
+  if (canonical) return canonical
+
+  /* A dot means a file rather than a page. Those are in the matcher only
+     for the redirect above; rewriting /robots.txt to /fr/robots.txt would
+     404 it. */
+  if (pathname.includes('.')) return NextResponse.next()
 
   if (pathname === ROOT_PREFIX || pathname.startsWith(`${ROOT_PREFIX}/`)) {
     const url = request.nextUrl.clone()
@@ -53,6 +70,36 @@ export default function proxy(request: NextRequest) {
   const url = request.nextUrl.clone()
   url.pathname = pathname === '/' ? ROOT_PREFIX : `${ROOT_PREFIX}${pathname}`
   return NextResponse.rewrite(url)
+}
+
+/**
+ * Sends `www` to the apex, which is the host every canonical URL, sitemap
+ * entry and JSON-LD node names.
+ *
+ * It has to happen here rather than in front of the app: Tensel attaches
+ * every custom domain to the same container and has no canonical-host
+ * setting, and DNS cannot redirect. This proxy is the first place the Host
+ * header is visible.
+ *
+ * Only the exact `www.` form of the canonical host is redirected. The
+ * platform hostname, a preview domain and a missing header all pass
+ * through, and since the target host is never itself a `www.` name, there
+ * is no arrangement of headers that makes this loop.
+ */
+function canonicalHostRedirect(request: NextRequest): NextResponse | null {
+  /* Behind the platform's edge the original host arrives forwarded; the
+     Host header is the one that survives a direct request. */
+  const host = request.headers.get('x-forwarded-host') ?? request.headers.get('host')
+  if (host !== `www.${SITE_HOST}`) return null
+
+  const url = request.nextUrl.clone()
+  url.protocol = 'https'
+  url.host = SITE_HOST
+  url.port = ''
+  /* 301 rather than the 308 used above: this is the permanent identity of
+     the site rather than a route detail, and every crawler understands it.
+     Nothing POSTs to a page, and /api is outside the matcher. */
+  return NextResponse.redirect(url, 301)
 }
 
 /**

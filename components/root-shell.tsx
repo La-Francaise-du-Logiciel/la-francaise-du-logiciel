@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react'
 import { Geist, Instrument_Serif } from 'next/font/google'
+import { JsonLd } from '@/components/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import type { Locale } from '@/lib/i18n'
+import { siteGraph } from '@/lib/schema'
 import '@/app/globals.css'
 
 const geist = Geist({
@@ -34,6 +36,10 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
         <SiteHeader locale={locale} />
         <main>{children}</main>
         <SiteFooter locale={locale} />
+        {/* Who publishes the site and in what language, on every page. Each
+            page adds its own node, and the two are stitched together by the
+            @id references. */}
+        <JsonLd graph={siteGraph(locale)} />
       </body>
     </html>
   )

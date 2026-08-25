@@ -1,3 +1,4 @@
+import { COMPANY } from '@/lib/company'
 import { ANCHORS, anchorPath, path } from '@/lib/routes'
 
 /**
@@ -455,15 +456,15 @@ export const en = {
         /* Registered identifiers and addresses are legal facts and stay as
            filed; only the labels are translated. */
         entries: [
-          { label: 'Publisher', value: 'Vincent Wendling, sole trader (entrepreneur individuel)' },
-          { label: 'Trading name', value: 'La Française du Logiciel' },
-          { label: 'Registered office', value: '6 rue des Frères Eberts, 67100 Strasbourg, France' },
-          { label: 'SIREN', value: '942 561 762' },
-          { label: 'SIRET (registered office)', value: '942 561 762 00017' },
-          { label: 'APE code', value: '58.29C — Publishing of application software' },
+          { label: 'Publisher', value: `${COMPANY.legalName}, sole trader (entrepreneur individuel)` },
+          { label: 'Trading name', value: COMPANY.tradingName },
+          { label: 'Registered office', value: COMPANY.address.oneLine },
+          { label: 'SIREN', value: COMPANY.siren },
+          { label: 'SIRET (registered office)', value: COMPANY.siret },
+          { label: 'APE code', value: `${COMPANY.apeCode} — Publishing of application software` },
           { label: 'Registration', value: 'French national business register (RNE)' },
-          { label: 'Director of publication', value: 'Vincent Wendling' },
-          { label: 'Contact', value: 'contact@francaisedulogiciel.fr' },
+          { label: 'Director of publication', value: COMPANY.founder },
+          { label: 'Contact', value: COMPANY.email },
         ],
       },
       host: {

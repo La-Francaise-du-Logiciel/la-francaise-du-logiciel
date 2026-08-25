@@ -1,3 +1,4 @@
+import { COMPANY } from '@/lib/company'
 import { ANCHORS, anchorPath, path } from '@/lib/routes'
 
 /**
@@ -457,15 +458,15 @@ export const fr = {
       publisher: {
         title: 'Éditeur du site',
         entries: [
-          { label: 'Éditeur', value: 'Vincent Wendling, entrepreneur individuel (EI)' },
-          { label: 'Nom commercial', value: 'La Française du Logiciel' },
-          { label: 'Siège', value: '6 rue des Frères Eberts, 67100 Strasbourg, France' },
-          { label: 'SIREN', value: '942 561 762' },
-          { label: 'SIRET (siège)', value: '942 561 762 00017' },
-          { label: 'Code APE', value: '58.29C — Édition de logiciels applicatifs' },
+          { label: 'Éditeur', value: `${COMPANY.legalName}, entrepreneur individuel (EI)` },
+          { label: 'Nom commercial', value: COMPANY.tradingName },
+          { label: 'Siège', value: COMPANY.address.oneLine },
+          { label: 'SIREN', value: COMPANY.siren },
+          { label: 'SIRET (siège)', value: COMPANY.siret },
+          { label: 'Code APE', value: `${COMPANY.apeCode} — Édition de logiciels applicatifs` },
           { label: 'Immatriculation', value: 'Registre national des entreprises (RNE)' },
-          { label: 'Directeur de la publication', value: 'Vincent Wendling' },
-          { label: 'Contact', value: 'contact@francaisedulogiciel.fr' },
+          { label: 'Directeur de la publication', value: COMPANY.founder },
+          { label: 'Contact', value: COMPANY.email },
         ],
       },
       host: {

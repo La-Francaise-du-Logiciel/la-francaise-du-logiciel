@@ -8,6 +8,7 @@ export {
   isLocale,
   LOCALE_COOKIE,
   LOCALE_COOKIE_MAX_AGE,
+  LOCALE_ENGLISH_NAMES,
   LOCALE_LABELS,
   locales,
   localeOf,

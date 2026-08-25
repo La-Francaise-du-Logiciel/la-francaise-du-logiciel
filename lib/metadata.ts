@@ -1,14 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { getMessages, type Locale } from '@/lib/i18n'
 import { alternateLanguages, PAGES, type PageId } from '@/lib/routes'
-
-/**
- * Absolute base for canonical and hreflang URLs. The apex redirects to
- * `www`, so the canonical host carries it: pointing canonicals at a 301
- * would waste a hop on every crawl. Override per environment with
- * NEXT_PUBLIC_SITE_URL.
- */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.francaisedulogiciel.fr'
+import { SITE_URL } from '@/lib/site'
 
 /** The pages that carry their own title and description in the catalogues. */
 type CataloguePageId = Exclude<PageId, 'home' | 'souverainete'>

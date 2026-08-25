@@ -32,6 +32,16 @@ const INTL_TAGS: Record<Locale, string> = {
   en: 'en-GB',
 }
 
+/**
+ * The English name of each language. schema.org's `availableLanguage` and
+ * llms.txt both want this one rather than the endonym below, because both
+ * are read in English whatever the page they describe.
+ */
+export const LOCALE_ENGLISH_NAMES: Record<Locale, string> = {
+  fr: 'French',
+  en: 'English',
+}
+
 /** What the language switcher shows for each locale. */
 export const LOCALE_LABELS: Record<Locale, { short: string; full: string }> = {
   fr: { short: 'FR', full: 'Français' },

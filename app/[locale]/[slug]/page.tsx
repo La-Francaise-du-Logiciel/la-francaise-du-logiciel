@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound, permanentRedirect } from 'next/navigation'
+import { JsonLd } from '@/components/json-ld'
 import { VIEWS } from '@/components/views'
 import { isLocale } from '@/lib/i18n'
 import { pageMetadata } from '@/lib/metadata'
+import { pageGraph } from '@/lib/schema'
 import {
   allSlugParams,
   isCataloguePage,
@@ -51,5 +53,10 @@ export default async function Page({ params }: PageProps<'/[locale]/[slug]'>) {
   if (!isCataloguePage(id)) notFound()
 
   const View = VIEWS[id]
-  return <View locale={locale} />
+  return (
+    <>
+      <JsonLd graph={pageGraph(id, locale)} />
+      <View locale={locale} />
+    </>
+  )
 }
