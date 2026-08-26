@@ -371,7 +371,7 @@ export const fr = {
       decision: {
         title: 'Un audit n’est pas un prétexte pour tout refaire',
         paragraphs: [
-          'Une base de code imparfaite peut encore être saine, rentable à conserver et tout à fait reprenable. Nous distinguons les défauts gênants des risques qui menacent réellement l’activité.',
+          'Une base de code imparfaite peut encore être saine, rentable à conserver et tout à fait reprenable. Nous distinguons les défauts gênants des risques qui menacent l’activité.',
           'Si l’existant peut être stabilisé, nous proposons un chemin pour le reprendre par étapes. Si repartir coûte moins cher ou présente moins de risques à moyen terme, nous l’expliquons avec les mêmes chiffres.',
         ],
         pull: 'La conclusion doit rester valable même si vous confiez la suite à quelqu’un d’autre.',
@@ -415,7 +415,7 @@ export const fr = {
       paragraphs: [
         'Nous ne pensons pas que les outils américains soient mauvais. La plupart sont excellents, et nous les avons utilisés pendant des années. Le problème n’est pas leur qualité, c’est la position dans laquelle ils placent celui qui en dépend : un changement de tarif, de conditions ou de politique, et vous n’avez aucun recours.',
         'Une entreprise qui ne maîtrise ni son code, ni ses données, ni sa capacité à récupérer les comptes qui font fonctionner son logiciel ne possède pas vraiment son outil de travail. Elle le loue, à des conditions qu’elle ne négocie pas.',
-        'Notre métier consiste à rendre cette dépendance choisie plutôt que subie : standards ouverts, exports documentés, contrôle des comptes transférable et choix de fournisseurs expliqué. Nous préférons une solution européenne quand elle répond au besoin, sans en faire une promesse déconnectée de votre contexte.',
+        'Notre métier est de rendre cette dépendance choisie plutôt que subie : standards ouverts, exports documentés, contrôle des comptes transférable et choix de fournisseurs expliqué. Nous préférons une solution européenne quand elle répond au besoin, sans en faire une promesse déconnectée de votre contexte.',
         'C’est ce que nous entendons par souveraineté numérique : la capacité de choisir ses dépendances et d’en sortir. Ce n’est pas une prestation d’hébergement, mais un critère de conception pour chaque logiciel et notre cap de long terme.',
       ],
     },

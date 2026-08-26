@@ -90,7 +90,7 @@ export const en = {
     },
     audit: {
       title: 'Audits and inherited systems',
-      body: 'We look at the real state of the code, the environment around it and the data before recommending anything at all. You come away knowing what is about to break, what is costing you to maintain, and what is worth keeping.',
+      body: 'We look at the real state of the code, the environment around it and the data before recommending anything at all. You come away knowing what is about to break, what is expensive to maintain, and what is worth keeping.',
       link: 'Read more',
       href: path('audit', 'en'),
       items: [
@@ -368,7 +368,7 @@ export const en = {
       decision: {
         title: 'An audit is not an excuse to rebuild everything',
         paragraphs: [
-          'An imperfect codebase can still be sound, worth keeping and possible to take on. We separate the flaws that are merely irritating from the risks that genuinely threaten the business.',
+          'An imperfect codebase can still be sound, worth keeping and possible to take on. We separate the flaws that are merely irritating from the risks that threaten the business.',
           'If what you have can be steadied, we set out a path to take it on in stages. If starting again costs less or carries less risk over the medium term, we say so, using the same figures.',
         ],
         pull: 'The conclusion has to hold even if you hand the work to someone else.',
