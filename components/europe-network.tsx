@@ -53,9 +53,9 @@ const mix = (a: RGB, b: RGB, t: number): RGB => [
   a[2] + (b[2] - a[2]) * t,
 ]
 
-/** Red on the western edge, white through the middle, blue in the east. */
+/** Blue on the western edge, white through the middle, red in the east. */
 const tricolore = (t: number): RGB =>
-  t < 0.5 ? mix(RED, WHITE, t * 2) : mix(WHITE, BLUE, (t - 0.5) * 2)
+  t < 0.5 ? mix(BLUE, WHITE, t * 2) : mix(WHITE, RED, (t - 0.5) * 2)
 
 export function EuropeNetwork() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
