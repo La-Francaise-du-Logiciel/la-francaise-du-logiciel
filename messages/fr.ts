@@ -67,8 +67,6 @@ export const fr = {
     conseil: {
       title: 'Développement sur mesure',
       body: 'Nous partons de votre fonctionnement réel, pas d’un cahier des charges théorique. L’objectif est de remplacer les tableurs, les copier-coller et les allers-retours par e-mail par un outil qui fait le travail à leur place. Vous repartez avec le code, la documentation et la possibilité de reprendre entièrement la main.',
-      imageAlt:
-        'Espace de travail d’un développeur, écran affichant du code dans une ambiance sombre',
       link: 'Voir le détail',
       href: path('conseil', 'fr'),
       items: [
@@ -93,7 +91,6 @@ export const fr = {
     audit: {
       title: 'Audit et reprise d’existant',
       body: 'Nous regardons l’état réel du code, de son environnement technique et des données avant de recommander quoi que ce soit. Vous savez ce qui menace de casser, ce qui coûte cher à maintenir et ce qui mérite d’être conservé.',
-      imageAlt: 'Structure logicielle abstraite composée de blocs bleus et rouges',
       link: 'Voir le détail',
       href: path('audit', 'fr'),
       items: [

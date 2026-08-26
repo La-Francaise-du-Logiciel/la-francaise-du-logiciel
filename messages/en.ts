@@ -67,7 +67,6 @@ export const en = {
     conseil: {
       title: 'Custom development',
       body: 'We start from how your team actually works, not from a specification written in the abstract. The aim is to replace the spreadsheets, the copy-pasting and the endless email threads with a tool that does the job. You leave with the code, the documentation, and the ability to take the whole thing over yourself.',
-      imageAlt: 'A developer’s desk, screen showing code in a dimly lit room',
       link: 'Read more',
       href: path('conseil', 'en'),
       items: [
@@ -92,7 +91,6 @@ export const en = {
     audit: {
       title: 'Audits and inherited systems',
       body: 'We look at the real state of the code, the environment around it and the data before recommending anything at all. You come away knowing what is about to break, what is costing you to maintain, and what is worth keeping.',
-      imageAlt: 'An abstract software structure built from blue and red blocks',
       link: 'Read more',
       href: path('audit', 'en'),
       items: [

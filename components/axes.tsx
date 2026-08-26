@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { Code, Cpu, Database, FileSearch, Layers, Scale, Server, Wrench } from 'lucide-react'
@@ -25,17 +24,17 @@ export function Axes({ locale }: { locale: Locale }) {
         </Reveal>
       </div>
 
-      {/* Side by side, the two cards share one set of rows: image, heading,
-          body, list, link. Each card is a subgrid of it, so every rule lands
-          on the same line however long the copy runs in a given language.
-          Stacked, they fall back to plain flex where alignment is moot. */}
+      {/* Side by side, the two cards share one set of rows: accent edge,
+          heading, body, list, link. Each card is a subgrid of it, so every
+          rule lands on the same line however long the copy runs in a given
+          language. Stacked, they fall back to plain flex where alignment is
+          moot. */}
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-y-0 lg:[grid-template-rows:auto_auto_auto_auto_auto]">
         <AxisCard
           id={ANCHORS.consulting}
           accent="var(--blue)"
           content={t.conseil}
           icons={CONSEIL_ICONS}
-          image="/images/consulting.png"
           delay={0}
         />
         <AxisCard
@@ -43,7 +42,6 @@ export function Axes({ locale }: { locale: Locale }) {
           accent="var(--red)"
           content={t.audit}
           icons={AUDIT_ICONS}
-          image="/images/wireframe-structure.png"
           delay={120}
         />
       </div>
@@ -54,7 +52,6 @@ export function Axes({ locale }: { locale: Locale }) {
 interface AxisContent {
   readonly title: string
   readonly body: string
-  readonly imageAlt: string
   readonly link: string
   readonly href: string
   readonly items: readonly { readonly title: string; readonly desc: string }[]
@@ -65,42 +62,35 @@ interface AxisCardProps {
   accent: string
   content: AxisContent
   icons: typeof CONSEIL_ICONS
-  image: string
   delay: number
 }
 
-function AxisCard({ id, accent, content, icons, image, delay }: AxisCardProps) {
+function AxisCard({ id, accent, content, icons, delay }: AxisCardProps) {
   return (
     <Reveal delay={delay} className="h-full lg:grid lg:row-span-5 lg:grid-rows-subgrid">
       <GlowCard
         accent={accent}
-        className="group h-full lg:grid lg:row-span-5 lg:grid-rows-subgrid"
+        className="h-full lg:grid lg:row-span-5 lg:grid-rows-subgrid"
         contentClassName="lg:grid lg:row-span-5 lg:grid-rows-subgrid"
       >
         <article
           id={id}
           className="flex h-full scroll-mt-24 flex-col lg:grid lg:row-span-5 lg:grid-rows-subgrid"
         >
-          <div className="relative h-52 shrink-0 overflow-hidden sm:h-60">
-            <Image
-              src={image}
-              alt={content.imageAlt}
-              fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
-          </div>
+          {/* The card's whole top edge, in the axis colour: blue on the left
+              card and red on the right, so the pair reads west to east like
+              the hero. It occupies the first subgrid row, which keeps both
+              headings on one line. */}
+          <div
+            aria-hidden="true"
+            className="h-[3px] w-full shrink-0"
+            style={{ backgroundColor: accent }}
+          />
 
           <div className="flex flex-1 flex-col p-7 sm:p-8 lg:grid lg:row-span-4 lg:grid-rows-subgrid">
-            {/* The rule and the heading share a row, so the body below them
-                starts level in both cards. */}
-            <div>
-              <div className="mb-4 h-px w-full" style={{ backgroundColor: accent, opacity: 0.5 }} />
-              <h3 className="text-balance font-serif text-2xl leading-tight tracking-tight sm:text-[1.7rem]">
-                {content.title}
-              </h3>
-            </div>
+            <h3 className="text-balance font-serif text-2xl leading-tight tracking-tight sm:text-[1.7rem]">
+              {content.title}
+            </h3>
             <p className="mt-4 grow text-pretty leading-relaxed text-muted-foreground">
               {content.body}
             </p>
