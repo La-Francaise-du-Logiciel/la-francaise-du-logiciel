@@ -51,10 +51,10 @@ export const en = {
   hero: {
     /* `accent` italicises the line and sets it in blue. */
     headline: [
-      { text: 'We build the', accent: false },
-      { text: 'software that', accent: false },
-      { text: ' moves your', accent: false },
-      { text: 'business forward.', accent: true },
+      { text: 'Most companies rent', accent: false },
+      { text: 'their software.', accent: false },
+      { text: 'We build the kind', accent: false },
+      { text: 'you own.', accent: true },
     ],
     intro:
       'Custom software, web applications, automation and audits of the systems you already run. We hand over the code and the documentation. If you want us to, we will also administer the technical accounts, handle maintenance and look after your environment for the long term.',
@@ -66,7 +66,7 @@ export const en = {
     title: 'What we do.',
     conseil: {
       title: 'Custom development',
-      body: 'We start from how your team actually works, not from a specification written in the abstract. The aim is to replace the spreadsheets, the copy-pasting and the endless email threads with a tool that simply does the job. You leave with the code, the documentation, and the ability to take the whole thing over yourself.',
+      body: 'We start from how your team actually works, not from a specification written in the abstract. The aim is to replace the spreadsheets, the copy-pasting and the endless email threads with a tool that does the job. You leave with the code, the documentation, and the ability to take the whole thing over yourself.',
       imageAlt: 'A developer’s desk, screen showing code in a dimly lit room',
       link: 'Read more',
       href: path('conseil', 'en'),
@@ -152,7 +152,7 @@ export const en = {
     /* `accent` marks the phrases that ignite once the sentence settles. */
     quote: [
       {
-        text: 'For twenty years, going with an American supplier was the sensible call: better, cheaper, better integrated.',
+        text: 'For twenty years, going with an American supplier was the sensible call: better, cheaper, more integrated.',
       },
       { text: 'That is no longer true everywhere,', accent: 'blue' },
       { text: 'while the legal risk' },
@@ -370,7 +370,7 @@ export const en = {
       decision: {
         title: 'An audit is not an excuse to rebuild everything',
         paragraphs: [
-          'An imperfect codebase can still be sound, worth keeping and perfectly possible to take on. We separate the flaws that are merely irritating from the risks that genuinely threaten the business.',
+          'An imperfect codebase can still be sound, worth keeping and possible to take on. We separate the flaws that are merely irritating from the risks that genuinely threaten the business.',
           'If what you have can be steadied, we set out a path to take it on in stages. If starting again costs less or carries less risk over the medium term, we say so, using the same figures. The conclusion has to hold even if you hand the work to someone else.',
         ],
       },

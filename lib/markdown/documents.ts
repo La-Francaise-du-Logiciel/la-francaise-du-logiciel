@@ -36,7 +36,7 @@ function home(locale: Locale): MarkdownDocument {
   const t = getMessages(locale)
 
   const stats = t.commitments.stats.map(
-    (stat, i) => `**${COMMITMENT_FIGURES[i]}${stat.suffix}** — ${stat.label}`,
+    (stat, i) => `**${COMMITMENT_FIGURES[i]}${stat.suffix}** ${stat.label}`,
   )
 
   return {
@@ -74,7 +74,7 @@ function home(locale: Locale): MarkdownDocument {
             kind: 'cards',
             items: [
               {
-                title: `${t.projects.tensel.wordmark} (${t.projects.tensel.status}) — ${t.projects.tensel.link}`,
+                title: `${t.projects.tensel.wordmark} (${t.projects.tensel.status}), ${t.projects.tensel.link}`,
                 desc: t.projects.tensel.desc,
               },
               {

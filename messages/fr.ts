@@ -51,10 +51,10 @@ export const fr = {
   hero: {
     /* `accent` italicises the line and sets it in blue. */
     headline: [
-      { text: 'Nous développons', accent: false },
-      { text: 'les logiciels qui', accent: false },
-      { text: 'font avancer', accent: false },
-      { text: 'votre activité.', accent: true },
+      { text: 'Louer ses logiciels', accent: false },
+      { text: 'est la norme.', accent: false },
+      { text: 'Nous construisons', accent: false },
+      { text: 'les vôtres.', accent: true },
     ],
     intro:
       'Logiciels métier, applications web, automatisations et audit de l’existant. Nous livrons le code et la documentation. Si vous le souhaitez, nous assurons aussi dans la durée l’administration des comptes techniques, la maintenance et le suivi de votre environnement.',
