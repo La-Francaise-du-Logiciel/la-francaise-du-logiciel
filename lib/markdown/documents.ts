@@ -141,7 +141,13 @@ const SECTIONS: Record<CataloguePageId, (locale: Locale) => readonly Section[]> 
         blocks: [{ kind: 'cards', items: t.deliver.items }],
       },
       { title: t.process.title, blocks: [{ kind: 'cards', items: t.process.items }] },
-      { title: t.decision.title, blocks: [{ kind: 'prose', paragraphs: t.decision.paragraphs }] },
+      {
+        title: t.decision.title,
+        blocks: [
+          { kind: 'prose', paragraphs: t.decision.paragraphs },
+          { kind: 'quote', lines: [t.decision.pull] },
+        ],
+      },
     ]
   },
 

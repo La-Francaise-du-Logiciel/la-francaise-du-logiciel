@@ -325,7 +325,7 @@
     transform: scaleX(1);
   }
   .step:hover .step-line {
-    background-color: color-mix(in oklab, var(--blue) 45%, var(--border));
+    background-color: color-mix(in oklab, var(--step-accent, var(--blue)) 45%, var(--border));
   }
   .step-num {
     opacity: 0;

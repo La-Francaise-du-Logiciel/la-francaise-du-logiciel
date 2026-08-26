@@ -369,8 +369,9 @@ export const en = {
         title: 'An audit is not an excuse to rebuild everything',
         paragraphs: [
           'An imperfect codebase can still be sound, worth keeping and possible to take on. We separate the flaws that are merely irritating from the risks that genuinely threaten the business.',
-          'If what you have can be steadied, we set out a path to take it on in stages. If starting again costs less or carries less risk over the medium term, we say so, using the same figures. The conclusion has to hold even if you hand the work to someone else.',
+          'If what you have can be steadied, we set out a path to take it on in stages. If starting again costs less or carries less risk over the medium term, we say so, using the same figures.',
         ],
+        pull: 'The conclusion has to hold even if you hand the work to someone else.',
       },
     },
 

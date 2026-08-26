@@ -16,9 +16,9 @@ export function ConvictionsView({ locale }: { locale: Locale }) {
         <ManifestoQuote locale={locale} />
       </Section>
       <Section className="border-t border-border">
-        <Prose paragraphs={t.paragraphs} />
+        <Prose paragraphs={t.paragraphs} lead />
       </Section>
-      <Section title={t.valuesTitle} className="border-t border-border">
+      <Section title={t.valuesTitle} className="bg-card/30">
         <CardGrid items={messages.manifesto.values} />
       </Section>
       <ContactCta locale={locale} />

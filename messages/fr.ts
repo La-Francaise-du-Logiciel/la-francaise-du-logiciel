@@ -372,8 +372,9 @@ export const fr = {
         title: 'Un audit n’est pas un prétexte pour tout refaire',
         paragraphs: [
           'Une base de code imparfaite peut encore être saine, rentable à conserver et tout à fait reprenable. Nous distinguons les défauts gênants des risques qui menacent réellement l’activité.',
-          'Si l’existant peut être stabilisé, nous proposons un chemin pour le reprendre par étapes. Si repartir coûte moins cher ou présente moins de risques à moyen terme, nous l’expliquons avec les mêmes chiffres. La conclusion doit rester valable même si vous confiez la suite à quelqu’un d’autre.',
+          'Si l’existant peut être stabilisé, nous proposons un chemin pour le reprendre par étapes. Si repartir coûte moins cher ou présente moins de risques à moyen terme, nous l’expliquons avec les mêmes chiffres.',
         ],
+        pull: 'La conclusion doit rester valable même si vous confiez la suite à quelqu’un d’autre.',
       },
     },
 

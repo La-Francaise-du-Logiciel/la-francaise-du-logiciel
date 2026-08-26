@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import { Reveal } from '@/components/reveal'
 import { cn } from '@/lib/utils'
 
@@ -36,9 +36,14 @@ type Item = { readonly title: string; readonly desc: string }
 export function CardGrid({
   items,
   columns = 3,
+  icons,
+  accent,
 }: {
   items: readonly Item[]
   columns?: 2 | 3 | 4
+  /** Paired with the items by position, as on the home page's axis cards. */
+  icons?: readonly ComponentType<{ className?: string; strokeWidth?: number }>[]
+  accent?: string
 }) {
   return (
     <div
@@ -49,25 +54,47 @@ export function CardGrid({
         columns === 4 && 'sm:grid-cols-2 lg:grid-cols-4',
       )}
     >
-      {items.map((item, i) => (
-        <Reveal key={item.title} delay={i * 80} className="bg-background p-7 sm:p-8">
-          <h3 className="font-serif text-xl tracking-tight">{item.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-        </Reveal>
-      ))}
+      {items.map((item, i) => {
+        const Icon = icons?.[i]
+        return (
+          <Reveal key={item.title} delay={i * 80} className="bg-background p-7 sm:p-8">
+            {/* The icon sits beside the title, as on the home page's chips. */}
+            <div className={Icon ? 'flex items-center gap-3.5' : undefined}>
+              {Icon ? (
+                <span
+                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border"
+                  style={{ color: accent }}
+                >
+                  <Icon className="h-5 w-5" strokeWidth={1.6} />
+                </span>
+              ) : null}
+              <h3 className="font-serif text-xl tracking-tight">{item.title}</h3>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+          </Reveal>
+        )
+      })}
     </div>
   )
 }
 
 /** Body copy for the pages that argue rather than list. */
-export function Prose({ paragraphs }: { paragraphs: readonly string[] }) {
+export function Prose({ paragraphs, lead }: { paragraphs: readonly string[]; lead?: boolean }) {
   return (
     <div className="max-w-2xl">
       {paragraphs.map((p, i) => (
         /* The spacing lives on the wrapper: each paragraph is the only
            child of its own Reveal, so a sibling selector never matches. */
         <Reveal key={p.slice(0, 24)} delay={i * 90} className={i > 0 ? 'mt-6' : undefined}>
-          <p className="text-pretty text-lg leading-relaxed text-muted-foreground">{p}</p>
+          <p
+            className={cn(
+              'text-pretty leading-relaxed',
+              /* The standfirst: the thesis reads before the argument. */
+              lead && i === 0 ? 'text-xl text-foreground sm:text-2xl' : 'text-lg text-muted-foreground',
+            )}
+          >
+            {p}
+          </p>
         </Reveal>
       ))}
     </div>
