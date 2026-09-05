@@ -112,14 +112,33 @@ describe('markdown negotiation', () => {
     expect(rewriteOf(get('/en/nope', MARKDOWN))).toContain('/api/markdown/en/_missing')
   })
 
-  /* Forwarding a stub is more use to an agent than telling it the address
-     does not exist. The proxy only has to keep its hands off it: the
-     redirect itself is the page's, further down. */
-  it('leaves a redirect stub to the HTML routing rather than calling it missing', () => {
-    const rewrite = rewriteOf(get('/souverainete', MARKDOWN)) ?? ''
+  /* Once a redirect stub, now a page of its own: the negotiation treats it
+     like any other public page. */
+  it.each([
+    ['/souverainete', 'fr'],
+    ['/en/sovereignty', 'en'],
+  ])('serves the sovereignty page %s as markdown when asked', (path, locale) => {
+    expect(rewriteOf(get(path, MARKDOWN))).toContain(`/api/markdown/${locale}/souverainete`)
+  })
 
-    expect(rewrite).not.toContain('/api/markdown')
-    expect(rewrite).toContain('/fr/souverainete')
+  /* The articles are matched on path shape alone; the route handler owns
+     the registry and answers unknown slugs with the markdown 404. */
+  it.each([
+    ['/articles', 'fr/articles'],
+    ['/articles/pourquoi-nous-lancons-la-francaise-du-logiciel', 'fr/articles/pourquoi-nous-lancons-la-francaise-du-logiciel'],
+    ['/en/articles/some-future-piece', 'en/articles/some-future-piece'],
+  ])('routes %s to the article markdown when asked', (path, target) => {
+    expect(rewriteOf(get(path, MARKDOWN))).toContain(`/api/markdown/${target}`)
+  })
+
+  it('answers an article .md address from the article markdown route', () => {
+    expect(rewriteOf(get('/articles/pourquoi-nous-lancons-la-francaise-du-logiciel.md', BROWSER))).toContain(
+      '/api/markdown/fr/articles/pourquoi-nous-lancons-la-francaise-du-logiciel',
+    )
+  })
+
+  it('leaves the articles as HTML for a browser', () => {
+    expect(rewriteOf(get('/articles', BROWSER)) ?? '').not.toContain('/api/markdown')
   })
 
   it('leaves the agent files alone even when markdown is asked for', () => {

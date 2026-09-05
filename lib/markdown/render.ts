@@ -33,6 +33,9 @@ export type MarkdownDocument = {
   /** The public path this document is the markdown form of. */
   path: string
   locale: Locale
+  /** ISO dates, for the documents that live in time — the articles. */
+  date?: string
+  updated?: string
   intro?: string
   sections?: readonly Section[]
   /** The foot of the page: the other language, and where to go next. */
@@ -92,6 +95,8 @@ function frontMatter(document: MarkdownDocument, url: string): string {
     `description: ${quote(document.description)}`,
     `url: ${quote(url)}`,
     `language: ${quote(getIntlTag(document.locale))}`,
+    ...(document.date ? [`date: ${quote(document.date)}`] : []),
+    ...(document.updated ? [`updated: ${quote(document.updated)}`] : []),
     '---',
   ].join('\n')
 }

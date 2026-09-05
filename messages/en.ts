@@ -226,7 +226,7 @@ export const en = {
         'Custom software, web applications and automation built to fit, delivered with the code, the documentation and a full handover where you need one.',
       title: 'We build the tool your team is missing.',
       intro:
-        'Useful software is software your team opens every morning without thinking about it. That is the only test we are interested in.',
+        'Custom business software is only useful if your team opens it every morning without thinking about it. That is the only test we are interested in.',
       build: {
         title: 'What we build',
         items: [
@@ -376,12 +376,12 @@ export const en = {
     },
 
     methode: {
-      metaTitle: 'Our method',
+      metaTitle: 'Our software development method',
       metaDescription:
         'Four stages, a release every two weeks, and a project you can take over at any point.',
       title: 'How we work.',
       intro:
-        'Four stages, a few weeks per project. You watch the product take shape week by week, and you stay in control from start to finish.',
+        'Four stages, a few weeks per project. From scoping to delivery, you watch the software take shape week by week, and you stay in control from start to finish.',
       stepsTitle: 'The four stages',
       refusals: {
         title: 'What we will not do',
@@ -415,6 +415,77 @@ export const en = {
         'Our job is to make that dependency something you choose rather than something you inherit: open standards, documented exports, account control that can be signed over, and a choice of suppliers we can justify. We prefer a European option where it does the job, without turning that into a promise detached from your situation.',
         'That is what we mean by digital sovereignty: being able to choose your dependencies, and to leave them. It is not a hosting package. It is a design constraint on everything we write, and the direction we are headed in.',
       ],
+      sovereigntyLink: 'Digital sovereignty, in practice',
+    },
+
+    souverainete: {
+      metaTitle: 'Digital sovereignty',
+      metaDescription:
+        'What digital sovereignty changes for a small business: reversible software, data you control, and European suppliers chosen rather than inherited.',
+      title: 'Digital sovereignty is a capability, not a badge.',
+      intro:
+        'Being able to choose your dependencies, and to leave them. Here is what that means for your software, your data and your suppliers.',
+      definition: {
+        paragraphs: [
+          'Digital sovereignty gets talked about a great deal, usually as a badge or a hosting offer. Our definition is more down to earth: a company is sovereign over its tools when it can choose its dependencies and walk away from them without putting the business at risk.',
+          'The test is simple. If your vendor doubles its prices, if your supplier stops answering, if a provider changes its terms overnight: what happens next? If the answer is “we have no choice”, you do not own your tools. You rent them, on terms you never negotiated.',
+          'Sovereignty is not something you declare. It is built project by project: in the choice of standards, in where the data is hosted, in who owns the code, and in who controls the technical accounts.',
+        ],
+      },
+      practice: {
+        title: 'What that changes on our projects',
+        items: [
+          {
+            title: 'Open standards',
+            desc: 'Documented data formats, widely used building blocks, no in-house framework. Whatever we build can be taken over by any competent team.',
+          },
+          {
+            title: 'Your code, your data',
+            desc: 'The repository is in your name with its full history, the exports are documented, and the database belongs to you, structure included.',
+          },
+          {
+            title: 'Account control you can take back',
+            desc: 'Hosting, domains, email: we can administer them while we work together, and we sign over full control whenever you ask.',
+          },
+          {
+            title: 'European suppliers by preference',
+            desc: 'Where the service is comparable, we choose a supplier under European law. And where no serious alternative exists, we say so.',
+          },
+        ],
+      },
+      europe: {
+        title: 'Where Europe holds its own',
+        paragraphs: [
+          'Hosting is the clearest case. This site runs on Scaleway in Paris, under European law, and we are building Tensel to make that choice as easy as deploying with an American giant.',
+          'In other areas the gap is still real. We will never recommend a worse tool purely because it is European: the choice is compared, explained, and fitted to your situation.',
+        ],
+        link: 'See our own projects',
+      },
+      faq: {
+        title: 'Frequently asked questions',
+        items: [
+          {
+            title: 'What is sovereign software?',
+            desc: 'Software whose code, data and technical accounts you control. You can hand it to the team of your choice, host it where you like and leave with your data: sovereignty is measured by how easy it is to walk away, not by the flag on the brochure.',
+          },
+          {
+            title: 'Is digital sovereignty the same thing as hosting in Europe?',
+            desc: 'No. Hosting in Europe shields your data from non-European law, but software hosted in Paris whose code and exports you do not own is still a rental. Hosting is one part of the answer; reversibility is the test.',
+          },
+          {
+            title: 'Should we replace every American tool?',
+            desc: 'No, and we do not advise it. Many are excellent and some have no serious equivalent. Our rule: where the service is comparable, prefer a European supplier; where it is not, choose knowingly and keep a documented way out.',
+          },
+          {
+            title: 'How do you make custom software reversible?',
+            desc: 'Through choices you can verify: the code in a repository in your name, widespread standards rather than an in-house framework, operating documentation, documented data exports, and control of the technical accounts signed over on request.',
+          },
+          {
+            title: 'Where do we start, concretely?',
+            desc: 'With an inventory: who holds your accounts, your domain names, your code, your data? An audit of what you already run often shows the riskiest dependency is not the one you expected. It is also a far cheaper starting point than a forced migration.',
+          },
+        ],
+      },
     },
 
     contact: {
@@ -530,6 +601,28 @@ export const en = {
   },
 
   /**
+   * The chrome around the articles. The articles themselves live in
+   * content/articles/ and exist only in the language they were written in;
+   * these strings wait for the first English article.
+   */
+  articles: {
+    metaTitle: 'Articles',
+    metaDescription:
+      'Our writing on custom software, inherited systems and digital sovereignty.',
+    title: 'Articles.',
+    intro:
+      'What we learn building software its users own: custom development, inherited systems, digital sovereignty.',
+    /** {date} is replaced by the article's own date, already localised. */
+    published: 'Published on {date}',
+    updated: 'Updated on {date}',
+    /** {name} is the author's name. */
+    by: 'By {name}',
+    read: 'Read the article',
+    all: 'All articles',
+    feed: 'RSS feed',
+  },
+
+  /**
    * The markdown rendering of the site, served to clients that ask for
    * text/markdown. Only the wrapper around the page's own copy lives here;
    * the body is the same catalogue entries the HTML renders.
@@ -564,6 +657,7 @@ export const en = {
         title: 'The company',
         links: [
           { label: 'Principles', href: path('convictions', 'en') },
+          { label: 'Digital sovereignty', href: path('souverainete', 'en') },
           { label: 'Our own projects', href: anchorPath('home', 'en', ANCHORS.projects) },
           { label: 'Commitments', href: anchorPath('home', 'en', ANCHORS.commitments) },
         ],

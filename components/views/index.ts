@@ -6,6 +6,7 @@ import { ContactView } from '@/components/views/contact-view'
 import { ConvictionsView } from '@/components/views/convictions-view'
 import { MentionsLegalesView } from '@/components/views/mentions-legales-view'
 import { MethodeView } from '@/components/views/methode-view'
+import { SouveraineteView } from '@/components/views/souverainete-view'
 import type { Locale } from '@/lib/i18n'
 import type { CataloguePageId } from '@/lib/routes'
 
@@ -19,6 +20,7 @@ export const VIEWS: Record<CataloguePageId, ComponentType<{ locale: Locale }>> =
   audit: AuditView,
   methode: MethodeView,
   convictions: ConvictionsView,
+  souverainete: SouveraineteView,
   contact: ContactView,
   mentionsLegales: MentionsLegalesView,
   confidentialite: ConfidentialiteView,

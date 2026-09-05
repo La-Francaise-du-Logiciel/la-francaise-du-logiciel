@@ -1,6 +1,5 @@
 import { Fragment, type CSSProperties } from 'react'
-import Link from 'next/link'
-import { HoverArrow } from '@/components/hover-arrow'
+import { ArrowLink } from '@/components/hover-arrow'
 import { Reveal } from '@/components/reveal'
 import { getMessages, type Locale } from '@/lib/i18n'
 import { path } from '@/lib/routes'
@@ -63,16 +62,8 @@ export function ManifestoTeaser({ locale }: { locale: Locale }) {
     <section className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
       <h2 className="sr-only">{t.sectionTitle}</h2>
       <ManifestoQuote locale={locale} />
-      <Reveal delay={200}>
-        <Link
-          href={path('convictions', locale)}
-          className="group/link arrow-hover mt-10 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
-        >
-          <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">
-            {t.readMore}
-          </span>
-          <HoverArrow />
-        </Link>
+      <Reveal delay={200} className="mt-10">
+        <ArrowLink href={path('convictions', locale)}>{t.readMore}</ArrowLink>
       </Reveal>
     </section>
   )

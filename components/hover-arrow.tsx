@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
 /**
@@ -20,5 +22,21 @@ export function HoverArrow({ className }: { className?: string }) {
       <path className="harrow-line" d="M1.25 6h7.5" />
       <path className="harrow-tip" d="M4.75 2.5 8.25 6l-3.5 3.5" />
     </svg>
+  )
+}
+
+/** The way through to a related page: a label that underlines on hover,
+ * closed by the arrow. Spacing belongs to the caller. */
+export function ArrowLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="group/link arrow-hover inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
+    >
+      <span className="border-b border-transparent transition-colors duration-300 ease-out group-hover/link:border-foreground">
+        {children}
+      </span>
+      <HoverArrow />
+    </Link>
   )
 }

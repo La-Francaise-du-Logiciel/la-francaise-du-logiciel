@@ -1,3 +1,4 @@
+import { ARTICLES_BASE } from '@/lib/articles'
 import { COMPANY } from '@/lib/company'
 import { ANCHORS, anchorPath, path } from '@/lib/routes'
 
@@ -224,12 +225,12 @@ export const fr = {
 
   pages: {
     conseil: {
-      metaTitle: 'Développement sur mesure',
+      metaTitle: 'Développement de logiciel sur mesure',
       metaDescription:
         'Logiciels métier, applications web et automatisations construits sur mesure, livrés avec le code, la documentation et une passation complète si nécessaire.',
       title: 'Nous construisons l’outil qui manque à votre équipe.',
       intro:
-        'Un logiciel utile est un logiciel que vos équipes ouvrent tous les matins sans y penser. C’est le seul critère qui nous intéresse.',
+        'Un logiciel métier sur mesure n’est utile que si vos équipes l’ouvrent tous les matins sans y penser. C’est le seul critère qui nous intéresse.',
       build: {
         title: 'Ce que nous construisons',
         items: [
@@ -379,12 +380,12 @@ export const fr = {
     },
 
     methode: {
-      metaTitle: 'Notre méthode',
+      metaTitle: 'Notre méthode de développement logiciel',
       metaDescription:
         'Quatre étapes, des livraisons toutes les deux semaines, et un projet que vous pouvez reprendre à tout moment.',
       title: 'Comment nous travaillons.',
       intro:
-        'Quatre étapes, quelques semaines par projet. Vous voyez le produit avancer en continu et vous gardez la main du début à la fin.',
+        'Quatre étapes, quelques semaines par projet. Du cadrage à la livraison, vous voyez le logiciel avancer en continu et vous gardez la main du début à la fin.',
       stepsTitle: 'Les quatre étapes',
       refusals: {
         title: 'Ce que nous ne faisons pas',
@@ -418,6 +419,77 @@ export const fr = {
         'Notre métier est de rendre cette dépendance choisie plutôt que subie : standards ouverts, exports documentés, contrôle des comptes transférable et choix de fournisseurs expliqué. Nous préférons une solution européenne quand elle répond au besoin, sans en faire une promesse déconnectée de votre contexte.',
         'C’est ce que nous entendons par souveraineté numérique : la capacité de choisir ses dépendances et d’en sortir. Ce n’est pas une prestation d’hébergement, mais un critère de conception pour chaque logiciel et notre cap de long terme.',
       ],
+      sovereigntyLink: 'La souveraineté numérique, en pratique',
+    },
+
+    souverainete: {
+      metaTitle: 'Souveraineté numérique',
+      metaDescription:
+        'Ce que la souveraineté numérique change pour une PME : logiciels réversibles, données maîtrisées et fournisseurs européens choisis plutôt que subis.',
+      title: 'La souveraineté numérique est une capacité, pas un label.',
+      intro:
+        'Pouvoir choisir ses dépendances, et pouvoir en sortir. Voici ce que cela signifie pour vos logiciels, vos données et vos fournisseurs.',
+      definition: {
+        paragraphs: [
+          'On parle beaucoup de souveraineté numérique, souvent comme d’un label ou d’une offre d’hébergement. Notre définition est plus terre à terre : une entreprise est souveraine sur son outil informatique quand elle peut choisir ses dépendances et en sortir sans mettre son activité en danger.',
+          'Le test est simple. Si votre éditeur double ses tarifs, si votre prestataire cesse de répondre, si un fournisseur change ses conditions du jour au lendemain : que se passe-t-il ? Si la réponse est « nous n’avons pas le choix », vous ne possédez pas votre outil de travail. Vous le louez, à des conditions que vous ne négociez pas.',
+          'La souveraineté ne se décrète pas, elle se construit projet par projet : dans le choix des standards, l’endroit où sont hébergées les données, la propriété du code et le contrôle des comptes techniques.',
+        ],
+      },
+      practice: {
+        title: 'Ce que cela change dans nos projets',
+        items: [
+          {
+            title: 'Des standards ouverts',
+            desc: 'Formats de données documentés, briques techniques répandues, pas de framework maison. Ce que nous construisons peut être repris par n’importe quelle équipe compétente.',
+          },
+          {
+            title: 'Le code et les données chez vous',
+            desc: 'Le dépôt est à votre nom avec son historique, les exports sont documentés, et la base de données vous appartient, structure comprise.',
+          },
+          {
+            title: 'Le contrôle des comptes transférable',
+            desc: 'Hébergement, domaines, e-mails : nous pouvons les administrer pendant la mission, et nous vous en transférons le contrôle complet sur demande.',
+          },
+          {
+            title: 'Des fournisseurs européens par préférence',
+            desc: 'À service comparable, nous choisissons un fournisseur soumis au droit européen. Et quand l’alternative sérieuse n’existe pas, nous vous le disons.',
+          },
+        ],
+      },
+      europe: {
+        title: 'Où l’Europe tient la comparaison',
+        paragraphs: [
+          'L’hébergement est le cas le plus net. Ce site est hébergé chez Scaleway, à Paris, sous droit européen, et nous construisons Tensel pour rendre ce choix aussi simple qu’un déploiement chez un géant américain.',
+          'Sur d’autres segments, l’écart existe encore. Nous ne vous recommanderons jamais un outil moins bon au seul motif qu’il est européen : le choix est comparé, expliqué et adapté à votre contexte.',
+        ],
+        link: 'Découvrir nos projets',
+      },
+      faq: {
+        title: 'Questions fréquentes',
+        items: [
+          {
+            title: 'Qu’est-ce qu’un logiciel souverain ?',
+            desc: 'Un logiciel dont vous maîtrisez le code, les données et les comptes techniques qui le font fonctionner. Vous pouvez le confier à l’équipe de votre choix, l’héberger où vous voulez et en sortir avec vos données : la souveraineté se mesure à la facilité de départ, pas au drapeau sur la plaquette.',
+          },
+          {
+            title: 'Souveraineté et hébergement en Europe, est-ce la même chose ?',
+            desc: 'Non. Héberger en Europe protège vos données du droit extra-européen, mais un logiciel hébergé à Paris dont vous ne possédez ni le code ni les exports reste une location. L’hébergement est un élément de la réponse ; la réversibilité est le critère.',
+          },
+          {
+            title: 'Faut-il remplacer tous ses outils américains ?',
+            desc: 'Non, et nous ne le conseillons pas. Beaucoup sont excellents et certains n’ont pas d’équivalent sérieux. Notre règle : à service comparable, préférer un fournisseur européen ; sinon, choisir en connaissance de cause et garder une porte de sortie documentée.',
+          },
+          {
+            title: 'Comment garantir la réversibilité d’un logiciel sur mesure ?',
+            desc: 'Par des choix vérifiables : le code dans un dépôt à votre nom, des standards répandus plutôt qu’un framework maison, une documentation d’exploitation, des exports de données documentés et le transfert du contrôle des comptes techniques sur simple demande.',
+          },
+          {
+            title: 'Par où commencer, concrètement ?',
+            desc: 'Par un état des lieux : qui détient vos comptes, vos noms de domaine, votre code, vos données ? Un audit de l’existant révèle souvent que la dépendance la plus risquée n’est pas celle qu’on croyait. Et c’est un point de départ bien moins coûteux qu’une migration à marche forcée.',
+          },
+        ],
+      },
     },
 
     contact: {
@@ -531,6 +603,28 @@ export const fr = {
   },
 
   /**
+   * The chrome around the articles: index header, bylines, labels. The
+   * articles themselves live in content/articles/, outside the catalogues,
+   * because they exist only in the language they were written in.
+   */
+  articles: {
+    metaTitle: 'Articles',
+    metaDescription:
+      'Nos articles sur le logiciel sur mesure, la reprise d’existant et la souveraineté numérique.',
+    title: 'Articles.',
+    intro:
+      'Ce que nous apprenons en construisant des logiciels que leurs utilisateurs possèdent : sur mesure, reprise d’existant, souveraineté numérique.',
+    /** {date} is replaced by the article's own date, already localised. */
+    published: 'Publié le {date}',
+    updated: 'Mis à jour le {date}',
+    /** {name} is the author's name. */
+    by: 'Par {name}',
+    read: 'Lire l’article',
+    all: 'Tous les articles',
+    feed: 'Flux RSS',
+  },
+
+  /**
    * The markdown rendering of the site, served to clients that ask for
    * text/markdown. Only the wrapper around the page's own copy lives here;
    * the body is the same catalogue entries the HTML renders.
@@ -565,6 +659,8 @@ export const fr = {
         title: 'L’entreprise',
         links: [
           { label: 'Convictions', href: path('convictions', 'fr') },
+          { label: 'Souveraineté numérique', href: path('souverainete', 'fr') },
+          { label: 'Articles', href: ARTICLES_BASE.fr },
           { label: 'Nos projets', href: anchorPath('home', 'fr', ANCHORS.projects) },
           { label: 'Engagements', href: anchorPath('home', 'fr', ANCHORS.commitments) },
         ],

@@ -19,7 +19,6 @@ export const PAGES = {
   contact: { fr: '/contact', en: '/en/contact' },
   mentionsLegales: { fr: '/mentions-legales', en: '/en/legal-notice' },
   confidentialite: { fr: '/confidentialite', en: '/en/privacy' },
-  /* Legacy path from an earlier structure, still linked to from outside. */
   souverainete: { fr: '/souverainete', en: '/en/sovereignty' },
 } as const satisfies Record<string, Record<Locale, string>>
 
@@ -35,6 +34,7 @@ export const CATALOGUE_PAGES = [
   'audit',
   'methode',
   'convictions',
+  'souverainete',
   'contact',
   'mentionsLegales',
   'confidentialite',
@@ -46,13 +46,12 @@ export function isCataloguePage(id: PageId): id is CataloguePageId {
   return (CATALOGUE_PAGES as readonly PageId[]).includes(id)
 }
 
-/** Paths kept alive only to forward somewhere else. */
-export const REDIRECTS = {
-  souverainete: { to: 'convictions', anchor: 'independence' },
-} as const satisfies Partial<Record<PageId, { to: PageId; anchor?: string }>>
+/** Paths kept alive only to forward somewhere else. Empty today, but a
+ * renamed slug goes through here rather than through a broken link. */
+export const REDIRECTS: Partial<Record<PageId, { to: PageId; anchor?: string }>> = {}
 
 export function redirectTargetOf(id: PageId): { to: PageId; anchor?: string } | null {
-  return id in REDIRECTS ? REDIRECTS[id as keyof typeof REDIRECTS] : null
+  return REDIRECTS[id] ?? null
 }
 
 /**

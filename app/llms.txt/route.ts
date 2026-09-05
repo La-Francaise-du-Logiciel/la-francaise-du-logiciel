@@ -1,3 +1,5 @@
+import { articleLocales, articlesFor } from '@/content/articles'
+import { articlePath } from '@/lib/articles'
 import { COMPANY } from '@/lib/company'
 import { getMessages, LOCALE_ENGLISH_NAMES, locales, type Locale } from '@/lib/i18n'
 import { CATALOGUE_PAGES, PAGES, path, type CataloguePageId } from '@/lib/routes'
@@ -88,6 +90,20 @@ function pageIndex(locale: Locale): string {
   ].join('\n')
 }
 
+/** The articles, dated, in every locale that has any. */
+function articleIndex(): string[] {
+  return articleLocales().map((locale) =>
+    [
+      `## Articles in ${LOCALE_ENGLISH_NAMES[locale]}`,
+      '',
+      ...articlesFor(locale).map(
+        (article) =>
+          `- [${article.title}](${absoluteUrl(articlePath(article))}) (${article.published}): ${article.description}`,
+      ),
+    ].join('\n'),
+  )
+}
+
 function llmsTxt(): string {
   const t = getMessages('en')
 
@@ -103,6 +119,7 @@ function llmsTxt(): string {
     WHEN_TO_USE,
     '',
     ...INDEX_LOCALES.flatMap((locale) => [pageIndex(locale), '']),
+    ...articleIndex().flatMap((section) => [section, '']),
     '## About the publisher',
     '',
     `- Legal name: ${COMPANY.legalName}, sole trader (entrepreneur individuel)`,
@@ -115,6 +132,7 @@ function llmsTxt(): string {
     '## Notes for crawlers',
     '',
     `- Sitemap: ${absoluteUrl('/sitemap.xml')}`,
+    `- RSS feed of the articles: ${absoluteUrl('/feed.xml')}`,
     '- Every page is server-rendered. No JavaScript is needed to read the content.',
     '- The site sets no analytics and loads nothing from third parties.',
     '- `/fr/...` is the internal form of a French URL and permanently',

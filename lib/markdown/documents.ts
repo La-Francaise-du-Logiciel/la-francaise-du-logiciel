@@ -170,6 +170,16 @@ const SECTIONS: Record<CataloguePageId, (locale: Locale) => readonly Section[]> 
     ]
   },
 
+  souverainete: (locale) => {
+    const t = getMessages(locale).pages.souverainete
+    return [
+      { blocks: [{ kind: 'prose', paragraphs: t.definition.paragraphs }] },
+      { title: t.practice.title, blocks: [{ kind: 'cards', items: t.practice.items }] },
+      { title: t.europe.title, blocks: [{ kind: 'prose', paragraphs: t.europe.paragraphs }] },
+      { title: t.faq.title, blocks: [{ kind: 'cards', items: t.faq.items }] },
+    ]
+  },
+
   contact: (locale) => {
     const messages = getMessages(locale)
     const t = messages.pages.contact

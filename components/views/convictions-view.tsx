@@ -1,9 +1,11 @@
 import { ContactCta } from '@/components/contact-cta'
+import { ArrowLink } from '@/components/hover-arrow'
 import { ManifestoQuote } from '@/components/manifesto'
 import { PageHeader } from '@/components/page-header'
+import { Reveal } from '@/components/reveal'
 import { CardGrid, Prose, Section } from '@/components/section'
 import { getMessages, type Locale } from '@/lib/i18n'
-import { ANCHORS } from '@/lib/routes'
+import { ANCHORS, path } from '@/lib/routes'
 
 export function ConvictionsView({ locale }: { locale: Locale }) {
   const messages = getMessages(locale)
@@ -17,6 +19,9 @@ export function ConvictionsView({ locale }: { locale: Locale }) {
       </Section>
       <Section className="border-t border-border">
         <Prose paragraphs={t.paragraphs} lead />
+        <Reveal delay={200} className="mt-10">
+          <ArrowLink href={path('souverainete', locale)}>{t.sovereigntyLink}</ArrowLink>
+        </Reveal>
       </Section>
       <Section title={t.valuesTitle} className="bg-card/30">
         <CardGrid items={messages.manifesto.values} />

@@ -1,8 +1,17 @@
 import { describe, expect, it } from 'vitest'
+import { ARTICLES } from '@/content/articles'
+import { authorOf, lastModifiedOf } from '@/lib/articles'
 import { COMPANY } from '@/lib/company'
 import { getMessages, locales } from '@/lib/i18n'
 import { CATALOGUE_PAGES, PAGES } from '@/lib/routes'
-import { organizationSchema, pageGraph, serializeGraph, siteGraph } from '@/lib/schema'
+import {
+  articleGraph,
+  articlesIndexGraph,
+  organizationSchema,
+  pageGraph,
+  serializeGraph,
+  siteGraph,
+} from '@/lib/schema'
 import { absoluteUrl } from '@/lib/site'
 
 describe('the organisation node', () => {
@@ -50,11 +59,67 @@ describe('the page graph', () => {
     expect(trail[0].item).toBe(absoluteUrl(PAGES.home[locale]))
     expect(trail[1].item).toBe(url)
   })
+
+  const services = (['conseil', 'audit'] as const).flatMap((id) =>
+    locales.map((locale) => ({ id, locale })),
+  )
+
+  it.each(services)('offers $id as a service of the organisation in $locale', ({ id, locale }) => {
+    const nodes = pageGraph(id, locale) as Record<string, unknown>[]
+    const service = nodes.find((node) => node['@type'] === 'Service')
+    const organizationId = organizationSchema(locale)['@id']
+
+    expect(service).toBeDefined()
+    expect(service?.name).toBe(getMessages(locale).pages[id].metaTitle)
+    expect(service?.provider).toEqual({ '@id': organizationId })
+    expect((nodes[0].mainEntity as Record<string, unknown>)['@id']).toBe(service?.['@id'])
+  })
+
+  it.each(locales)('answers the sovereignty questions in %s', (locale) => {
+    const faq = (pageGraph('souverainete', locale) as Record<string, unknown>[]).find(
+      (node) => node['@type'] === 'FAQPage',
+    )
+    const catalogue = getMessages(locale).pages.souverainete.faq.items
+    const questions = faq?.mainEntity as { name: string; acceptedAnswer: { text: string } }[]
+
+    expect(questions.map((question) => question.name)).toEqual(catalogue.map((item) => item.title))
+    expect(questions.length).toBeGreaterThanOrEqual(4)
+    for (const question of questions) {
+      expect(question.acceptedAnswer.text.length).toBeGreaterThan(0)
+    }
+  })
+})
+
+describe('the article graph', () => {
+  it.each(ARTICLES)('describes $slug from the article itself', (article) => {
+    const [posting, breadcrumb] = articleGraph(article) as Record<string, unknown>[]
+
+    expect(posting['@type']).toBe('BlogPosting')
+    expect(posting.headline).toBe(article.title)
+    expect(posting.datePublished).toBe(article.published)
+    expect(posting.dateModified).toBe(lastModifiedOf(article))
+    expect((posting.author as Record<string, unknown>).name).toBe(authorOf(article))
+
+    const trail = breadcrumb.itemListElement as { position: number }[]
+    expect(trail.map((step) => step.position)).toEqual([1, 2, 3])
+  })
+
+  it('lists the locale’s articles on the index node', () => {
+    const [index] = articlesIndexGraph('fr') as Record<string, unknown>[]
+    const list = (index.mainEntity as { itemListElement: unknown[] }).itemListElement
+
+    expect(index['@type']).toBe('CollectionPage')
+    expect(list.length).toBeGreaterThan(0)
+  })
 })
 
 describe('serializeGraph', () => {
   it('resolves every reference to a node the page actually emits', () => {
-    const graph = [...siteGraph('fr'), ...pageGraph('audit', 'fr')]
+    const graph = [
+      ...siteGraph('fr'),
+      ...pageGraph('audit', 'fr'),
+      ...ARTICLES.flatMap((article) => articleGraph(article)),
+    ]
     const ids = new Set(graph.map((node) => node['@id'] as string))
     const referenced = JSON.stringify(graph).matchAll(/\{"@id":"([^"]+)"\}/g)
 

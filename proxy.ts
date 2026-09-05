@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { prefersMarkdown } from '@/lib/accept'
+import { ARTICLES_BASE } from '@/lib/articles'
 import {
   isLocale,
   LOCALE_COOKIE,
@@ -40,6 +41,7 @@ export const config = {
     '/robots.txt',
     '/sitemap.xml',
     '/llms.txt',
+    '/feed.xml',
     /* Every `.md` address, which the pattern above also skips for its dot. */
     '/((?!api|_next).*\\.md)',
   ],
@@ -150,10 +152,31 @@ function pageOf(markdownPath: string): string {
  * negotiated request and a `.md` address.
  */
 function markdownFor(request: NextRequest, pathname: string): NextResponse | null {
+  const article = articleMarkdownFor(request, pathname)
+  if (article) return article
+
   const id = pageIdOf(pathname)
   if (id === null || !isPublicPage(id)) return null
 
   return rewriteToMarkdown(request, localeOf(pathname), id)
+}
+
+/**
+ * The article routes, matched on shape alone: the registry stays out of
+ * the middleware bundle, and a slug it does not know 404s at the route
+ * handler, which owns the registry anyway.
+ */
+function articleMarkdownFor(request: NextRequest, pathname: string): NextResponse | null {
+  for (const [locale, base] of Object.entries(ARTICLES_BASE)) {
+    if (pathname === base) return rewriteToMarkdown(request, locale, 'articles')
+    if (pathname.startsWith(`${base}/`)) {
+      const slug = pathname.slice(base.length + 1)
+      if (slug && !slug.includes('/')) {
+        return rewriteToMarkdown(request, locale, `articles/${slug}`)
+      }
+    }
+  }
+  return null
 }
 
 /** The route handler answers an unknown page with a markdown 404. */

@@ -1,10 +1,15 @@
 import type { Metadata, Viewport } from 'next'
+import {
+  ARTICLES_BASE,
+  articlePath,
+  articlesIndexPath,
+  authorOf,
+  lastModifiedOf,
+  type Article,
+} from '@/lib/articles'
 import { getIntlTag, getMessages, locales, type Locale } from '@/lib/i18n'
-import { alternateLanguages, PAGES, type PageId, type PublicPageId } from '@/lib/routes'
+import { alternateLanguages, PAGES, type CataloguePageId, type PublicPageId } from '@/lib/routes'
 import { absoluteUrl, SITE_URL } from '@/lib/site'
-
-/** The pages that carry their own title and description in the catalogues. */
-type CataloguePageId = Exclude<PageId, 'home' | 'souverainete'>
 
 /**
  * The card a link to the site unfurls into: the brand banner on its own
@@ -116,4 +121,93 @@ export function homeMetadata(locale: Locale): Metadata {
   const t = getMessages(locale)
 
   return sharedMetadata('home', locale, t.metadata.title, t.metadata.description)
+}
+
+/** The RSS feed, announced wherever the articles are. */
+const FEED_PATH = '/feed.xml'
+
+/**
+ * The article index. Not a catalogue page, so it does not go through
+ * sharedMetadata: it has no hreflang set — only the locales with articles
+ * have an index — and it announces the feed.
+ */
+export function articlesIndexMetadata(locale: Locale): Metadata {
+  const t = getMessages(locale)
+  const title = t.articles.metaTitle + t.metadata.titleSuffix
+  const description = t.articles.metaDescription
+  const canonical = articlesIndexPath(locale)
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+      types: {
+        'text/markdown': `${canonical}.md`,
+        'application/rss+xml': FEED_PATH,
+      },
+    },
+    openGraph: {
+      type: 'website',
+      url: absoluteUrl(canonical),
+      siteName: t.brand.name,
+      title,
+      description,
+      locale: openGraphLocale(locale),
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [OG_IMAGE.url],
+    },
+  }
+}
+
+/**
+ * One article. hreflang appears only once a translation exists in the
+ * article's own `alternates`; a page that exists in one language should
+ * not claim otherwise.
+ */
+export function articleMetadata(article: Article): Metadata {
+  const t = getMessages(article.locale)
+  const title = article.title + t.metadata.titleSuffix
+  const canonical = articlePath(article)
+
+  const alternates = Object.entries(article.alternates ?? {}).map(
+    ([code, slug]) => [code, `${ARTICLES_BASE[code as Locale]}/${slug}`] as const,
+  )
+
+  return {
+    title,
+    description: article.description,
+    authors: [{ name: authorOf(article) }],
+    alternates: {
+      canonical,
+      ...(alternates.length ? { languages: Object.fromEntries(alternates) } : {}),
+      types: {
+        'text/markdown': `${canonical}.md`,
+        'application/rss+xml': FEED_PATH,
+      },
+    },
+    openGraph: {
+      type: 'article',
+      url: absoluteUrl(canonical),
+      siteName: t.brand.name,
+      title,
+      description: article.description,
+      locale: openGraphLocale(article.locale),
+      publishedTime: article.published,
+      modifiedTime: lastModifiedOf(article),
+      authors: [authorOf(article)],
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: article.description,
+      images: [OG_IMAGE.url],
+    },
+  }
 }

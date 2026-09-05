@@ -1,4 +1,6 @@
 import type { MetadataRoute } from 'next'
+import { ARTICLES, articleLocales, articlesFor } from '@/content/articles'
+import { articlePath, articlesIndexPath, lastModifiedOf } from '@/lib/articles'
 import { alternateLanguages, publicPaths, type PublicPageId } from '@/lib/routes'
 import { absoluteUrl } from '@/lib/site'
 
@@ -21,13 +23,18 @@ const PRIORITY: Partial<Record<PublicPageId, number>> = {
   confidentialite: 0.3,
 }
 
+/** An ISO day as the Date the sitemap type wants, pinned to midnight UTC. */
+function day(iso: string): Date {
+  return new Date(`${iso}T00:00:00Z`)
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   /* Build time, which is the last moment the content could have changed:
      the whole site is prerendered, so a deploy is the only way a page
      moves. */
   const lastModified = new Date()
 
-  return publicPaths().map(({ id, path }) => ({
+  const pages: MetadataRoute.Sitemap = publicPaths().map(({ id, path }) => ({
     url: absoluteUrl(path),
     lastModified,
     priority: PRIORITY[id] ?? 0.7,
@@ -37,4 +44,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
     },
   }))
+
+  /* The articles carry their own dates, so their lastModified means it. */
+  const indexes: MetadataRoute.Sitemap = articleLocales().map((locale) => ({
+    url: absoluteUrl(articlesIndexPath(locale)),
+    lastModified: day(lastModifiedOf(articlesFor(locale)[0])),
+    priority: 0.7,
+  }))
+
+  const articles: MetadataRoute.Sitemap = ARTICLES.map((article) => ({
+    url: absoluteUrl(articlePath(article)),
+    lastModified: day(lastModifiedOf(article)),
+    priority: 0.6,
+  }))
+
+  return [...pages, ...indexes, ...articles]
 }
